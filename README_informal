@@ -1,0 +1,33 @@
+################################################
+#    Author: Bárbara D Bitarello
+#
+#    Created: 13.10.2015
+#
+#    Last modified: 13.10.2015
+#
+################################################
+
+#This is a directory in which I intend to try to build  a package which:
+
+1)Runs NCV
+-this requires:
+-input data (file in modified VCF format)
+-human-FD bed file
+-sge script for parallelizing
+-OR, parallelizing option without sge script.
+
+
+
+2) Reads in NCV results, includes window coverage data
+
+
+3) Corrects NCV values with 10,000 sims for bins of Inf. Sites
+
+
+4) Makes the function find.genes and provides possibilities for the user to
+query NCV results with this function
+
+
+#This will be a lot of work, but I will try.
+
+
