@@ -1,0 +1,18 @@
+############################################################################
+#     Cesare de Filippo
+#     Created: 13.10.2015
+#     Modified: Bárbara Bitarello, 13.10.2015
+#     Description: In this directory we have the bedfiles with 3Mb windows
+###########################################################################
+
+#There is one bedfile for each autosome
+#For each autosome, the bedfile has 'n'lines, where 'n' is the number of 3Mb
+windows for that autosome.
+#E.g. 
+
+1:3834083-6834083
+
+#In total, adding up all chromosomes, we have 948 lines, which is the number of
+jobs we run in parallel.
+
+
