@@ -40,8 +40,7 @@ wget https://www.dropbox.com/s/irbhaesubjc48np/input_data.tar.gz?dl=0
 
 mv input_data.tar.gz\?dl=0  input_data.tar.gz
 gunzip input_data.tar.gz
-tar -xvf input_data.tar
-
+tar -zxvf input_data.tar --exclude "README"
 
 ############################################################
 #
@@ -50,11 +49,9 @@ tar -xvf input_data.tar
 ############################################################
 #If you use a SGE for job submission do:
 
+
+
 #First:
-#cd to 'input_files' directory and follow isntrcutions from the README file in there to download the input data.
-
-
-#Second:
 #cd to 'NCV_dir_package':
 
 #Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only three files need their paths to be edited:
@@ -81,10 +78,8 @@ tar -xvf input_data.tar
 #
 #If you don't use SGE or anything of the sort, but are using a linux machine (of course):
 
-#First:
-#cd to 'input_files' directory and follow istructions from the README file in there to download the input data.
 
-#Second:
+#First:
 #cd to 'NCV_dir_package':
 
 #open an R session and type
