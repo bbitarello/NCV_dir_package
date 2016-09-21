@@ -7,50 +7,90 @@
 #
 ################################################
 
-#This is a directory in which I intend to try to build  a package which:
+#This is a directory which, if cloned, allows:
 
-1)Runs NCV
+1)Runs NCD
 -this requires:
--input data (file in modified VCF format)
--human-FD bed file
--sge script for parallelizing
--OR, parallelizing option without sge script.
+-SNP input data (file in modified VCF format)
+-FD input data (human-FD bed file)
+-SGE script for parallelizing
+-OR, parallelizing option without sge script.(see below)
 
 
 #This part is done.
-#Note: although NCV can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it.
-#If you use a SGE for job submission, run
-./run_NCV_sge.sh
+#Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below).
 
-#Important: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings.
-#These scripts are optimized to run NCV in ~900 parallel jobs at the MPI-MPG in Leipzig.
+############################################################
+#
+##### Option A ##### Option A ##### Option A ##### Option A
+#
+############################################################
+#If you use a SGE for job submission do:
+
+#First:
+#cd to 'input_files' directory and follow isntrcutions from the README file in there to download the input data.
+
+
+#Second:
+#cd to 'NCV_dir_package':
+
 #Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only three files need their paths to be edited:
 #run_NCV_sge.sh #logs, tmpdir, input files
 #run_ncv_allpops_Rscript.sge #Rscript file path
 #run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
-############################
-#If you don't use SGE or anything of the sort, but are using a linux machine (of course), run
+
+
+#IMPORTANT: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings.
+
+
+#next, cd to NCV_dir_package and run:
+./run_NCV_sge.sh
+
+#This script calls the .sge file in the /scripts folder, and that file allow submitting severaljobs each with 3Mb of sequence data to the cluster.
+
+#These scripts are optimized to run NCV in ~900 parallel jobs at the MPI-MPG in Leipzig.
+#############################################################
+#
+###### Option B ##### Option B ##### Option A ##### Option B
+#
+#############################################################
+#Obtion B) No SGE, just a plain old cluster without job submission management:
+#
+#If you don't use SGE or anything of the sort, but are using a linux machine (of course):
+
+#First:
+#cd to 'input_files' directory and follow istructions from the README file in there to download the input data.
+
+#Second:
+#cd to 'NCV_dir_package':
+
+#open an R session and type
+
+install.packages('getopt')
+
+#close the session. Now, run:
 
 ./run_NCV.sh
 
 #this will parallelize the jobs using 'GNU parallel'. It is not a very clever solution, but it works nevertheless.
 
-
-2) Reads in NCV results, includes window coverage data
-
-
-
-
-3) Corrects NCV values with 10,000 sims for bins of Inf. Sites
+########################## ############################# ####################### ######################### #############
+########### Reading in Scan data #######################
+2a) Reads in NCV results, includes window coverage data
 
 
+#under construction.
 
 
+2b) Corrects NCV values with 10,000 sims for bins of Inf. Sites
 
-4) Makes the function find.genes and provides possibilities for the user to
+
+#under constrcution.
+
+######################## ######################## ###########################
+3) Makes the function find.genes and provides possibilities for the user to
 query NCV results with this function
 
 
-#This will be a lot of work, but I will try.
 
-
+#this is optional, not sure if I will do it.

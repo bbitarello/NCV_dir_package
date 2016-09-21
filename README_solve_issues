@@ -7,7 +7,7 @@ Issues:
 
 for getopt, open an R session and type
 
-install.packages('getopt)
+install.packages('getopt')
 
 if everything works, close the R session
 
@@ -24,9 +24,15 @@ in this case, do this
 
 for CHROM in {1..22}; do
 
-cd ~/NCV_dir_package/input_data/chr${CHROM}/
-gunzip AC_13pops.Map50_100.TRF.SDs.pantro2.tsv.gz
-bgzip AC_13pops.Map50_100.TRF.SDs.pantro2.tsv
-tabix -p vcf AC_13pops.Map50_100.TRF.SDs.pantro2.tsv.gz
+cd /NCV_dir_package/input_data/chr${CHROM}/
+gunzip AC_13pops_chr${CHROM}.hg19.pantro2.Map50_100.TRF.SDs.tsv.gz
+bgzip AC_13pops_chr${CHROM}.hg19.pantro2.Map50_100.TRF.SDs.tsv
+tabix -p vcf AC_13pops_chr${CHROM}.hg19.pantro2.Map50_100.TRF.SDs.tsv.gz
 done
+
+
+OR
+
+for CHROM in {1..22}; do cd /mnt/sequencedb/PopGen/barbara/NCV_dir_package/input_data/chr${CHROM}/; gunzip AC_13pops_chr${CHROM}.hg19.pantro2.Map50_100.TRF.SDs.tsv.gz; bgzip AC_13pops_chr${CHROM}.hg19.pantro2.Map50_100.TRF.SDs.tsv; tabix -p vcf AC_13pops_chr${CHROM}.hg19.pantro2.Map50_100.TRF.SDs.tsv.gz; cd .. ; done
+
 
