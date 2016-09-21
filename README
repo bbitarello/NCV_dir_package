@@ -3,7 +3,7 @@
 #
 #    Created: 13.10.2015
 #
-#    Last modified: 15.10.2015
+#    Last modified: 21.09.2016
 #
 ################################################
 
@@ -24,7 +24,10 @@
 
 #Important: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings.
 #These scripts are optimized to run NCV in ~900 parallel jobs at the MPI-MPG in Leipzig.
-
+#Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only three files need their paths to be edited:
+#run_NCV_sge.sh #logs, tmpdir, input files
+#run_ncv_allpops_Rscript.sge #Rscript file path
+#run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
 ############################
 #If you don't use SGE or anything of the sort, but are using a linux machine (of course), run
 
