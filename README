@@ -20,11 +20,30 @@
 #In any case, you need first to download the input data.
 
 
+
+************************************************************************
+** CHANGE PATHS *** CHANGE PATHS **** CHANGE PATHS **** CHANGE PATHS ***
+************************************************************************
+
+#First:
+#cd to 'NCV_dir_package', wherever it is you downloaded it to.
+
+#Please note the paths for the files, logs, and tmp directories and addapt them as needed. 
+#Only 4 files need their paths to be edited:
+#1. run_NCV_sge.sh #logs, tmpdir, input files
+#2. run_ncv_allpops_Rscript.sge #Rscript file path
+#3. run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
+#4. run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
+#what you should do: replace all isntances of /mnt/sequencedb/PopGen/barbara/NCV_dir_package/' by the path into which you downloaded this repo.
+
+#IMPORTANT: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings. Also, replace my email by yours.
+
+
 ************************************************************************
 ## DOWNLOAD INPUT DATA #### DOWNLOAD INPUT DATA *** DOWNLOAD INPUT DATA
 ************************************************************************
 
-#First, donwload all the input data.
+#Download all the input data.
 
 #These files are too big to be uploaded to github.
 #They will be provided by the author upon request in the form of a bgzip file that can be decompressed inside this directory.
@@ -50,20 +69,6 @@ tar -zxvf input_data.tar --exclude "README"
 ############################################################
 #This option applies if and only if you use a SGE for job submission.
 #In this case, do:
-
-
-
-#First:
-#cd to 'NCV_dir_package':
-
-#Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only three files need their paths to be edited:
-#run_NCV_sge.sh #logs, tmpdir, input files
-#run_ncv_allpops_Rscript.sge #Rscript file path
-#run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
-
-
-#IMPORTANT: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings.
-
 
 #next, cd to NCV_dir_package and run:
 ./run_NCV_sge.sh
