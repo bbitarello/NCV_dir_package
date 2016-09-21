@@ -7,7 +7,7 @@
 #BitarelloNote: attempting to fix two issues:run NCV for all pops at once and
 #save window coordinates in output.
 #Done
-#Modified: 13.10.2015 by Barbara Bitarello 
+#Last Modified: 21.09.2016 by Barbara Bitarello 
 ###############################################################################
 #NCV is calculated regardless of SNP density. Filtering per snp density should
 #happen downstream in case we decide to change the threshold.
@@ -75,6 +75,6 @@ ncvf2<-sqrt(sum((tp-0.2)^2)/(polsites+fxdlen));
 ncvf3<-sqrt(sum((tp-0.3)^2)/(polsites+fxdlen));
 ncvf4<-sqrt(sum((tp-0.4)^2)/(polsites+fxdlen)); ncvf5<-sqrt(sum((tp-0.5)^2)/(polsites+fxdlen));
                 ################################################################fxdlen
-          final<- data.frame(Beg.Win=beg, End.Win=end, Initial_seg_sites=nisnps, Initial_fds_sites=nifds, NCVf1=ncvf1,NCVf2=ncvf2, NCVf3=ncvf3,NCVf4=ncvf4, NCVf5=ncvf5,Nr.SNPs=polsites, Nr.FDs=fxdlen);
+          final<- data.frame(Beg.Win=beg, End.Win=end, Initial_seg_sites=nisnps, Initial_fds_sites=nifds, NCDf1=ncvf1,NCDf2=ncvf2, NCDf3=ncvf3,NCDf4=ncvf4, NCDf5=ncvf5,Nr.SNPs=polsites, Nr.FDs=fxdlen);
                 return(final);}
 

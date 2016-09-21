@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 ## Cesare de Filippo, MPI-EVA
 ## 15-01-2014
-## Last modified by Barbara Bitarello: 20.09.2016
+## Last modified by Barbara Bitarello: 21.09.2016
 ## Changed to Rscript environment on 23.05.2014
 
 library(getopt) # Package designed to be used with Rscript to write #! shebang scripts that accept short and long ﬂags/options.
@@ -44,13 +44,15 @@ if (is.null(opt$fixDifferences) ) {
     colnames(FD.file)<-c('chr', 'pos', 'human', 'chimp')
 }
 
+cat('succesfully read everything for this bin\n')
+
 INPUT.NAME <- opt$input #tmp.ac in the example.
 WINDOW <- opt$windowSize #3000
 SLIDE <- opt$slide #1500
 BIN<- opt$bin  #bin for output saving.
 
-cat(paste0('succesfully read everything for bin', BIN))
 ########################################################################################################################################################
+cat('something else\n')
 
 if(file.info(INPUT.NAME)$size<100){cat('The input file is empty\n'); q(status=1)} else{
     TEMP.INPUT<-read.table(INPUT.NAME,sep="\t",stringsAsFactors=FALSE, as.is=T)}
@@ -64,7 +66,7 @@ source("/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/NCV.scanv8.r")
 #source("/mnt/sequencedb/PopGen/barbara/simulations/scripts/take.snps.r")
 ########################################################################################################################################################
 ########################################################################################################################################################
-cat('Beginning NCD calculation')
+cat('Beginning NCD calculation\n')
 input.file=TEMP.INPUT
 s <- seq(input.file[1,2],input.file[nrow(input.file),2], SLIDE) ## the start coordinates
 e <- s+WINDOW # the end coordinates
@@ -92,24 +94,24 @@ if(FD==TRUE){
         if(nrow(input.list$INPUT.FD[[i]])<1) {
                   NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FD=FALSE,pop=pops[w],  WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}
             }
-            assign(paste('res__',TAG, '_', BIN,'scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))
+            assign(paste('res__',TAG, '_', BIN,'_scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))
     }
 }
-cat('finished NCD with FD')
+cat('finished NCD with FD\n')
 if(FD==FALSE){
       input.list<-list(INPUT.NCV=chwinV2, WIN.POS=WIN.POS)
     for (w in 1:length(pops)){
                 for (i in ids){
                             NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FD=FALSE,pop=pops[w], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]
             }
-            assign(paste('res__',TAG, '_', BIN,'scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))  ##save NCV results
+            assign(paste('res__',TAG, '_', BIN,'_scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))  ##save NCV results
     }
 }
 ######################################################################################################################
 ######################################################################################################################
 ##either put a loop here for each chromosome or at the beginning.
 for (w in 1: length(pops)){
-   objectName<-paste('res__',TAG, '_', BIN, 'scan_',pops[w],sep='')
+   objectName<-paste('res__',TAG, '_', BIN, '_scan_',pops[w],sep='')
     save(list=objectName, file=paste(objectName, ".RData", sep=""))  #save R object with NCV results  #change accordingly
     print(paste("Elapsed time is", round(as.numeric(difftime(Sys.time(), TIME.start,units="mins")), 2), "minutes"))
 }
