@@ -3,3 +3,15 @@
 #then the following directories will be generated: 
 #outgroup_files: FD files between human and chimp for each chromosome
 #chr1-chr22: separate directories for each chromosome containing processed VCF filees from 1000G Phase I as described in the Methods section of the paper.
+
+
+#download the input files from this link
+
+https://www.dropbox.com/sh/muen96wjx3aaqa5/AACNMP6uJInWQtHH52N6-3jma?dl=0
+
+
+#and unzip
+
+gunzip input_data.tar.gz
+tar -xvf input_data.tar
+
