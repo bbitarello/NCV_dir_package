@@ -1,7 +1,7 @@
 #Cesare de Filippo, MPI-EVA
 # modified on 13-October-2015 by Barbara Bitarello 
 
-RSCRIPT=~/NCV_dir_package/scripts/run_ncv_allpops_Rscript_v1.r
+RSCRIPT=~/NCV_dir_package/scripts/run_ncv_allpops_Rscript_noSGE.r
 INPUT=${1} # the imput file as allele counts such as (AC_13pops.tsv.gz)
 POSITIONS=${2} # the interval to use as CHROMOSOME, START and END positions
 WINDOW=${3} # the window length in bp
