@@ -1,7 +1,7 @@
-#!/usr/bin/Rscript
+#!/usr/bin/env Rscript
 ## Cesare de Filippo, MPI-EVA
 ## 15-01-2014
-## Last modified by Barbara Bitarello: 13.10.2015
+## Last modified by Barbara Bitarello: 20.09.2016
 ## Changed to Rscript environment on 23.05.2014
 
 library(getopt) # Package designed to be used with Rscript to write #! shebang scripts that accept short and long ﬂags/options.
@@ -49,9 +49,10 @@ WINDOW <- opt$windowSize #3000
 SLIDE <- opt$slide #1500
 BIN<- opt$bin  #bin for output saving.
 
+cat(paste0('succesfully read everything for bin', BIN))
 ########################################################################################################################################################
 
-if(file.info(INPUT.NAME)$size<100){cat('The input file is empty\n'); q(status=1)}else{
+if(file.info(INPUT.NAME)$size<100){cat('The input file is empty\n'); q(status=1)} else{
     TEMP.INPUT<-read.table(INPUT.NAME,sep="\t",stringsAsFactors=FALSE, as.is=T)}
 
 colnames(TEMP.INPUT)<-c("CHROM" ,"POS", "ID" ,"REF","ALT","Anc","AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
@@ -59,10 +60,11 @@ colnames(TEMP.INPUT)<-c("CHROM" ,"POS", "ID" ,"REF","ALT","Anc","AWS","LWK","YRI
 TAG<-as.character(TEMP.INPUT[1,1])
 ##############################################################################################################
 #load functions and packages
-source("~/NCV_dir_package/scripts/NCV.scanv8.r") 
+source("/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/NCV.scanv8.r") 
 #source("/mnt/sequencedb/PopGen/barbara/simulations/scripts/take.snps.r")
 ########################################################################################################################################################
 ########################################################################################################################################################
+cat('Beginning NCD calculation')
 input.file=TEMP.INPUT
 s <- seq(input.file[1,2],input.file[nrow(input.file),2], SLIDE) ## the start coordinates
 e <- s+WINDOW # the end coordinates
@@ -93,6 +95,7 @@ if(FD==TRUE){
             assign(paste('res__',TAG, '_', BIN,'scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))
     }
 }
+cat('finished NCD with FD')
 if(FD==FALSE){
       input.list<-list(INPUT.NCV=chwinV2, WIN.POS=WIN.POS)
     for (w in 1:length(pops)){

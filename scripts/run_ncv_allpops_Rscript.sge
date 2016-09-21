@@ -1,17 +1,18 @@
-Cesare de Filippo, MPI-EVA
+#Cesare de Filippo, MPI-EVA
 # modified on 12-August-2013 
+#modified by BDB sept 2016
 #$ -S /bin/bash
 #$ -cwd
 #$ -q all.q
 # load personal profile
 #$ -V
 #$ -R y
-#$ -M cesare_filippo@eva.mpg.de
+#$ -M barbara_domingues@eva.mpg.de
 #$ -m e
 #$ -l h_vmem=1G,s_vmem=1G
 
 #SIM=${SGE_TASK_ID}
-RSCRIPT=~/NCV_dir_package/scripts/run_ncv_allpops_Rscript_v1.r
+RSCRIPT=/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/run_ncv_allpops_Rscript_v1.r
 INPUT=${1} # the imput file as allele counts such as (AC_13pops.tsv.gz)
 POSITIONS=${2} # the interval to use as CHROMOSOME, START and END positions
 WINDOW=${3} # the window length in bp
@@ -20,6 +21,7 @@ TMPDIR=${5}
 CHIMPfd=${6}
 BIN=${7}
 mkdir -p ${TMPDIR}
+
 cd ${TMPDIR}
 
 tabix -p vcf ${INPUT} ${POSITIONS} > tmp.ac 
