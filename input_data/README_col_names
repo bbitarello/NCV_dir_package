@@ -1,0 +1,20 @@
+Columns number and names:
+1      	CHROM
+2      	POS
+3      	ID
+4      	REF
+5      	ALT
+6      	Anc
+7      	AWS
+8      	LWK
+9      	YRI
+10     	CEU
+11     	FIN
+12     	GBR
+13     	TSI
+14     	CHB
+15     	CHS
+16     	JPT
+17     	MXL
+18     	CLM
+19     	PUR
