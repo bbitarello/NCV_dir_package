@@ -16,12 +16,13 @@
 -SGE script for parallelizing
 -OR, parallelizing option without sge script.(see below)
 
+#Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below). If you don't have this, you will use option B.
+#In any case, you need first to download the input data.
 
-#This part is done.
-#Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below).
 
-
-################################################################
+************************************************************************
+## DOWNLOAD INPUT DATA #### DOWNLOAD INPUT DATA *** DOWNLOAD INPUT DATA
+************************************************************************
 
 #First, donwload all the input data.
 
@@ -47,7 +48,8 @@ tar -zxvf input_data.tar --exclude "README"
 ##### Option A ##### Option A ##### Option A ##### Option A
 #
 ############################################################
-#If you use a SGE for job submission do:
+#This option applies if and only if you use a SGE for job submission.
+#In this case, do:
 
 
 
@@ -85,6 +87,7 @@ tar -zxvf input_data.tar --exclude "README"
 #open an R session and type
 
 install.packages('getopt')
+install.packages('littler')
 
 #close the session. Now, run:
 
