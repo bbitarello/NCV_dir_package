@@ -1,0 +1,60 @@
+######################################################
+###       Author: Cesare de Filippo
+#         Created:13.10.2015
+#         Last modified: 13.10.2015 (Bárbara Bitarello)
+#######################################################
+
+
+First: Filtering of the 1000g lowcov data. 
+
+#######################
+# mappability tracks
+# #####################
+
+MAP=wgEncodeCrgMapabilityAlign50mer_100.bed.gz
+
+# Tandem Repeat Finder (TRF) or soimpleRepeat
+****************************
+** FILE: simpleRepeat.bed.gz 
+****************************
+
+Downloaded from the UCSC Genome Browser as the Tandem Reapeat Finder (TRF) table.
+
+bgzip simpleRepeat.bed
+tabix -p bed simpleRepeat.bed.gz
+
+
+TRF=simpleRepeat.bed.gz
+
+##############################
+# Segmental duplications
+##############################
+SDs=Human_MAPPED_COORDINATES.bed
+
+cat <( sed 's/chr//' ${SDs})  ${TRF} | sort -nk1,1 -nk2,2 | mergeBed -i  >
+TRF.SDs.bed
+
+subtractBed -a ${MAP} -b TRF.SDs.bed > Map50_100.TRF.SDs.bed
+
+
+tabix -p bed Map50_100.TRF.SDs.bed.gz
+
+
+Filter the 1000Genomes allele counts (AC_13pops*) files for:
+1. Regions of unique mappability
+2. TRF
+3. Segmental duplications
+4. Mapped to the chimp genome (pantro2) [this is an extra filter]
+
+Two files will begenerated in the folders ~NCV_folder_package/input_data/chr*/:
+1. AC_13pops.Map50_100.TRF.SDs.tsv.gz
+2. AC_13pops.Map50_100.TRF.SDs.pantro2.tsv.gz
+
+for i in {1..22}; do
+    cd ~/NCV_folder_package/input_data/chr${i}/ 
+    BED=~/NCV_folder_package/input_data/Map50_100.TRF.SDs.hg19_pantro2.${i}.bed.gz
+    intersectBed -a <(zcat AC_13pops.tsv.gz ) -b <(tabix -p bed ~/NCV_folder_package/input_data/Map50_100.TRF.SDs.bed.gz ${i}) | bgzip -cf > AC_13pops.Map50_100.TRF.SDs.tsv.gz
+    tabix -p vcf AC_13pops.Map50_100.TRF.SDs.tsv.gz 
+    intersectBed -a <(zcat AC_13pops.tsv.gz ) -b ${BED} | bgzip -cf > AC_13pops.Map50_100.TRF.SDs.pantro2.tsv.gz
+    tabix -p vcf AC_13pops.Map50_100.TRF.SDs.pantro2.tsv.gz
+done
