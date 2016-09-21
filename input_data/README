@@ -7,10 +7,11 @@
 
 #download the input files from this link
 
-https://www.dropbox.com/s/irbhaesubjc48np/input_data.tar.gz?dl=0
+wget https://www.dropbox.com/s/irbhaesubjc48np/input_data.tar.gz?dl=0
 
 #and unzip
 
+mv input_data.tar.gz\?dl=0  input_data.tar.gz
 gunzip input_data.tar.gz
 tar -xvf input_data.tar
 
