@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-## Cesare de Filippo, MPI-EVA
+## Cesare de Filippo and Bárbara Bitarello , MPI-EVA
 ## 15-01-2014
 ## Last modified by Barbara Bitarello: 21.09.2016
 ## Changed to Rscript environment on 23.05.2014

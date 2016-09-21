@@ -9,7 +9,7 @@
 #$ -R y
 #$ -M barbara_domingues@eva.mpg.de
 #$ -m e
-#$ -l h_vmem=1G,s_vmem=1G
+#$ -l h_vmem=2G,s_vmem=2G
 
 #SIM=${SGE_TASK_ID}
 RSCRIPT=/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/run_ncv_allpops_Rscript_v1.r
