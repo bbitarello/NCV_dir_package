@@ -38,14 +38,14 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
     #if chimp in FD is != Alt in SNP, this is a SNP and also a FD. Keep both. 
     #no need to put any conditional statements for this
     tmp.vec<-tmp.vec[-1]  #eliminate the NA
-	cat('elinated some false FDs')
+	
     if(length(tmp.vec)){z2<-z[-tmp.vec,]}   #FD without the fake FDs.
-        else{z2<-z} } else{z2<-z}                          #check for positions present in SNPs that have f=1
+        else{z2<-z} } else{z2<-z}  #check for positions present in SNPs that have f=1
                         #for alt allele and are absent from. FDs. Include them as FDs and exclude from SN                    
-	 tmp.vec2<-0;     tmp.vec3<-NA; tmp2<-which(y2$counts ==1);
+	 tmp.vec2<-0; tmp.vec3<-NA; tmp2<-which(y2$counts ==1);
             for (j in 1:length(tmp2)){  #for each of these positions
                 temp.pos2<-y2$pos[tmp2[i]]; tmp.vec3<-c(tmp.vec3, temp.pos2); #exclude from SNPs
-              if(sum(z$pos %in% temp.pos2)==0){  #if this SNP position is not present in the FD
+              if(!(temp.pos2 %in% z2$pos)){  #if this SNP position is not present in the FD
                tmp.vec2<-tmp.vec2+1}} # count number of FDs which should be included in NCV fd . ATTENTION: the FDinput bed will not be changed
 	tmp.vec3<-tmp.vec3[-1]  #eliminate NA
                     fxdlen<-dim(z2)[1]+tmp.vec2 #if it is 0 no FDs will be added
