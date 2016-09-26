@@ -43,7 +43,7 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
                         #for alt allele and are absent from. FDs. Include them as FDs and exclude from SN                    
 	 tmp.vec2<-0;     tmp.vec3<-NA; tmp2<-which(y2$counts ==1)
             for (j in 1:length(tmp2)){  #for each of these positions
-                        temp.pos2<-y2$pos[tmp2[i]]; tmp.vec3<-c(tmp.vec3, temp.pos2);
+                        temp.pos2<-y2$pos[tmp2[i]]; tmp.vec3<-c(tmp.vec3, temp.pos2); #exclude from SNPs
                 if(sum(z$pos==temp.pos2)==0){  #if this SNP position is not present in the FD
                             tmp.vec2<-tmp.vec2+1}} # count number of FDs which should be included in NCV fd . ATTENTION: the FDinput bed will not be changed
 	tmp.vec3<-tmp.vec3[-1]  #eliminate NA
