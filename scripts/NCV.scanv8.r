@@ -29,7 +29,7 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
             #need to filter SNPs and FDs.
           if(FD==T){
 	#real.snps <- y3[which(y3[,1] > 0),] 
-        tmp<-which(z$pos %in% y2[,2]) #positions present in SNP and FD file. Store them and then check what they are
+        tmp<-which(z$pos %in% y2$pos) #positions present in SNP and FD file. Store them and then check what they are
                     tmp.vec<-NA;
                    if(length(tmp)){for (i in 1:length(tmp)){  #for each of these positions
     temp.pos<-z$pos[tmp[i]]; if(toupper(z$chimp[tmp[i]]) == toupper(y2[y2$pos==temp.pos,4])){#upper and lower case match.  
@@ -38,6 +38,7 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
     #if chimp in FD is != Alt in SNP, this is a SNP and also a FD. Keep both. 
     #no need to put any conditional statements for this
     tmp.vec<-tmp.vec[-1]  #eliminate the NA
+	cat('elinated some false FDs')
     if(length(tmp.vec)){z2<-z[-tmp.vec,]}   #FD without the fake FDs.
         else{z2<-z} } else{z2<-z}                          #check for positions present in SNPs that have f=1
                         #for alt allele and are absent from. FDs. Include them as FDs and exclude from SN                    
