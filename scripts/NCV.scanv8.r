@@ -54,16 +54,16 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
                                 real.snps2<-y2}
                             real.snps3<-real.snps2[which(real.snps2$counts!=1),] #eliminate remaining snps with f=0 or f=1
                                 polsites <- dim(real.snps3)[1]   #the 'real' number of SNPs used in NCV calculation.
-                                tp<-c(real.snps3$counts,rep(0,fxdlen))
-				tp[,1]<-sapply(tp[,1], function(x) if (x>0.5){x<-1-x} else{x<-x})} #use MAF
+                                tp<-as.numeric(c(real.snps3$counts,rep(0,fxdlen)))
+				tp<-sapply(tp, function(x) if (x>0.5){x<-1-x} else{x<-x})} #use MAF
                 ###############################################NCV without
                 ###FD############################################
                     if(FD==F){
                             nifds<-0
                         real.snps4 <- y2[which(y2[,1] > 0 & y2[,1]<1),]  
                             polsites<-dim(real.snps4)[1];
-tp<-real.snps4$counts; 
-tp[,1]<-sapply(tp[,1], function(x) if (x>0.5){x<-1-x} else{x<-x});
+tp<-as.numeric(real.snps4$counts); 
+tp<-sapply(tp, function(x) if (x>0.5){x<-1-x} else{x<-x});
 fxdlen<-0}
 ncdf1<-sqrt(sum((tp-0.1)^2)/(polsites+fxdlen)); 
 ncdf2<-sqrt(sum((tp-0.2)^2)/(polsites+fxdlen));
