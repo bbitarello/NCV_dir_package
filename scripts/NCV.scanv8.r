@@ -27,13 +27,14 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
              y3[,1] <- sapply(y2[,1], function(x) if (x>0.5){x<-1-x} else{x<-x})  #use minor allele frequency.
                 #up until this point we have all original SNPs in y2. Now we
             #need to filter SNPs and FDs.
-          if(FD==T){real.snps <- y3[which(y3[,1] > 0),] 
-        tmp<-which(z$pos %in% real.snps[,2]) #positions present in SNP and FD file. Store them and then check what they are
+          if(FD==T){
+	#real.snps <- y3[which(y3[,1] > 0),] 
+        tmp<-which(z$pos %in% y2[,2]) #positions present in SNP and FD file. Store them and then check what they are
                     tmp.vec<-NA;
-                        if(length(tmp)){for (i in 1:length(tmp)){  #for each of these positions
-                                temp.pos<-z$pos[tmp[i]]; if(toupper(z$chimp[tmp[i]]) == toupper(real.snps[real.snps$pos==temp.pos,4])){#upper and lower case match.  
-                                tmp.vec<-c(tmp.vec,tmp[i])}  #store the positiuons which wuill be eliminated.
-                            }
+                   if(length(tmp)){for (i in 1:length(tmp)){  #for each of these positions
+    temp.pos<-z$pos[tmp[i]]; if(toupper(z$chimp[tmp[i]]) == toupper(y2[y2$pos==temp.pos,4])){#upper and lower case match.  
+                                tmp.vec<-c(tmp.vec,tmp[i])}}  #store the positiuons which wuill be eliminated.
+                            
     #if chimp in FD is != Alt in SNP, this is a SNP and also a FD. Keep both. 
     #no need to put any conditional statements for this
     tmp.vec<-tmp.vec[-1]  #eliminate the NA
@@ -42,20 +43,19 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
                         #for alt allele and are absent from. FDs. Include them as FDs and exclude from SN                    
 	 tmp.vec2<-0;     tmp.vec3<-NA; tmp2<-which(y2$counts ==1)
             for (j in 1:length(tmp2)){  #for each of these positions
-                        temp.pos2<-y2$pos[tmp2[i]]
+                        temp.pos2<-y2$pos[tmp2[i]]; tmp.vec3<-c(tmp.vec3, temp.pos2);
                 if(sum(z$pos==temp.pos2)==0){  #if this SNP position is not present in the FD
-                            tmp.vec2<-tmp.vec2+1 # count
- number of FDs which should be included in NCV fd . ATTENTION: the FDinput bed will not be changed
-                    tmp.vec3<-c(tmp.vec3, temp.pos2) }} #positions which should be eliminated from SNPs
+                            tmp.vec2<-tmp.vec2+1}} # count number of FDs which should be included in NCV fd . ATTENTION: the FDinput bed will not be changed
 	tmp.vec3<-tmp.vec3[-1]  #eliminate NA
                     fxdlen<-dim(z2)[1]+tmp.vec2 #if it is 0 no FDs will be added
                     if(length(tmp.vec3)){#if this vector has at least one position
-                            real.snps2<-subset(real.snps, !(pos %in% tmp.vec3))}
+                            real.snps2<-subset(y2, !(pos %in% tmp.vec3))}
                         if(length(tmp.vec3)==0){ #if there are no positions in tmp.vec3, all stays the same.
-                                real.snps2<-real.snps}
+                                real.snps2<-y2}
                             real.snps3<-real.snps2[which(real.snps2$counts!=1),] #eliminate remaining snps with f=0 or f=1
                                 polsites <- dim(real.snps3)[1]   #the 'real' number of SNPs used in NCV calculation.
-                                tp<-c(real.snps3$counts,rep(0,fxdlen))}
+                                tp<-c(real.snps3$counts,rep(0,fxdlen))
+				tp[,1]<-sapply(tp[,1], function(x) if (x>0.5){x<-1-x} else{x<-x}} #use MAF
                 ###############################################NCV without
                 ###FD############################################
                     if(FD==F){
