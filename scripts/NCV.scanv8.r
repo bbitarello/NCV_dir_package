@@ -7,7 +7,7 @@
 #BitarelloNote: attempting to fix two issues:run NCV for all pops at once and
 #save window coordinates in output.
 #Done
-#Last Modified: 21.09.2016 by Barbara Bitarello 
+#Last Modified: 26.09.2016 by Barbara Bitarello 
 ###############################################################################
 #NCV is calculated regardless of SNP density. Filtering per snp density should
 #happen downstream in case we decide to change the threshold.
@@ -24,7 +24,7 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
       y2 <- as.data.frame(cbind(counts=as.numeric(INPUT.N[,pop])/n, pos=as.numeric(INPUT.N[,2]), ref=INPUT.N[,4], alt=INPUT.N[,5]), stringsAsFactors=F) #
        y2[,1]<-as.numeric(y2[,1]);y2[,2]<-as.numeric(y2[,2])
 	y3<-y2;
-             y3[,1] <- sapply(y2[,1], function(x) if (x>0.5){x<-1-x} else{x<-x})  #use minor allele frequency.
+             #y3[,1] <- sapply(y2[,1], function(x) if (x>0.5){x<-1-x} else{x<-x})  #use minor allele frequency.
                 #up until this point we have all original SNPs in y2. Now we
             #need to filter SNPs and FDs.
           if(FD==T){
