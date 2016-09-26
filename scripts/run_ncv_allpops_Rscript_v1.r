@@ -87,6 +87,7 @@ if(FD==TRUE){
   FD.file <- subset(FD.file, pos >= s[1] & pos <= e[length(e)]) # subset the FD.file to speed up the following lapply
   system.time(lapply(1:length(s),function(i) subset(FD.file, pos >= s[i] & pos <= e[i])[,])->chwinfd)  #FDs per window}
     input.list<-list(INPUT.NCV=chwinV2, INPUT.FD=chwinfd, WIN.POS=WIN.POS)
+    cat('will begin NCD loop now\n')
     for (w in 1:length(pops)){
        for (i in ids) { 
           if(nrow(input.list$INPUT.FD[[i]]) > 0) {
