@@ -53,7 +53,7 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FD=T, FD.N, WIN) {
                             real.snps2<-subset(y2, !(pos %in% tmp.vec3))}
                         if(length(tmp.vec3)==0){ #if there are no positions in tmp.vec3, all stays the same.
                                 real.snps2<-y2}
-                            real.snps3<-real.snps2[which(real.snps2$counts!=1),] #eliminate remaining snps with f=0 or f=1
+                            real.snps3<-real.snps2[which(real.snps2$counts!=0),] #eliminate remaining snps with f=0 
                                 polsites <- dim(real.snps3)[1] ;  #the 'real' number of SNPs used in NCV calculation.
 				if(polsites>0){
                                 tp<-as.numeric(c(real.snps3$counts,rep(0,fxdlen)));
