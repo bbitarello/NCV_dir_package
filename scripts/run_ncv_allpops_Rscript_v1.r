@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 ## Cesare de Filippo and Bárbara Bitarello , MPI-EVA
 ## 15-01-2014
-## Last modified by Barbara Bitarello: 21.09.2016
+## Last modified by Barbara Bitarello: 06.10.2016
 ## Changed to Rscript environment on 23.05.2014
 
 library(getopt) # Package designed to be used with Rscript to write #! shebang scripts that accept short and long ﬂags/options.
@@ -79,31 +79,34 @@ lapply(1:length(s), function(i) subset(input.file, POS >= s[i] & POS < e[i])[,se
 bla<-vector('list',length(chwinV2))
 chNCV<-list(bla,bla,bla,bla,bla,bla,bla,bla,bla,bla,bla,bla,bla)
 
-ids <- which(unlist(lapply(chwinV2, nrow)) > 0) # The window having at least one snp
+ids <- which(unlist(lapply(chwinV2, nrow)) > 0)
+#new
 
-#input.list<-list(INPUT.NCV=chwinV2, INPUT.FD=chwinfd)
 pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
 if(FD==TRUE){
   FD.file <- subset(FD.file, pos >= s[1] & pos <= e[length(e)]) # subset the FD.file to speed up the following lapply
   system.time(lapply(1:length(s),function(i) subset(FD.file, pos >= s[i] & pos <= e[i])[,])->chwinfd)  #FDs per window}
-    input.list<-list(INPUT.NCV=chwinV2, INPUT.FD=chwinfd, WIN.POS=WIN.POS)
-    cat('will begin NCD loop now\n')
-    for (w in 1:length(pops)){
-       for (i in ids) { 
-          if(nrow(input.list$INPUT.FD[[i]]) > 0) {
-             NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FD=TRUE, FD.N=input.list$INPUT.FD[[i]], pop=pops[w],WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}
+ids.fd <- which(unlist(lapply(chwinfd, nrow)) > 0) # The window having at least one FD
+#new
+ids2<-unique(sort(c(ids,ids.fd)));
+input.list<-list(INPUT.NCV=chwinV2, INPUT.FD=chwinfd, WIN.POS=WIN.POS);
+  cat('will begin NCD loop now\n')
+    for (w in 1:length(pops)){for (i in ids2) { 
+          if(nrow(input.list$INPUT.FD[[i]]) > 0) {if(nrow(input.list$INPUT.NCV[[i]]) > 0) {
+             	NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FDs=TRUE, SNP=TRUE, FD.N=input.list$INPUT.FD[[i]], pop=pops[w],WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
         if(nrow(input.list$INPUT.FD[[i]])<1) {
-                  NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FD=FALSE,pop=pops[w],  WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}
-            }
+                 NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=FALSE,SNP=TRUE,pop=pops[w],  FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}
+	if(nrow(input.list$INPUT.NCV[[i]]) > 0) {if(nrow(input.list$INPUT.FD[[i]]) > 0) {
+		NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=TRUE,SNP=TRUE,pop=pops[w], FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
+	if(nrow(input.list$INPUT.NCV[[i]]) < 1) {
+            NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=TRUE,SNP=FALSE,pop=pops[w], FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
             assign(paste('res__',TAG, '_', BIN,'_scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))
     }
-}
-cat('finished NCD with FD\n')
+cat('finished NCD with FD\n')}
 if(FD==FALSE){
       input.list<-list(INPUT.NCV=chwinV2, WIN.POS=WIN.POS)
-    for (w in 1:length(pops)){
-                for (i in ids){
-                            NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FD=FALSE,pop=pops[w], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]
+    for (w in 1:length(pops)){for (i in ids){
+        NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FD=FALSE,SNP=T,pop=pops[w], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]
             }
             assign(paste('res__',TAG, '_', BIN,'_scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))  ##save NCV results
     }

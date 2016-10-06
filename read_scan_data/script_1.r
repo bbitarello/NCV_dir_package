@@ -106,7 +106,7 @@ objectName<-'All.Results.Final'
 
 save(list=objectName, file= 'All.Results.Final.RData')   #this workspace is already saved in the directory.
 
-remove(All.Results.Final)
+#remove(All.Results.Final)
 
 #now the workspace with NCV results for all pops is saved. 
 ##################################################################
