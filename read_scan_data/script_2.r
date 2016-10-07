@@ -53,16 +53,18 @@ names(All.Results.Final)<-pops
 
 #starts here
 
-lapply(All.Results.Final, function(x) cbind(x,Nr.IS=(x$Nr.SNPs+x$Nr.FDs)))-> All.Res
+mclapply(All.Results.Final, function(x) cbind(x,Nr.IS=(x$Nr.SNPs+x$Nr.FDs)))-> All.Res
 
 #now we have a data frame which contain the Nr.US
 
-lapply(All.Res, function(x) cbind(x,PtoD=x$Nr.SNPs/(x$Nr.FDs+1)))-> All.Res1
+mclapply(All.Res, function(x) cbind(x,PtoD=x$Nr.SNPs/(x$Nr.FDs+1)))-> All.Res1
 
-lapply(All.Res1, function(x) dim(x)) #dimensions of initial data
+mclapply(All.Res1, function(x) dim(x)) #dimensions of initial data
 
-# 1705970 #update:1,546,459
-lapply(All.Res1, function(x) subset(x, Nr.IS>=4))->All.Res.4.IS
+# 1705970 #update:1,543,026 for YRI. But actually it varies between pops now. WHY???
+#update 05.10/2016: between 1532463 (FIN) and 1543712 (AWS)
+#update 07.10.2016:1551642 for all pops!
+#mclapply(All.Res1, function(x) subset(x, Nr.IS>=4))->All.Res.4.IS
 #yri:1698893 #update:
 
 
@@ -75,32 +77,118 @@ mclapply(1:7, function(x) cbind(All.Res1[[x]], Win.ID=tmp[[x]],stringsAsFactors=
 tmp2->All.Res1
 remove(tmp2)
 
+
+#exploring number of IS (new 07/10/2016)
+
+
+#YRI
+
+Nr.IS<-as.factor(with(All.Results.Final[[3]], Nr.SNPs+Nr.FDs))
+temp<-data.frame(NCD2=All.Results.Final[[3]]$NCDf5, IS=Nr.IS)
+temp.df<-melt(temp, id.vars='IS')
+
+#99.4 % of all windows have <=100 informative sites so i don't need to plot everything.
+temp.df3<-subset(temp.df, as.numeric(IS)>=19 & as.numeric(IS)<=100)
+temp.df2<-subset(temp.df, as.numeric(IS)<=100)
+pdf('violin.Nr.IS.YRI.empirical.pdf')
+ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites") + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
+
+dev.off()
+
+
+#LWK
+
+
+Nr.IS<-as.factor(with(All.Results.Final[[2]], Nr.SNPs+Nr.FDs))
+temp<-data.frame(NCD2=All.Results.Final[[2]]$NCDf5, IS=Nr.IS)
+temp.df<-melt(temp, id.vars='IS')
+
+#99.3 % of all windows have <=100 informative sites so i don't need to plot everything.
+temp.df3<-subset(temp.df, as.numeric(IS)>=19 & as.numeric(IS)<=100)
+temp.df2<-subset(temp.df, as.numeric(IS)<=100)
+pdf('violin.Nr.IS.LWK.empirical.pdf')
+ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
+dev.off()
+
+
+#GBR
+
+Nr.IS<-as.factor(with(All.Results.Final[[6]], Nr.SNPs+Nr.FDs))
+temp<-data.frame(NCD2=All.Results.Final[[6]]$NCDf5, IS=Nr.IS)
+temp.df<-melt(temp, id.vars='IS')
+
+#99.6 % of all windows have <=100 informative sites so i don't need to plot everything.
+temp.df3<-subset(temp.df, as.numeric(IS)>=15 & as.numeric(IS)<=100)
+temp.df2<-subset(temp.df, as.numeric(IS)<=100)
+
+pdf('violin.Nr.IS.GBR.empirical.pdf')
+
+ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
+
+dev.off()
+
+
+#TSI
+
+Nr.IS<-as.factor(with(All.Results.Final[[7]], Nr.SNPs+Nr.FDs))
+temp<-data.frame(NCD2=All.Results.Final[[7]]$NCDf5, IS=Nr.IS)
+temp.df<-melt(temp, id.vars='IS')
+
+#99.7% of all windows have <=100 informative sites so i don't need to plot everything.
+temp.df3<-subset(temp.df, as.numeric(IS)>=19 & as.numeric(IS)<=100)
+temp.df2<-subset(temp.df, as.numeric(IS)<=100)
+pdf('violin.Nr.IS.TSI.empirical.pdf')
+ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
+
+dev.off()
+
+
+
+
 #will need to check if this filter is still appropriate:
-#update: i think >=15 is appropriate for all pops now (see violin plots)
+#update: i think >=9 is appropriate for all pops now (see violin plots)
 
-sort(unique(c(All.Res1[[3]]$Win.ID[which(All.Res1[[3]]$Nr.IS<15),], All.Res1[[2]]$Win.ID[which(All.Res1[[2]]$Nr.IS<15),], All.Res1[[1]]$Win.ID[which(All.Res1[[1]]$Nr.IS<15),], All.Res1[[4]]$Win.ID[which(All.Res1[[4]]$Nr.IS<15),], All.Res1[[5]]$Win.ID[which(All.Res1[[5]]$Nr.IS<15),],  All.Res1[[6]]$Win.ID[which(All.Res1[[6]]$Nr.IS<15),], All.Res1[[7]]Win.ID[which(All.Res1[[7]]$Nr.IS<15),])))->filt.Nr.IS
+#this filter would result in about 20,000 windows exluded per pop.
+
+unique(sort(
+c(All.Res1[[3]]$Win.ID[which(All.Res1[[3]]$Nr.IS<9)], 
+All.Res1[[2]]$Win.ID[which(All.Res1[[2]]$Nr.IS<9)], 
+All.Res1[[1]]$Win.ID[which(All.Res1[[1]]$Nr.IS<9)], 
+All.Res1[[4]]$Win.ID[which(All.Res1[[4]]$Nr.IS<9)], 
+All.Res1[[5]]$Win.ID[which(All.Res1[[5]]$Nr.IS<9)],
+All.Res1[[6]]$Win.ID[which(All.Res1[[6]]$Nr.IS<9)], 
+All.Res1[[7]]$Win.ID[which(All.Res1[[7]]$Nr.IS<9)]
+)))->filt.Nr.IS #or 26228 in total
 
 
-mclapply(All.Res1, function(x) x[-filt.Nr.IS,])->All.Res2
+mclapply(All.Res1, function(x) subset(x, !(Win.ID %in% filt.Nr.IS)))->All.Res2
 
+#which results in
+
+unlist(lapply(All.Res2, function(x) nrow(x)))  #1,525,424 windows per pop, i.e, only 1.7% os fara was removed with the IS filter. Totally worth it.
 #mclapply(All.Res2, function(x) subset(x, Proportion.Covered>=0.5))->All.Res.filtered
 
-lapply(All.Res.4.IS, function(x) cbind(x, P.val.NCVf0.5=rep(NA, dim(x)[1]), P.val.NCVf0.4=rep(NA, dim(x)[1]), P.val.NCVf0.3=rep(NA, dim(x)[1]), P.val.NCVf0.2=rep(NA, dim(x)[1]), P.val.NCVf0.1=rep(NA, dim(x)[1])))->All.Res.4.IS
+#lapply(All.Res.4.IS, function(x) cbind(x, P.val.NCVf0.5=rep(NA, dim(x)[1]), P.val.NCVf0.4=rep(NA, dim(x)[1]), P.val.NCVf0.3=rep(NA, dim(x)[1]), P.val.NCVf0.2=rep(NA, dim(x)[1]), P.val.NCVf0.1=rep(NA, dim(x)[1])))->All.Res.4.IS
 
 #lapply(All.Res.4.IS, function(x) subset(x, Proportion.Covered>=0.5))-> All.Res.4.IS.prop50
 #dim YRI:1627870 
 
 #objectName<-'All.Res.4.IS.prop50'
 #objectName2<-'All.Res.filtered'
-setwd('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/read_can_data/')
+setwd('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/read_scan_data/')
 
 #save(list=objectName, file= 'All.Res.4.IS.prop50.RData')
 #save(list=objectName2, file='All.Res.filtered.RData')
 
 #Store(All.Res.4.IS.prop50)
 #Store(All.Res.filtered)
-a
+
 Store(All.Res2)
+Objects()
+
+objectName<-'All.Res2'
+
+save(list=objectName, file= 'Results.After.IS.filter.RData')
 ###################
 ###################
 ###################
