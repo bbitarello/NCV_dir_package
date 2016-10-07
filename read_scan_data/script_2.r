@@ -90,7 +90,7 @@ temp.df<-melt(temp, id.vars='IS')
 #99.4 % of all windows have <=100 informative sites so i don't need to plot everything.
 temp.df3<-subset(temp.df, as.numeric(IS)>=19 & as.numeric(IS)<=100)
 temp.df2<-subset(temp.df, as.numeric(IS)<=100)
-pdf('violin.Nr.IS.YRI.empirical.pdf')
+pdf('figures/violin.Nr.IS.YRI.empirical.pdf')
 ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites") + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
 
 dev.off()
@@ -106,7 +106,7 @@ temp.df<-melt(temp, id.vars='IS')
 #99.3 % of all windows have <=100 informative sites so i don't need to plot everything.
 temp.df3<-subset(temp.df, as.numeric(IS)>=19 & as.numeric(IS)<=100)
 temp.df2<-subset(temp.df, as.numeric(IS)<=100)
-pdf('violin.Nr.IS.LWK.empirical.pdf')
+pdf('figures/violin.Nr.IS.LWK.empirical.pdf')
 ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
 dev.off()
 
@@ -121,7 +121,7 @@ temp.df<-melt(temp, id.vars='IS')
 temp.df3<-subset(temp.df, as.numeric(IS)>=15 & as.numeric(IS)<=100)
 temp.df2<-subset(temp.df, as.numeric(IS)<=100)
 
-pdf('violin.Nr.IS.GBR.empirical.pdf')
+pdf('figures/violin.Nr.IS.GBR.empirical.pdf')
 
 ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
 
@@ -137,7 +137,7 @@ temp.df<-melt(temp, id.vars='IS')
 #99.7% of all windows have <=100 informative sites so i don't need to plot everything.
 temp.df3<-subset(temp.df, as.numeric(IS)>=19 & as.numeric(IS)<=100)
 temp.df2<-subset(temp.df, as.numeric(IS)<=100)
-pdf('violin.Nr.IS.TSI.empirical.pdf')
+pdf('figures/violin.Nr.IS.TSI.empirical.pdf')
 ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 10, colour="orange", linetype = "longdash")
 
 dev.off()
@@ -184,11 +184,16 @@ setwd('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/read_scan_data/')
 #Store(All.Res.filtered)
 
 Store(All.Res2)
+Store(All.Res1)
+
+remove(All.Res1)
+
 Objects()
 
 objectName<-'All.Res2'
 
 save(list=objectName, file= 'Results.After.IS.filter.RData')
+remove(All.Res2)
 ###################
 ###################
 ###################
