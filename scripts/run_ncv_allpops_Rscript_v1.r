@@ -53,6 +53,9 @@ BIN<- opt$bin  #bin for output saving.
 
 ########################################################################################################################################################
 cat('something else\n')
+#update 11.10/2016: this condition impedes me from calculation NCD when there are FDs but no snps. Need to fix this somehow.
+#om the other hand, this is a 30 Mb window, so it is very unlikely that there will be no file, because that would mean there are zero SNPs in that entire 30 Mb segment...
+#so for now let's keep this.
 
 if(file.info(INPUT.NAME)$size<100){cat('The input file is empty\n'); q(status=1)} else{
     TEMP.INPUT<-read.table(INPUT.NAME,sep="\t",stringsAsFactors=FALSE, as.is=T)}
@@ -79,34 +82,33 @@ lapply(1:length(s), function(i) subset(input.file, POS >= s[i] & POS < e[i])[,se
 bla<-vector('list',length(chwinV2))
 chNCV<-list(bla,bla,bla,bla,bla,bla,bla,bla,bla,bla,bla,bla,bla)
 
-ids <- which(unlist(lapply(chwinV2, nrow)) > 0)
+ids <- which(unlist(lapply(chwinV2, nrow)) > 0) #3kb windows with at least one SNP
 #new
 
 pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
 if(FD==TRUE){
   FD.file <- subset(FD.file, pos >= s[1] & pos <= e[length(e)]) # subset the FD.file to speed up the following lapply
   system.time(lapply(1:length(s),function(i) subset(FD.file, pos >= s[i] & pos <= e[i])[,])->chwinfd)  #FDs per window}
-ids.fd <- which(unlist(lapply(chwinfd, nrow)) > 0) # The window having at least one FD
+	ids.fd <- which(unlist(lapply(chwinfd, nrow)) > 0) # 3kb windows having at least one FD
 #new
-ids2<-unique(sort(c(ids,ids.fd)));
-input.list<-list(INPUT.NCV=chwinV2, INPUT.FD=chwinfd, WIN.POS=WIN.POS);
-  cat('will begin NCD loop now\n')
-    for (w in 1:length(pops)){for (i in ids2) { 
-          if(nrow(input.list$INPUT.FD[[i]]) > 0) {if(nrow(input.list$INPUT.NCV[[i]]) > 0) {
-             	NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FDs=TRUE, SNP=TRUE, FD.N=input.list$INPUT.FD[[i]], pop=pops[w],WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
-        if(nrow(input.list$INPUT.FD[[i]])<1) {
-                 NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=FALSE,SNP=TRUE,pop=pops[w],  FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}
-	if(nrow(input.list$INPUT.NCV[[i]]) > 0) {if(nrow(input.list$INPUT.FD[[i]]) > 0) {
-		NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=TRUE,SNP=TRUE,pop=pops[w], FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
-	if(nrow(input.list$INPUT.NCV[[i]]) < 1) {
-            NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=TRUE,SNP=FALSE,pop=pops[w], FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
+	ids2<-unique(sort(c(ids,ids.fd)));
+	input.list<-list(INPUT.NCV=chwinV2, INPUT.FD=chwinfd, WIN.POS=WIN.POS);
+	  cat('will begin NCD loop now\n')
+	    for (w in 1:length(pops)){for (i in ids2) { 
+        	  if(nrow(input.list$INPUT.NCV[[i]]) > 0){
+			if(nrow(input.list$INPUT.FD[[i]]) > 0) {
+             			NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FDs=TRUE, SNP=TRUE, FD.N=input.list$INPUT.FD[[i]], pop=pops[w],WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}
+			else{NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FDs=FALSE,SNP=TRUE, FD.N=input.list$INPUT.FD[[i]], pop=pops[w],WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
+        		else{#i.e, no SNPs         	
+				NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]],FDs=TRUE,SNP=FALSE,pop=pops[w],  FD.N=input.list$INPUT.FD[[i]], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]}}
             assign(paste('res__',TAG, '_', BIN,'_scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))
     }
 cat('finished NCD with FD\n')}
+
 if(FD==FALSE){
       input.list<-list(INPUT.NCV=chwinV2, WIN.POS=WIN.POS)
     for (w in 1:length(pops)){for (i in ids){
-        NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FD=FALSE,SNP=T,pop=pops[w], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]
+        NCV.scan4(INPUT.N=input.list$INPUT.NCV[[i]], FDs=FALSE,SNP=TRUE,pop=pops[w], WIN=input.list$WIN.POS[i,])->chNCV[[w]][[i]]
             }
             assign(paste('res__',TAG, '_', BIN,'_scan_',pops[w],sep=''), do.call(rbind,chNCV[[w]]))  ##save NCV results
     }
