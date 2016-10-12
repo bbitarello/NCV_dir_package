@@ -1,10 +1,14 @@
 ###################################
 #	Barbara Bitarello
-#	Last modified: 07.10.2016
+#	Last modified: 11.10.2016
 ###################################
 
 All.Results.Final.RData #all scanned windows
 
 Results.After.IS.Filter $self-explanatory. Filter is currently all windows where Nr.IS>=5
+
+#other info
+
+#run scripts in consecutive order.
 
 

@@ -560,10 +560,13 @@ sd(l.bin.vec1.eu[[i]]$ncvFD_f0.2)-> sd2.bin;sd(l.bin.vec1.eu[[i]]$ncvFD_f0.1)-> 
 if(length(I)>0){
 ((list.SCAN[[j]][I,]$NCDf5-mean5.bin)/sd5.bin)->list.SCAN[[j]]$Dist.NCD.f0.5[I]
 ((list.SCAN[[j]][I,]$NCDf4-mean4.bin)/sd4.bin)->list.SCAN[[j]]$Dist.NCD.f0.4[I]
-((list.SCAN[[j]][I,]$NCDf3-mean3.bin)/sd3.bin)->list.SCAN[[j]]$Dist.NCD.f0.3[I]
+(list.SCAN[[j]][I,]$NCDf3-mean3.bin)/sd3.bin)->list.SCAN[[j]]$Dist.NCD.f0.3[I]
 ((list.SCAN[[j]][I,]$NCDf2-mean2.bin)/sd2.bin)->list.SCAN[[j]]$Dist.NCD.f0.2[I]
 ((list.SCAN[[j]][I,]$NCDf1-mean1.bin)/sd1.bin)->list.SCAN[[j]]$Dist.NCD.f0.1[I]
 }}}
+
+
+
 
 Store(list.SCAN)
 #IDEA for the future: save workspace and copy to darwin so I can use Debora's 1000G annotation.
@@ -583,15 +586,38 @@ remove(tmp3); gc()
 mclapply(1:7, function(x) cbind(arrange(tmp2[[x]],Dist.NCD.f0.1), Z.f0.1.P.val=seq(1:nrow(tmp2[[x]]))/nrow(tmp2[[x]])))->list.SCAN
 remove(tmp2);gc()
 
+
+mclapply(list.SCAN, function(x) arrange(x, Chr, Beg.Win))-> list.SCAN
+Store(list.SCAN)
+
 #mclapply(1:7, function(x) with(list.SCAN[[x]], paste0(Chr, "|", Beg.Win, "|", End.Win)))-> Win.ID.scan
 #take simulation-based candidate windows.
-mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.5<(1/nsims)),])-> CANDf0.5; names(CANDf0.5)<-pops[1:7]
-mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.4<(1/nsims)),])-> CANDf0.4; names(CANDf0.4)<-pops[1:7]
-mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.3<(1/nsims)),])-> CANDf0.3; names(CANDf0.3)<-pops[1:7]
-mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.2<(1/nsims)),])-> CANDf0.2; names(CANDf0.2)<-pops[1:7]
-mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.1<(1/nsims)),])-> CANDf0.1; names(CANDf0.1)<-pops[1:7]
+mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.5<(1/nsims)),])-> CANDf0.5; names(CANDf0.5)<-pops[1:7]; mclapply(CANDf0.5, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.5
+mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.4<(1/nsims)),])-> CANDf0.4; names(CANDf0.4)<-pops[1:7]; mclapply(CANDf0.4, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.4
+mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.3<(1/nsims)),])-> CANDf0.3; names(CANDf0.3)<-pops[1:7]; mclapply(CANDf0.3, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.3
+mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.2<(1/nsims)),])-> CANDf0.2; names(CANDf0.2)<-pops[1:7]; mclapply(CANDf0.2, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.2
+mclapply(list.SCAN, function(x) x[which(x$P.val.NCDf0.1<(1/nsims)),])-> CANDf0.1; names(CANDf0.1)<-pops[1:7]; mclapply(CANDf0.1, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.1
+
 
 Store(CANDf0.5); Store(CANDf0.4); Store(CANDf0.3); Store(CANDf0.2); Store(CANDf0.1);Store(list.SCAN) #now list.SCAN has everything I need.
+
+
+
+#outlier windows
+
+#nrow(list.SCAN[[1]]) #1525424 windows * 0.0005 == iapprox. 763
+
+top763f0.5<-lapply(list.SCAN, function(x) arrange(x, Z.f0.5.P.val)[1:763,]) #top 763 windows ranked by feq=0.5
+top763f0.4<-lapply(list.SCAN, function(x) arrange(x, Z.f0.4.P.val)[1:763,]) #top 763 windows ranked by feq=0.4
+top763f0.3<-lapply(list.SCAN, function(x) arrange(x, Z.f0.3.P.val)[1:763,]) #top 763 windows ranked by feq=0.3
+top763f0.2<-lapply(list.SCAN, function(x) arrange(x, Z.f0.2.P.val)[1:763,]) #top 763 windows ranked by feq=0.2
+top763f0.1<-lapply(list.SCAN, function(x) arrange(x, Z.f0.1.P.val)[1:763,]) #top 763 windows ranked by feq=0.1
+
+gc()
+
+Store(top763f0.5); Store(top763f0.4); Store(top763.f0.3); Store(top763f0.2); Store(top763f0.1)
+
+
 #In  the next part we can start exploring these windows.
-#
+# The End
 
