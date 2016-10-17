@@ -2,7 +2,7 @@
 #
 #       Barbara D Bitarello
 #	Created:02.10.2016
-#       Last modified: 02.10.2016
+#       Last modified: 17.10.2016
 #	A script to start processing scan data.
 #
 #################################################################################################################################
@@ -18,6 +18,8 @@ library(SOAR)
 library(ggplot2)
 library(reshape)
 library(reshape2)
+library(data.table)
+library(dplyr)
 
 Sys.setenv(R_LOCAL_CACHE="estsession")
 
@@ -56,13 +58,21 @@ names(All.Results.Final)<-pops
 
 #starts here
 
-mclapply(All.Results.Final, function(x) cbind(x,Nr.IS=(x$Nr.SNPs+x$Nr.FDs)))-> All.Res
+#read in win.cov.data
+
+
+cov.win<-setDT(read.table('/mnt/sequencedb/PopGen/philip/NCD_Barbara/chimporthology.bed'))
+
+names(cov.win)<-c('chr', 'beg', 'end', 'cov')
+
+system.time(
+mclapply(All.Results.Final, function(x)setDT(cbind(x,Nr.IS=(x$Nr.SNPs+x$Nr.FDs),Cov=cov.win$cov/3000,PtoD=x$Nr.SNPs/(x$Nr.FDs+1))))-> All.Res)
 
 #now we have a data frame which contain the Nr.US
 
-mclapply(All.Res, function(x) cbind(x,PtoD=x$Nr.SNPs/(x$Nr.FDs+1)))-> All.Res1
+#mclapply(All.Res, function(x) cbind(x,PtoD=x$Nr.SNPs/(x$Nr.FDs+1)))-> All.Res1
 
-mclapply(All.Res1, function(x) dim(x)) #dimensions of initial data
+mclapply(All.Res, function(x) dim(x)) #dimensions of initial data
 
 # 1705970 #update:1,543,026 for YRI. But actually it varies between pops now. WHY???
 #update 05.10/2016: between 1532463 (FIN) and 1543712 (AWS)
@@ -74,13 +84,15 @@ mclapply(All.Res1, function(x) dim(x)) #dimensions of initial data
 
 #New: add WIn.ID column
 
-mclapply(1:7, function(x) with(All.Res1[[x]], paste0(Chr, "|", Beg.Win, "|", End.Win)))-> tmp
+mclapply(1:7, function(x) with(All.Res[[x]], paste0(Chr, "|", Beg.Win, "|", End.Win)))-> tmp
 
-mclapply(1:7, function(x) cbind(All.Res1[[x]], Win.ID=tmp[[x]],stringsAsFactors=FALSE))-> tmp2
+mclapply(1:7, function(x) cbind(All.Res[[x]], Win.ID=tmp[[x]]))-> tmp2
 
 tmp2->All.Res1
 remove(tmp2)
 
+remove(All.Res)
+gc()
 
 #exploring number of IS (new 07/10/2016)
 
@@ -110,6 +122,7 @@ temp.df<-melt(temp, id.vars='IS')
 #99.3 % of all windows have <=100 informative sites so i don't need to plot everything.
 temp.df3<-subset(temp.df, as.numeric(IS)>=10 & as.numeric(IS)<=100)
 temp.df2<-subset(temp.df, as.numeric(IS)<=100)
+
 pdf('figures/violin.Nr.IS.LWK.empirical.pdf')
 ggplot(temp.df2, aes(IS, value))+scale_x_discrete(breaks = seq(1,100, by=5)) +geom_violin() + stat_summary(fun.y=median, geom="point", color='cornflowerblue', size=1) +  ylab("NCD2") + xlab("Informative Sites")  + geom_vline(xintercept = 11, colour="orange", linetype = "longdash")
 dev.off()
@@ -164,12 +177,23 @@ All.Res1[[6]]$Win.ID[which(All.Res1[[6]]$Nr.IS<10)],
 All.Res1[[7]]$Win.ID[which(All.Res1[[7]]$Nr.IS<10)]
 )))->filt.Nr.IS #or 32,511 removed windows in total 
 
+select(filter(All.Res1[[1]], Cov<0.1666667), Win.ID)->cov.ID #27368 windows (it is the same for all pops)
 
-mclapply(All.Res1, function(x) subset(x, !(Win.ID %in% filt.Nr.IS)))->All.Res2
+
+table(filt.Nr.IS %in% cov.ID$Win.ID) #22213 are present in both 'filters' which means some windows have low ID but not low cov and vice-versa, so these filters should be combined.
+
+#concatenate
+unique(sort(c(cov.ID$Win.ID, filt.Nr.IS)))-> rem.this
+
+mclapply(All.Res1, function(x) subset(x, !(Win.ID %in% rem.this)))->All.Res2
 
 #which results in
 
 unlist(lapply(All.Res2, function(x) nrow(x)))  #1,663,144 windows per pop, i.e, only 1.9% of them was removed with the IS filter. Totally worth it.
+#update: now that IS and low cov are filtered, we get 1657989 windows per pop.
+#which means that we maintain 98% of the scanned windows even after applying thse two filters.
+
+
 #mclapply(All.Res2, function(x) subset(x, Proportion.Covered>=0.5))->All.Res.filtered
 
 #lapply(All.Res.4.IS, function(x) cbind(x, P.val.NCVf0.5=rep(NA, dim(x)[1]), P.val.NCVf0.4=rep(NA, dim(x)[1]), P.val.NCVf0.3=rep(NA, dim(x)[1]), P.val.NCVf0.2=rep(NA, dim(x)[1]), P.val.NCVf0.1=rep(NA, dim(x)[1])))->All.Res.4.IS
@@ -187,19 +211,20 @@ setwd('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/read_scan_data/')
 #Store(All.Res.4.IS.prop50)
 #Store(All.Res.filtered)
 
+
+objectName<-'All.Res2'
+
+save(list=objectName, file= 'Results.After.IS.and.window.cov.filter.RData')
+
+
 Store(All.Res2)
 Store(All.Res1)
 
 remove(All.Res1)
 
-gc()
-
-Objects()
-
-objectName<-'All.Res2'
-
-save(list=objectName, file= 'Results.After.IS.filter.RData')
 remove(All.Res2)
+
+gc()
 ###################
 ###################
 ###################
