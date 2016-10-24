@@ -190,9 +190,9 @@ mclapply(All.Res1, function(x) subset(x, !(Win.ID %in% rem.this)))->All.Res2
 #which results in
 
 unlist(lapply(All.Res2, function(x) nrow(x)))  #1,663,144 windows per pop, i.e, only 1.9% of them was removed with the IS filter. Totally worth it.
-#update: now that IS and low cov are filtered, we get 1657989 windows per pop.
-#which means that we maintain 98% of the scanned windows even after applying thse two filters.
+#update: now that IS and low cov are filtered, we get 1657989 windows per pop. #removed 2.2% of scanned windows with these two filters.
 
+#which means that we maintain 98% of the scanned windows even after applying thse two filters.
 
 #mclapply(All.Res2, function(x) subset(x, Proportion.Covered>=0.5))->All.Res.filtered
 
@@ -211,20 +211,20 @@ setwd('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/read_scan_data/')
 #Store(All.Res.4.IS.prop50)
 #Store(All.Res.filtered)
 
-
 objectName<-'All.Res2'
 
 save(list=objectName, file= 'Results.After.IS.and.window.cov.filter.RData')
-
 
 Store(All.Res2)
 Store(All.Res1)
 
 remove(All.Res1)
-
 remove(All.Res2)
 
 gc()
+
 ###################
 ###################
 ###################
+
+

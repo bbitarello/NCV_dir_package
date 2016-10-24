@@ -42,7 +42,16 @@ do.call('rbind', list.MSMS.rec.1e_07)-> list.MSMS[[3]]
 remove(list.MSMS.rec.1e_07)
 
 #
-mclapply(list.MSMS, function(x) cbind(x, Nr.IS=x$S+x$FD))-> list.MSMS
+#mclapply(list.MSMS, function(x) cbind(x, Nr.IS=x$S+x$FD))-> list.MSMS #not enough memory...
+
+cbind(list.MSMS[[1]], Nr.IS=list.MSMS[[1]]$S+list.MSMS[[1]]$FD)-> list.MSMS1[[1]]
+cbind(list.MSMS[[2]], Nr.IS=list.MSMS[[2]]$S+list.MSMS[[2]]$FD)-> list.MSMS1[[2]]
+cbind(list.MSMS[[3]], Nr.IS=list.MSMS[[3]]$S+list.MSMS[[3]]$FD)-> list.MSMS1[[3]]
+
+
+list.MSMS1->list.MSMS
+
+remove(list.MSMS1)
 
 #first separate AF< EU, AS
 names(list.MSMS)<-c('rec.1e_09', 'rec.1e_08', 'rec.1e_07')
