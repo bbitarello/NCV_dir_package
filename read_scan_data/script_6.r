@@ -37,89 +37,17 @@ Objects()
 #######################
 #a few sanity checks
 
-
-for(i in 1:7){
-m<-median(Union.CANDf0.5_0.4_0.3[[i]]$Nr.IS)
-ggplot(Union.CANDf0.5_0.4_0.3[[i]], aes(x=Nr.IS)) + geom_density(colour='cornflowerblue') + geom_vline(xintercept=m)
-ggsave(paste0('figures/Nr.IS.',pops[i],'.cand.pdf'))
-
-
-
-m1<-median(list.SCAN[[i]]$Nr.IS)
-ggplot(list.SCAN[[i]], aes(x=Nr.IS)) + geom_density(colour='darkgray') + geom_vline(xintercept=m1)
-ggsave(paste0('figures/Nr.IS.genomic', pops[i], '.pdf'))
-
-
-
-cat('Finished', pops[i], '\n')
-}
-
-
-for(i in 1:7){
-m<-median(Union.top0.5_0.4_0.3[[i]]$Nr.IS)
-ggplot(Union.top0.5_0.4_0.3[[i]], aes(x=Nr.IS)) + geom_density(colour='cornflowerblue') + geom_vline(xintercept=m)
-ggsave(paste0('figures/Nr.IS.',pops[i],'.top829.pdf'))
-cat('Finished', pops[i], '\n')
-}
-
-
-#
-for(i in 1:7){
-m<-median(Union.CANDf0.5_0.4_0.3[[i]]$PtoD)
-ggplot(Union.CANDf0.5_0.4_0.3[[i]], aes(x=PtoD)) + geom_density(colour='cornflowerblue') + geom_vline(xintercept=m)
-ggsave(paste0('figures/PtoD.',pops[i],'.cand.pdf'))
-
-
-m1<-median(list.SCAN[[i]]$PtoD)
-ggplot(list.SCAN[[i]], aes(x=PtoD)) + geom_density(colour='darkgray') + geom_vline(xintercept=m1)
-ggsave(paste0('figures/PtoD.genomic', pops[i], '.pdf'))
-
-cat('Finished', pops[i], '\n')
-}
-
-
-for(i in 1:7){
-m<-median(Union.top0.5_0.4_0.3[[i]]$PtoD)
-ggplot(Union.top0.5_0.4_0.3[[i]], aes(x=PtoD)) + geom_density(colour='cornflowerblue') + geom_vline(xintercept=m)
-ggsave(paste0('figures/PtoD.',pops[i],'.top829.pdf'))
-
-cat('Finished', pops[i], '\n')
-}
-
-
-for(i in 1:7){
-m<-median(Union.CANDf0.5_0.4_0.3[[i]]$Nr.FDs)
-ggplot(Union.CANDf0.5_0.4_0.3[[i]], aes(x=Nr.FDs)) + geom_density(colour='cornflowerblue') + geom_vline(xintercept=m)
-ggsave(paste0('figures/Nr.FDs.',pops[i],'.cand.pdf'))
-
-
-m1<-median(list.SCAN[[i]]$Nr.FDs)
-ggplot(list.SCAN[[i]], aes(x=Nr.FDs)) + geom_density(colour='darkgray') + geom_vline(xintercept=m1)
-ggsave(paste0('figures/Nr.FDs.genomic', pops[i], '.pdf'))
-
-cat('Finished', pops[i], '\n')
-}
-
-
-for(i in 1:7){
-m<-median(Union.top0.5_0.4_0.3[[i]]$Nr.FDs)
-ggplot(Union.top0.5_0.4_0.3[[i]], aes(x=Nr.FDs)) + geom_density(colour='cornflowerblue') + geom_vline(xintercept=m)
-ggsave(paste0('figures/Nr.FDs.',pops[i],'.top829.pdf'))
-
-cat('Finished', pops[i], '\n')
-}
-
-
 ####
 #test
 for(i in 1:7){
 nrow(list.SCAN[[i]])-> n1;nrow(Union.CANDf0.5_0.4_0.3[[i]])-> n2;nrow(Union.top0.5_0.4_0.3[[i]])-> n3
 
-cbind(rbind(select(list.SCAN[[i]], Nr.IS, Nr.FDs, Nr.SNPs), select(Union.CANDf0.5_0.4_0.3[[i]], Nr.IS, Nr.FDs, Nr.SNPs), select(Union.top0.5_0.4_0.3[[i]], Nr.IS, Nr.FDs, Nr.SNPs)), Type=c(rep('genomic', n1), rep('cand', n2), rep('Top829', n3)))-> temp
+cbind(rbind(select(list.SCAN[[i]], Nr.IS, Nr.FDs, Nr.SNPs, PtoD), select(Union.CANDf0.5_0.4_0.3[[i]], Nr.IS, Nr.FDs, Nr.SNPs, PtoD), select(Union.top0.5_0.4_0.3[[i]], Nr.IS, Nr.FDs, Nr.SNPs, PtoD)), Type=c(rep('genomic', n1), rep('Significant', n2), rep('Outliers', n3)))-> temp
 
 tmpname<-paste0('Nr.IS.',pops[[i]], '.pdf')
 tmpname1<-paste0('Nr.FDs.',pops[[i]], '.pdf')
 tmpname2<-paste0('Nr.SNPs.',pops[[i]], '.pdf')
+tmpname3<-paste0('PtoD.',pops[[i]], '.pdf')
 
 ggplot(temp) + geom_density(aes(x = Nr.IS, colour = Type))
 ggsave(paste0('figures/',tmpname))
@@ -130,9 +58,201 @@ ggsave(paste0('figures/',tmpname1))
 ggplot(temp) + geom_density(aes(x = Nr.SNPs, colour = Type))
 ggsave(paste0('figures/',tmpname2))
 
+ggplot(temp) + geom_density(aes(x = PtoD, colour = Type))
+ggsave(paste0('figures/',tmpname3))
 
 cat('Finished', pops[i], '\n')
 }
+
+
+#
+
+#plots SFS
+
+ source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/SFS_script.r')
+
+
+#tf=0.5
+
+unlist(mclapply(1:nrow(top829f0.5[[2]]), function(x) SFS.function(CHR=top829f0.5[[2]][x,]$Chr, BEG=top829f0.5[[2]][x,]$Beg.Win, END=top829f0.5[[2]][x,]$End.Win, POP=2)))-> LWK.top.f0.5
+
+unlist(mclapply(1:nrow(top829f0.5[[3]]), function(x) SFS.function(CHR=top829f0.5[[3]][x,]$Chr, BEG=top829f0.5[[3]][x,]$Beg.Win, END=top829f0.5[[3]][x,]$End.Win, POP=3)))-> YRI.top.f0.5
+
+unlist(mclapply(1:nrow(top829f0.5[[6]]), function(x) SFS.function(CHR=top829f0.5[[6]][x,]$Chr, BEG=top829f0.5[[6]][x,]$Beg.Win, END=top829f0.5[[6]][x,]$End.Win, POP=6)))-> GBR.top.f0.5
+
+unlist(mclapply(1:nrow(top829f0.5[[7]]), function(x) SFS.function(CHR=top829f0.5[[7]][x,]$Chr, BEG=top829f0.5[[7]][x,]$Beg.Win, END=top829f0.5[[7]][x,]$End.Win, POP=7)))-> TSI.top.f0.5
+
+#
+
+unlist(mclapply(1:nrow(CANDf0.5[[2]]), function(x) SFS.function(CHR=CANDf0.5[[2]][x,]$Chr, BEG=CANDf0.5[[2]][x,]$Beg.Win, END=CANDf0.5[[2]][x,]$End.Win, POP=2)))-> LWK.cand.f0.5
+
+unlist(mclapply(1:nrow(CANDf0.5[[3]]), function(x) SFS.function(CHR=CANDf0.5[[3]][x,]$Chr, BEG=CANDf0.5[[3]][x,]$Beg.Win, END=CANDf0.5[[3]][x,]$End.Win, POP=3)))-> YRI.cand.f0.5
+
+unlist(mclapply(1:nrow(CANDf0.5[[6]]), function(x) SFS.function(CHR=CANDf0.5[[6]][x,]$Chr, BEG=CANDf0.5[[6]][x,]$Beg.Win, END=CANDf0.5[[6]][x,]$End.Win, POP=6)))-> GBR.cand.f0.5
+
+unlist(mclapply(1:nrow(CANDf0.5[[7]]), function(x) SFS.function(CHR=CANDf0.5[[7]][x,]$Chr, BEG=CANDf0.5[[7]][x,]$Beg.Win, END=CANDf0.5[[7]][x,]$End.Win, POP=7)))-> TSI.cand.f0.5
+
+#tf=0.3
+
+
+unlist(mclapply(1:nrow(top829f0.3[[2]]), function(x) SFS.function(CHR=top829f0.3[[2]][x,]$Chr, BEG=top829f0.3[[2]][x,]$Beg.Win, END=top829f0.3[[2]][x,]$End.Win, POP=2)))-> LWK.top.f0.3
+
+unlist(mclapply(1:nrow(top829f0.3[[3]]), function(x) SFS.function(CHR=top829f0.3[[3]][x,]$Chr, BEG=top829f0.3[[3]][x,]$Beg.Win, END=top829f0.3[[3]][x,]$End.Win, POP=3)))-> YRI.top.f0.3
+
+unlist(mclapply(1:nrow(top829f0.3[[6]]), function(x) SFS.function(CHR=top829f0.3[[6]][x,]$Chr, BEG=top829f0.3[[6]][x,]$Beg.Win, END=top829f0.3[[6]][x,]$End.Win, POP=6)))-> GBR.top.f0.3
+
+unlist(mclapply(1:nrow(top829f0.3[[7]]), function(x) SFS.function(CHR=top829f0.3[[7]][x,]$Chr, BEG=top829f0.3[[7]][x,]$Beg.Win, END=top829f0.3[[7]][x,]$End.Win, POP=7)))-> TSI.top.f0.3
+
+#
+
+unlist(mclapply(1:nrow(CANDf0.3[[2]]), function(x) SFS.function(CHR=CANDf0.3[[2]][x,]$Chr, BEG=CANDf0.3[[2]][x,]$Beg.Win, END=CANDf0.3[[2]][x,]$End.Win, POP=2)))-> LWK.cand.f0.3
+
+unlist(mclapply(1:nrow(CANDf0.3[[3]]), function(x) SFS.function(CHR=CANDf0.3[[3]][x,]$Chr, BEG=CANDf0.3[[3]][x,]$Beg.Win, END=CANDf0.3[[3]][x,]$End.Win, POP=3)))-> YRI.cand.f0.3
+
+unlist(mclapply(1:nrow(CANDf0.3[[6]]), function(x) SFS.function(CHR=CANDf0.3[[6]][x,]$Chr, BEG=CANDf0.3[[6]][x,]$Beg.Win, END=CANDf0.3[[6]][x,]$End.Win, POP=6)))-> GBR.cand.f0.3
+
+unlist(mclapply(1:nrow(CANDf0.3[[7]]), function(x) SFS.function(CHR=CANDf0.3[[7]][x,]$Chr, BEG=CANDf0.3[[7]][x,]$Beg.Win, END=CANDf0.3[[7]][x,]$End.Win, POP=7)))-> TSI.cand.f0.3
+
+#tf=0.4
+
+
+
+unlist(mclapply(1:nrow(top829f0.4[[2]]), function(x) SFS.function(CHR=top829f0.4[[2]][x,]$Chr, BEG=top829f0.4[[2]][x,]$Beg.Win, END=top829f0.4[[2]][x,]$End.Win, POP=2)))-> LWK.top.f0.4
+
+unlist(mclapply(1:nrow(top829f0.4[[3]]), function(x) SFS.function(CHR=top829f0.4[[3]][x,]$Chr, BEG=top829f0.4[[3]][x,]$Beg.Win, END=top829f0.4[[3]][x,]$End.Win, POP=3)))-> YRI.top.f0.4
+
+unlist(mclapply(1:nrow(top829f0.4[[6]]), function(x) SFS.function(CHR=top829f0.4[[6]][x,]$Chr, BEG=top829f0.4[[6]][x,]$Beg.Win, END=top829f0.4[[6]][x,]$End.Win, POP=6)))-> GBR.top.f0.4
+
+unlist(mclapply(1:nrow(top829f0.4[[7]]), function(x) SFS.function(CHR=top829f0.4[[7]][x,]$Chr, BEG=top829f0.4[[7]][x,]$Beg.Win, END=top829f0.4[[7]][x,]$End.Win, POP=7)))-> TSI.top.f0.4
+
+#
+
+unlist(mclapply(1:nrow(CANDf0.4[[2]]), function(x) SFS.function(CHR=CANDf0.4[[2]][x,]$Chr, BEG=CANDf0.4[[2]][x,]$Beg.Win, END=CANDf0.4[[2]][x,]$End.Win, POP=2)))-> LWK.cand.f0.4
+
+unlist(mclapply(1:nrow(CANDf0.4[[3]]), function(x) SFS.function(CHR=CANDf0.4[[3]][x,]$Chr, BEG=CANDf0.4[[3]][x,]$Beg.Win, END=CANDf0.4[[3]][x,]$End.Win, POP=3)))-> YRI.cand.f0.4
+
+unlist(mclapply(1:nrow(CANDf0.4[[6]]), function(x) SFS.function(CHR=CANDf0.4[[6]][x,]$Chr, BEG=CANDf0.4[[6]][x,]$Beg.Win, END=CANDf0.4[[6]][x,]$End.Win, POP=6)))-> GBR.cand.f0.4
+
+unlist(mclapply(1:nrow(CANDf0.4[[7]]), function(x) SFS.function(CHR=CANDf0.4[[7]][x,]$Chr, BEG=CANDf0.4[[7]][x,]$Beg.Win, END=CANDf0.4[[7]][x,]$End.Win, POP=7)))-> TSI.cand.f0.4
+
+
+
+#now neutral
+filter(list.SCAN[[2]], Chr %in% c(21,22))-> chrs22_21
+setDT(chrs22_21)
+
+system.time(unlist(mclapply(1:nrow(chrs22_21), function(x) try(SFS.function(CHR=chrs22_21$Chr[x], BEG=chrs22_21$Beg.Win[x], END=chrs22_21$End.Win[x], POP=2))))-> genomicSFS) # 2004.006
+
+genomicSFS[-(which(genomicSFS=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
+
+as.numeric(test)-> genomic.SFS
+
+
+Store(genomic.SFS);Store(LWK.top.f0.5, LWK.top.f0.3, LWK.top.f0.4)
+Store(YRI.top.f0.5, YRI.top.f0.3, YRI.top.f0.4, GBR.top.f0.5, GBR.top.f0.4, GBR.top.f0.3, TSI.top.f0.5, TSI.top.f0.4, TSI.top.f0.3)
+Store(YRI.cand.f0.5, YRI.cand.f0.3, YRI.cand.f0.4, GBR.cand.f0.5, GBR.cand.f0.4, GBR.cand.f0.3, TSI.cand.f0.5, TSI.cand.f0.4, TSI.cand.f0.3, LWK.cand.f0.5, LWK.cand.f0.4, LWK.cand.f0.3)
+ 
+
+#TO DO: SFS FOR THE OTHER # POPS.
+
+
+filter(list.SCAN[[3]], Chr %in% c(21,22))-> chrs22_21.YRI
+
+setDT(chrs22_21.YRI)
+
+system.time(unlist(mclapply(1:nrow(chrs22_21.YRI), function(x) try(SFS.function(CHR=chrs22_21.YRI$Chr[x], BEG=chrs22_21.YRI$Beg.Win[x], END=chrs22_21.YRI$End.Win[x], POP=3))))-> genomicSFS.YRI) # 
+
+genomicSFS.YRI[-(which(genomicSFS.YRI=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
+
+as.numeric(test)-> genomic.SFS.YRI
+
+
+
+filter(list.SCAN[[6]], Chr %in% c(21,22))-> chrs22_21.GBR
+
+setDT(chrs22_21.GBR)
+
+system.time(unlist(mclapply(1:nrow(chrs22_21.GBR), function(x) try(SFS.function(CHR=chrs22_21.GBR$Chr[x], BEG=chrs22_21.GBR$Beg.Win[x], END=chrs22_21.GBR$End.Win[x], POP=6))))-> genomicSFS.GBR) # 
+
+genomicSFS.GBR[-(which(genomicSFS.GBR=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
+
+as.numeric(test)-> genomic.SFS.GBR
+
+
+
+filter(list.SCAN[[7]], Chr %in% c(21,22))-> chrs22_21.TSI
+
+setDT(chrs22_21.TSI)
+
+system.time(unlist(mclapply(1:nrow(chrs22_21.TSI), function(x) try(SFS.function(CHR=chrs22_21.TSI$Chr[x], BEG=chrs22_21.TSI$Beg.Win[x], END=chrs22_21.TSI$End.Win[x], POP=7))))-> genomicSFS.TSI) # 
+
+genomicSFS.TSI[-(which(genomicSFS.TSI=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
+
+as.numeric(test)-> genomic.SFS.TSI
+#actual plots
+library(lattice)
+
+pdf('figures/SFS.LWK.pdf')
+par(mfrow=c(1,7))
+histogram(genomicSFS[genomicSFS != 0 & genomicSFS !=100], col='lightgray', main='Neutral', xlab='DAF', breaks=seq(from=1,to=99,by=2)) #LWK
+histogram(LWK.cand.f0.5[LWK.cand.f0.5 != 0 & LWK.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(LWK.top.f0.5[LWK.top.f0.5 != 0 & LWK.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(LWK.cand.f0.4[LWK.cand.f0.4 != 0 & LWK.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(LWK.top.f0.4[LWK.top.f0.4 != 0 & LWK.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(LWK.cand.f0.3[LWK.cand.f0.3 != 0 & LWK.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(LWK.top.f0.3[LWK.top.f0.3 != 0 & LWK.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+dev.off()
+
+#
+pdf('figures/SFS.YRI.pdf')
+par(mfrow=c(1,7))
+histogram(genomicSFS[genomicSFS != 0 & genomicSFS !=100], col='lightgray', main='Neutral', xlab='DAF', breaks=seq(from=1,to=99,by=2))  #LWK
+histogram(YRI.cand.f0.5[YRI.cand.f0.5 != 0 & YRI.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(YRI.top.f0.5[YRI.top.f0.5 != 0 & YRI.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(YRI.cand.f0.4[YRI.cand.f0.4 != 0 & YRI.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(YRI.top.f0.4[YRI.top.f0.4 != 0 & YRI.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(YRI.cand.f0.3[YRI.cand.f0.3 != 0 & YRI.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(YRI.top.f0.3[YRI.top.f0.3 != 0 & YRI.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+dev.off()
+
+#
+
+pdf('figures/SFS.GBR.pdf')
+par(mfrow=c(1,7))
+histogram(genomicSFS[genomicSFS != 0 & genomicSFS !=100], col='lightgray', main='Neutral', xlab='DAF', breaks=seq(from=1,to=99,by=2)) #LWK
+histogram(GBR.cand.f0.5[GBR.cand.f0.5 != 0 & GBR.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(GBR.top.f0.5[GBR.top.f0.5 != 0 & GBR.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(GBR.cand.f0.4[GBR.cand.f0.4 != 0 & GBR.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(GBR.top.f0.4[GBR.top.f0.4 != 0 & GBR.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(GBR.cand.f0.3[GBR.cand.f0.3 != 0 & GBR.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(GBR.top.f0.3[GBR.top.f0.3 != 0 & GBR.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+dev.off()
+
+
+
+pdf('figures/SFS.f0.5.TSI.pdf')
+par(mfrow=c(1,3))
+histogram(genomicSFS[genomicSFS != 0 & genomicSFS !=100], col='lightgray', main='Neutral', xlab='DAF', breaks=seq(from=1,to=99,by=2)) #LWK
+histogram(TSI.cand.f0.5[TSI.cand.f0.5 != 0 & TSI.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(TSI.top.f0.5[TSI.top.f0.5 != 0 & TSI.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+
+histogram(TSI.cand.f0.4[TSI.cand.f0.4 != 0 & TSI.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(TSI.top.f0.4[TSI.top.f0.4 != 0 & TSI.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+histogram(TSI.cand.f0.3[TSI.cand.f0.3 != 0 & TSI.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab='DAF',  breaks=seq(from=1,to=99,by=2))
+histogram(TSI.top.f0.3[TSI.top.f0.3 != 0 & TSI.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab='DAF', breaks=seq(from=1,to=99,by=2))
+
+
+dev.off()
 
 
 
