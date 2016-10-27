@@ -336,6 +336,31 @@ mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.4[[x]], bed2=bed2))-> i
 
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.3[[x]], bed2=bed2))-> intersect.CANDf0.3
 
+
+mclapply(merge.CANDf0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.CANDf0.5
+
+
+mclapply(merge.CANDf0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.CANDf0.4
+
+mclapply(merge.CANDf0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.CANDf0.3
+
+mclapply(merge.top829f0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.top829f0.5
+mclapply(merge.top829f0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.top829f0.4
+mclapply(merge.top829f0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.top829f0.3
+
+
+
+mclapply(intersect.CANDf0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.CANDf0.5
+
+
+mclapply(intersect.CANDf0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.CANDf0.4
+
+mclapply(intersect.CANDf0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.CANDf0.3
+
+mclapply(intersect.top829f0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.top829f0.5
+mclapply(intersect.top829f0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.top829f0.4
+mclapply(intersect.top829f0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.top829f0.3
+
 Store(merge.CANDf0.5, merge.CANDf0.4, merge.CANDf0.3)
 Store(intersect.CANDf0.5, intersect.CANDf0.4, intersect.CANDf0.3)
 Store(merge.top829f0.5, merge.top829f0.4, merge.top829f0.3)

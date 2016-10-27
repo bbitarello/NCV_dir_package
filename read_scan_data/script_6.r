@@ -69,7 +69,7 @@ cat('Finished', pops[i], '\n')
 
 #plots SFS
 
- source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/SFS_script.r')
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/SFS_script.r')
 
 
 #tf=0.5
@@ -184,11 +184,13 @@ filter(list.SCAN[[7]], Chr %in% c(21,22))-> chrs22_21.TSI
 
 setDT(chrs22_21.TSI)
 
-system.time(unlist(mclapply(1:nrow(chrs22_21.TSI), function(x) try(SFS.function(CHR=chrs22_21.TSI$Chr[x], BEG=chrs22_21.TSI$Beg.Win[x], END=chrs22_21.TSI$End.Win[x], POP=7))))-> genomicSFS.TSI) # 
+system.time(unlist(mclapply(1:nrow(chrs22_21.TSI), function(x) try(SFS.function(CHR=chrs22_21.TSI$Chr[x], BEG=chrs22_21.TSI$Beg.Win[x], END=chrs22_21.TSI$End.Win[x], POP=7))))-> genomicSFS.TSI) # 2060.752
 
 genomicSFS.TSI[-(which(genomicSFS.TSI=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
 
 as.numeric(test)-> genomic.SFS.TSI
+
+
 #actual plots
 library(lattice)
 
@@ -255,104 +257,148 @@ histogram(TSI.top.f0.3[TSI.top.f0.3 != 0 & TSI.top.f0.3 !=100], col='violetred1'
 dev.off()
 
 
+Store(genomicSFS, genomicSFS.GBR, genomicSFS.TSI, genomic.SFS.YRI)
 
-#add Min.NCD.tf collun (which tf yields lowest NCD value)
+##############
+#write bed files
 
-
-
-test.col<-vector('list', 7)
-for(i in 1:7){
-mclapply(1:nrow(Union.CANDf0.5_0.4_0.3[[i]]),  function(y) colnames(select(Union.CANDf0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val))[which(sapply(1:3, function(x) select(Union.CANDf0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val)[,x] ==min(select(Union.CANDf0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val))))])-> test.col[[i]]
-which(unlist(lapply(test.col[[i]], function(x) length(x)==2)))-> repl2
-for(j in 1: length(repl2)){
-paste0(test.col[[i]][[repl2[j]]][1], "|", test.col[[i]][[repl2[j]]][2])-> test.col[[i]][[repl2[j]]]}
-which(unlist(lapply(test.col[[i]], function(x) length(x)==3)))-> repl3
-if(length(repl3)>=1){
-for(j in 1: length(repl3)){
-paste0(test.col[[i]][[repl3[j]]][1], "|", test.col[[i]][[repl3[j]]][2])-> test.col[[i]][[repl3[j]]]}}
-which(unlist(lapply(test.col[[i]], function(x) length(x)==4)))-> repl4
-if(length(repl4)>=1){
-for(j in 1: length(repl4)){
-paste0(test.col[[i]][[repl4[j]]][1], "|", test.col[[i]][[repl4[j]]][2])-> test.col[[i]][[repl4[j]]]}}
-which(unlist(lapply(test.col[[i]], function(x) length(x)==5)))-> repl5
-if(length(repl5)>=1){
-for(j in 1: length(repl5)){
-paste0(test.col[[i]][[repl5[j]]][1], "|", test.col[[i]][[repl5[j]]][2])-> test.col[[i]][[repl5[j]]]}}
-cat('Done with', pops[i],'\n')
-}
-
-test.col2<-vector('list', 7)
-for(i in 1:7){
-mclapply(1:nrow(Union.top0.5_0.4_0.3[[i]]),  function(y) colnames(select(Union.top0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val))[which(sapply(1:3, function(x) select(Union.top0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val)[,x] ==min(select(Union.top0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val))))])-> test.col2[[i]]
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==2)))-> repl2
-for(j in 1: length(repl2)){
-paste0(test.col2[[i]][[repl2[j]]][1], "|", test.col2[[i]][[repl2[j]]][2])-> test.col2[[i]][[repl2[j]]]}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==3)))-> repl3
-if(length(repl3)>=1){
-for(j in 1: length(repl3)){
-paste0(test.col2[[i]][[repl3[j]]][1], "|", test.col2[[i]][[repl3[j]]][2])-> test.col2[[i]][[repl3[j]]]}}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==4)))-> repl4
-if(length(repl4)>=1){
-for(j in 1: length(repl4)){
-paste0(test.col2[[i]][[repl4[j]]][1], "|", test.col2[[i]][[repl4[j]]][2])-> test.col2[[i]][[repl4[j]]]}}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==5)))-> repl5
-if(length(repl5)>=1){
-for(j in 1: length(repl5)){
-paste0(test.col[[i]][[repl2[j]]][1], "|", test.col[[i]][[repl2[j]]][2])-> test.col[[i]][[repl2[j]]]}
-which(unlist(lapply(test.col[[i]], function(x) length(x)==3)))-> repl3
-if(length(repl3)>=1){
-for(j in 1: length(repl3)){
-paste0(test.col[[i]][[repl3[j]]][1], "|", test.col[[i]][[repl3[j]]][2])-> test.col[[i]][[repl3[j]]]}}
-which(unlist(lapply(test.col[[i]], function(x) length(x)==4)))-> repl4
-if(length(repl4)>=1){
-for(j in 1: length(repl4)){
-paste0(test.col[[i]][[repl4[j]]][1], "|", test.col[[i]][[repl4[j]]][2])-> test.col[[i]][[repl4[j]]]}}
-which(unlist(lapply(test.col[[i]], function(x) length(x)==5)))-> repl5
-if(length(repl5)>=1){
-for(j in 1: length(repl5)){
-paste0(test.col[[i]][[repl5[j]]][1], "|", test.col[[i]][[repl5[j]]][2])-> test.col[[i]][[repl5[j]]]}}
-}
-
-test.col2<-vector('list', 7)
-for(i in 1:7){
-mclapply(1:nrow(Union.top0.5_0.4_0.3[[i]]),  function(y) colnames(select(Union.top0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val))[which(sapply(1:3, function(x) select(Union.top0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val)[,x] ==min(select(Union.top0.5_0.4_0.3[[i]][y,], Z.f0.5.P.val:Z.f0.3.P.val))))])-> test.col2[[i]]
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==2)))-> repl2
-for(j in 1: length(repl2)){
-paste0(test.col2[[i]][[repl2[j]]][1], "|", test.col2[[i]][[repl2[j]]][2])-> test.col2[[i]][[repl2[j]]]}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==3)))-> repl3
-if(length(repl3)>=1){
-for(j in 1: length(repl3)){
-paste0(test.col2[[i]][[repl3[j]]][1], "|", test.col2[[i]][[repl3[j]]][2])-> test.col2[[i]][[repl3[j]]]}}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==4)))-> repl4
-if(length(repl4)>=1){
-for(j in 1: length(repl4)){
-paste0(test.col2[[i]][[repl4[j]]][1], "|", test.col2[[i]][[repl4[j]]][2])-> test.col2[[i]][[repl4[j]]]}}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==5)))-> repl5
-if(length(repl5)>=1){
-for(j in 1: length(repl5)){
-paste0(test.col2[[i]][[repl4[j]]][1], "|", test.col2[[i]][[repl4[j]]][2])-> test.col2[[i]][[repl4[j]]]}}
-which(unlist(lapply(test.col2[[i]], function(x) length(x)==5)))-> repl5
-if(length(repl5)>=1){
-for(j in 1: length(repl5)){
-paste0(test.col2[[i]][[repl5[j]]][1], "|", test.col2[[i]][[repl5[j]]][2])-> test.col2[[i]][[repl5[j]]]}}
-}
-
-Store(test.col, test.col2)
-
-mclapply(1:7, function(x) gsub(".P.val","", gsub("Z.f", "", unlist(test.col[[x]]))))-> extra.col
-
-mclapply(1:7, function(x) gsub(".P.val","", gsub("Z.f", "", unlist(test.col2[[x]]))))-> extra.col.top
+BED.PATH<-'/mnt/sequencedb/PopGen/barbara/NCV_dir_package/read_scan_data/bedfiles/'
 
 
-rbind(table(as.numeric(extra.col[[1]])), table(as.numeric(extra.col[[2]])), table(as.numeric(extra.col[[3]])), table(as.numeric(extra.col[[4]])), table(as.numeric(extra.col[[5]])), table(as.numeric(extra.col[[6]])), table(as.numeric(extra.col[[7]])))
+write.table(select(Union.CANDf0.5_0.4_0.3[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.CANDf0.5_0.4_0.3_YRI.bed"), quote=F, sep="\t", col.names=F, row.names=F) 
 
-for (i in 1:7){
+write.table(select(Union.CANDf0.5_0.4_0.3[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.CANDf0.5_0.4_0.3_LWK.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
-cbind(Union.CANDf0.5_0.4_0.3[[i]], Min.ZPval.Feq=extra.col[[i]])-> Union.CANDf0.5_0.4_0.3[[i]]
-cbind(Union.top0.5_0.4_0.3[[i]],  Min.ZPval.Feq=extra.col.top[[i]])-> Union.top0.5_0.4_0.3[[i]]}
+write.table(select(Union.CANDf0.5_0.4_0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.CANDf0.5_0.4_0.3_GBR.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
-
-Store(Union.CANDf0.5_0.4_0.3)
-Store(Union.top0.5_0.4_0.4)
+write.table(select(Union.CANDf0.5_0.4_0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.CANDf0.5_0.4_0.3_TSI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
 
+
+
+write.table(select(Union.top0.5_0.4_0.3[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_YRI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(Union.top0.5_0.4_0.3[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_LWK.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(Union.top0.5_0.4_0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_GBR.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(Union.top0.5_0.4_0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1),  file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_TSI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+
+write.table(select(top829f0.5[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.5.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.5[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.5.', pops[3], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.5[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.5.', pops[6], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.5[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.5.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+write.table(select(top829f0.4[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.4.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.4[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.4.', pops[3], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.4[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.4.', pops[6], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.4[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.4.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+write.table(select(top829f0.3[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.3.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.3[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.3.', pops[3], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.3.', pops[6], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(top829f0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.3.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+#
+
+write.table(select(CANDf0.5[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.5.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.5[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.5.', pops[3], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.5[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.5.', pops[6], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.5[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.5.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+write.table(select(CANDf0.4[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.4.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.4[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.4.', pops[3], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.4[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.4.', pops[6], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.4[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.4.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+write.table(select(CANDf0.3[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.3.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.3[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.3.', pops[3], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.3.', pops[6], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+write.table(select(CANDf0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.3.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+
+
+
+
+
+
+write.table(select(list.SCAN[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'background_windows.bed'), quote=F, sep="\t", col.names=F, row.names=F)
+
+
+####Scanned windows annotation ####
+
+
+#sort ensembl bed file
+
+read.table('/mnt/sequencedb/PopGen/barbara/scan_may_2014/final_encode.bed')-> bed2
+
+gsub("chr", "", bed2$V1)-> bed2$V1
+
+arrange(bed2, V1, V2, V3)-> bed2
+
+paste0("chr", bed2$V1)-> bed2$V1
+
+#background windows
+
+gsub("chr", "", list.SCAN[[2]]$Chr)-> list.SCAN[[2]]$Chr
+
+arrange(list.SCAN[[2]], Chr, Beg.Win, End.Win)-> bed1
+
+paste0("chr", bed1$Chr)-> bed1$Chr
+
+
+setDT(bed1)
+
+
+
+
+#this session below needs refinement...i mention proportion fo windows overlapping something, but these 'windows' are actually merged windows from the merge and then intersect sessions...need to find a way to make this clearer.
+
+
+bedTools.merge(bed1=bed1)-> merge.scanned.windows
+
+setDT(merge.scanned.windows)
+
+system.time(bedTools.2in(bed1=merge.scanned.windows, bed2=bed2)-> intersect.scanned.windows)
+
+setDT(intersect.scanned.windows)
+
+with(intersect.scanned.windows, cbind(intersect.scanned.windows, Win.ID=paste0(V1,"|", V2, "|", V3)))-> intersect.scanned.windows
+
+length(unique(sort(filter(intersect.scanned.windows, V10=="protein_coding")$V7))) #18,633 genes scanned
+
+length(unique(intersect.scanned.windows$Win.ID)) #all the windows that overlapped a 'coding' element (GENCODE) # 986009, which menas that 986009/1657989=0.5947018 of the widnows do that, and around 40% don't, whcih is what we had before.
+
+length(unique(filter(intersect.scanned.windows, V38=="protein_coding")$V16))  # 798335, which means that  798335/1657989=0.481508 (48%) overlap a protein-coding gene.
+
+
+length(unique(filter(intersect.scanned.windows, V38=="protein_coding")$V35))/length(unique(intersect.scanned.windows$V35)) # 38% of background windows overlap protein_coding genes
+
+mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.top829f0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(intersect.top829f0.5[[x]]$Win.ID))) #for the top windows, around 70% overap prot coding genes
+
+mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.CANDf0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(intersect.CANDf0.5[[x]]$Win.ID))) #and around 75% of the candidte windows
