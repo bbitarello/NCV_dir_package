@@ -24,7 +24,7 @@ bedTools.2in<-function(functionstring="bedtools intersect -wo",bed1,bed2,opt.str
  
 
 
-bedTools.merge<-function(functionstring="mergeBed",bed1, opt.string="")
+bedTools.merge<-function(functionstring="mergeBed",bed1, opt.string="-c 4 -o collapse")
 {
 
 a.file=tempfile(pattern = "", fileext = ".bed")

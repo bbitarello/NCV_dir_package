@@ -18,6 +18,8 @@ library(data.table)
 
 #this below I took from candidates_script_v2.r #stopped here 10.10.2016
 
+pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
+
 ############################################## Part I #############################################
 #This part is where I added info into the object list.SCAN. At the end of this part I stores this object, so 
 #it can be skipped (go to 'Part II')
@@ -170,7 +172,7 @@ unlist(mclapply(CANDf0.5, function(x) nrow(x)))
 #AWS  LWK  YRI  CEU  FIN  GBR  TSI 
 #6088 6226 6854 6540 6074 6519 6403 
 
-unlsit(mclapply(CANDf0.4, function(x) nrow(x)))
+unlist(mclapply(CANDf0.4, function(x) nrow(x)))
 
 #AWS  LWK  YRI  CEU  FIN  GBR  TSI 
 #6596 6841 7420 6859 6587 6858 6661
@@ -194,14 +196,17 @@ Store(CANDf0.5); Store(CANDf0.4); Store(CANDf0.3); Store(CANDf0.2); Store(CANDf0
 nrow(list.SCAN[[3]])*0.0005
 #[1] 828.9945
 
-top829f0.5<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.5.P.val)[1:829,]) #top 829 windows ranked by feq=0.5
-top829f0.4<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.4.P.val)[1:829,]) #top 829 windows ranked by feq=0.4
-top829f0.3<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.3.P.val)[1:829,]) #top 829 windows ranked by feq=0.3
-top829f0.2<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.2.P.val)[1:829,]) #top 829 windows ranked by feq=0.2
-top829f0.1<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.1.P.val)[1:829,]) #top 829 windows ranked by feq=0.1
+top829f0.5<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.5.P.val)[1:829,]) #top 829 windows ranked by tf=0.5
+top829f0.4<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.4.P.val)[1:829,]) #top 829 windows ranked by tf=0.4
+top829f0.3<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.3.P.val)[1:829,]) #top 829 windows ranked by tf=0.3
+top829f0.2<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.2.P.val)[1:829,]) #top 829 windows ranked by tf=0.2
+top829f0.1<-mclapply(list.SCAN, function(x) arrange(x, Z.f0.1.P.val)[1:829,]) #top 829 windows ranked by tf=0.1
 
 gc()
 
+unlist(mclapply(top829f0.3, function(x) nrow(x)))
+unlist(mclapply(top829f0.4, function(x) nrow(x)))
+unlist(mclapply(top829f0.5, function(x) nrow(x)))
 
 
 save(top829f0.5, file='top829f0.5.RData')
@@ -253,16 +258,13 @@ paste0("chr", bed2$V1)-> bed2$V1
 
 mclapply(top829f0.5, function(x) arrange(x, Chr, Beg.Win))-> top829f0.5
 
-
 mclapply(top829f0.4, function(x) arrange(x, Chr, Beg.Win))-> top829f0.4
 
 mclapply(top829f0.3, function(x) arrange(x, Chr, Beg.Win))-> top829f0.3
 
-
-
+#
 
 mclapply(CANDf0.5, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.5
-
 
 mclapply(CANDf0.4, function(x) arrange(x, Chr, Beg.Win))-> CANDf0.4
 
@@ -273,21 +275,21 @@ for(i in 1:7){
 
 with(top829f0.5[[i]], paste0("chr", Chr))-> top829f0.5[[i]]$Chr}
 
-mclapply(1:7, function(x) bedTools.merge(bed1=top829f0.5[[x]]))-> merge.top829f0.5
+mclapply(1:7, function(x) bedTools.merge(bed1=select(top829f0.5[[x]], Chr, Beg.Win, End.Win, Win.ID)))-> merge.top829f0.5
 
 
 for(i in 1:7){
 
 with(CANDf0.5[[i]], paste0("chr", Chr))-> CANDf0.5[[i]]$Chr}
 
-mclapply(1:7, function(x) bedTools.merge(bed1=CANDf0.5[[x]]))-> merge.CANDf0.5
+mclapply(1:7, function(x) bedTools.merge(bed1=select(CANDf0.5[[x]],Chr, Beg.Win, End.Win, Win.ID)))-> merge.CANDf0.5
 
 
 for(i in 1:7){
 
 with(top829f0.4[[i]], paste0("chr", Chr))-> top829f0.4[[i]]$Chr}
 
-mclapply(1:7, function(x) bedTools.merge(bed1=top829f0.4[[x]]))-> merge.top829f0.4
+mclapply(1:7, function(x) bedTools.merge(bed1=select(top829f0.4[[x]],Chr, Beg.Win, End.Win, Win.ID)))-> merge.top829f0.4
 
 
 
@@ -295,7 +297,7 @@ for(i in 1:7){
 
 with(CANDf0.4[[i]], paste0("chr", Chr))-> CANDf0.4[[i]]$Chr}
 
-mclapply(1:7, function(x) bedTools.merge(bed1=CANDf0.4[[x]]))-> merge.CANDf0.4
+mclapply(1:7, function(x) bedTools.merge(bed1=select(CANDf0.4[[x]],Chr, Beg.Win, End.Win, Win.ID)))-> merge.CANDf0.4
 
 
 
@@ -304,14 +306,14 @@ for(i in 1:7){
 
 with(top829f0.3[[i]], paste0("chr", Chr))-> top829f0.3[[i]]$Chr}
 
-mclapply(1:7, function(x) bedTools.merge(bed1=top829f0.3[[x]]))-> merge.top829f0.3
+mclapply(1:7, function(x) bedTools.merge(bed1=select(top829f0.3[[x]], Chr, Beg.Win, End.Win, Win.ID)))-> merge.top829f0.3
 
 
 for(i in 1:7){
 
 with(CANDf0.3[[i]], paste0("chr", Chr))-> CANDf0.3[[i]]$Chr}
 
-mclapply(1:7, function(x) bedTools.merge(bed1=CANDf0.3[[x]]))-> merge.CANDf0.3
+mclapply(1:7, function(x) bedTools.merge(bed1=select(CANDf0.3[[x]], Chr, Beg.Win, End.Win, Win.ID)))-> merge.CANDf0.3
 
 ####### MERGE ####### MERGE ######## MERGE #############
 
@@ -319,47 +321,16 @@ mclapply(1:7, function(x) bedTools.merge(bed1=CANDf0.3[[x]]))-> merge.CANDf0.3
 #### INTERSECT ##### INTERSECT ##### INTERSECT ########
 
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.top829f0.5[[x]], bed2=bed2))-> intersect.top829f0.5
-
-
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.top829f0.4[[x]], bed2=bed2))-> intersect.top829f0.4
-
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.top829f0.3[[x]], bed2=bed2))-> intersect.top829f0.3
 
 
 
-
-
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.5[[x]], bed2=bed2))-> intersect.CANDf0.5
-
-
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.4[[x]], bed2=bed2))-> intersect.CANDf0.4
-
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.3[[x]], bed2=bed2))-> intersect.CANDf0.3
 
-
-mclapply(merge.CANDf0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.CANDf0.5
-
-
-mclapply(merge.CANDf0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.CANDf0.4
-
-mclapply(merge.CANDf0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.CANDf0.3
-
-mclapply(merge.top829f0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.top829f0.5
-mclapply(merge.top829f0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.top829f0.4
-mclapply(merge.top829f0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> merge.top829f0.3
-
-
-
-mclapply(intersect.CANDf0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.CANDf0.5
-
-
-mclapply(intersect.CANDf0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.CANDf0.4
-
-mclapply(intersect.CANDf0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.CANDf0.3
-
-mclapply(intersect.top829f0.5, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.top829f0.5
-mclapply(intersect.top829f0.4, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.top829f0.4
-mclapply(intersect.top829f0.3, function(x) with(x, cbind(x,Win.ID=paste0(V1, '|', V2, "|", V3))))-> intersect.top829f0.3
+#i guess i dont need this anymore
 
 Store(merge.CANDf0.5, merge.CANDf0.4, merge.CANDf0.3)
 Store(intersect.CANDf0.5, intersect.CANDf0.4, intersect.CANDf0.3)

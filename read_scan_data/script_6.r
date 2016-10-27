@@ -384,21 +384,25 @@ bedTools.merge(bed1=bed1)-> merge.scanned.windows
 
 setDT(merge.scanned.windows)
 
-system.time(bedTools.2in(bed1=merge.scanned.windows, bed2=bed2)-> intersect.scanned.windows)
+with(merge.scanned.windows, cbind(merge.scanned.windows, Win.ID=paste0(V1,"|", V2, "|", V3)))-> merge.scanned.windows
+
+length(unique(sort(merge.scanned.windows$Win.ID)))  #14,195 merged windows in the scan
+
+system.time(bedTools.2in(bed1=merge.scanned.windows, bed2=bed2)-> intersect.scanned.windows) #64.045
 
 setDT(intersect.scanned.windows)
 
-with(intersect.scanned.windows, cbind(intersect.scanned.windows, Win.ID=paste0(V1,"|", V2, "|", V3)))-> intersect.scanned.windows
+#stopped here 27.10
+length(unique(sort(intersect.scanned.windows$V8))) #48,254 number of 'coding elements' scanned
 
-length(unique(sort(filter(intersect.scanned.windows, V10=="protein_coding")$V7))) #18,633 genes scanned
+length(unique(sort(filter(intersect.scanned.windows, V11=="protein_coding")$V8))) #18,633 genes scanned
 
-length(unique(intersect.scanned.windows$Win.ID)) #all the windows that overlapped a 'coding' element (GENCODE) # 986009, which menas that 986009/1657989=0.5947018 of the widnows do that, and around 40% don't, whcih is what we had before.
+length(unique(intersect.scanned.windows$V4)) #number of merged windows overlapping coding elements 1,670, i,em 11670/14195=82% of the merged windows
 
-length(unique(filter(intersect.scanned.windows, V38=="protein_coding")$V16))  # 798335, which means that  798335/1657989=0.481508 (48%) overlap a protein-coding gene.
+length(unique(sort(filter(intersect.scanned.windows, V11=="protein_coding")$V4)))  #8514 number of merged windows scanning a prot. coding gene, i.e, 8514/14195=60%
 
+length(unique(filter(intersect.scanned.windows, V11=="protein_coding")$V4))/length(unique(merge.scanned.windows$Win.ID)) # 60%  of (merged) background windows overlap protein_coding genes
 
-length(unique(filter(intersect.scanned.windows, V38=="protein_coding")$V35))/length(unique(intersect.scanned.windows$V35)) # 38% of background windows overlap protein_coding genes
-
-mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.top829f0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(intersect.top829f0.5[[x]]$Win.ID))) #for the top windows, around 70% overap prot coding genes
+mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.top829f0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(merge.top829f0.5[[x]]$Win.ID))) #for the top windows, around 70% overap prot coding genes
 
 mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.CANDf0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(intersect.CANDf0.5[[x]]$Win.ID))) #and around 75% of the candidte windows
