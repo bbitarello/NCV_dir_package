@@ -276,14 +276,13 @@ write.table(select(Union.CANDf0.5_0.4_0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), 
 
 
 
-write.table(select(Union.top0.5_0.4_0.3[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_YRI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+write.table(select(Union.top0.5_0.4_0.3[[3]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top829.0.5_0.4_0.3_YRI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
-write.table(select(Union.top0.5_0.4_0.3[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_LWK.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+write.table(select(Union.top0.5_0.4_0.3[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top829.0.5_0.4_0.3_LWK.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
-write.table(select(Union.top0.5_0.4_0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_GBR.bed"), quote=F, sep="\t", col.names=F, row.names=F)
+write.table(select(Union.top0.5_0.4_0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,"Union.top829.0.5_0.4_0.3_GBR.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
-write.table(select(Union.top0.5_0.4_0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1),  file=paste0(BED.PATH,"Union.top816.0.5_0.4_0.3_TSI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
-
+write.table(select(Union.top0.5_0.4_0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1),  file=paste0(BED.PATH,"Union.top829.0.5_0.4_0.3_TSI.bed"), quote=F, sep="\t", col.names=F, row.names=F)
 
 
 write.table(select(top829f0.5[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'top829f0.5.', pops[2], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
@@ -340,12 +339,7 @@ write.table(select(CANDf0.3[[6]], Chr, Beg.Win, End.Win, Win.ID), options(scipen
 
 write.table(select(CANDf0.3[[7]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'CANDf0.3.', pops[7], '.bed'), quote=F, sep="\t", col.names=F, row.names=F)
 
-
-
-
-
-
-
+#background windows
 
 write.table(select(list.SCAN[[2]], Chr, Beg.Win, End.Win, Win.ID), options(scipen=1), file=paste0(BED.PATH,'background_windows.bed'), quote=F, sep="\t", col.names=F, row.names=F)
 
@@ -371,6 +365,7 @@ arrange(list.SCAN[[2]], Chr, Beg.Win, End.Win)-> bed1
 
 paste0("chr", bed1$Chr)-> bed1$Chr
 
+select(bed1, Chr, Beg.Win, End.Win, Win.ID)-> bed1
 
 setDT(bed1)
 
@@ -384,11 +379,11 @@ bedTools.merge(bed1=bed1)-> merge.scanned.windows
 
 setDT(merge.scanned.windows)
 
-with(merge.scanned.windows, cbind(merge.scanned.windows, Win.ID=paste0(V1,"|", V2, "|", V3)))-> merge.scanned.windows
+#with(merge.scanned.windows, cbind(merge.scanned.windows, Win.ID=paste0(V1,"|", V2, "|", V3)))-> merge.scanned.windows
 
-length(unique(sort(merge.scanned.windows$Win.ID)))  #14,195 merged windows in the scan
+length(unique(sort(merge.scanned.windows$V4)))  #14,195 merged windows in the scan
 
-system.time(bedTools.2in(bed1=merge.scanned.windows, bed2=bed2)-> intersect.scanned.windows) #64.045
+system.time(bedTools.2in(bed1=merge.scanned.windows, bed2=bed2)-> intersect.scanned.windows) #1699.756 
 
 setDT(intersect.scanned.windows)
 
@@ -401,8 +396,11 @@ length(unique(intersect.scanned.windows$V4)) #number of merged windows overlappi
 
 length(unique(sort(filter(intersect.scanned.windows, V11=="protein_coding")$V4)))  #8514 number of merged windows scanning a prot. coding gene, i.e, 8514/14195=60%
 
-length(unique(filter(intersect.scanned.windows, V11=="protein_coding")$V4))/length(unique(merge.scanned.windows$Win.ID)) # 60%  of (merged) background windows overlap protein_coding genes
+length(unique(filter(intersect.scanned.windows, V11=="protein_coding")$V4))/length(unique(merge.scanned.windows$V4)) # 60%  of (merged) background windows overlap protein_coding genes
 
-mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.top829f0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(merge.top829f0.5[[x]]$Win.ID))) #for the top windows, around 70% overap prot coding genes
+mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.top829f0.5[[x]], V11=="protein_coding")$V4))/length(unique(merge.top829f0.5[[x]]$V4))) #for the top windows, around 37% overap of merged windows overlap prot coding genes
 
-mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.CANDf0.5[[x]], V10=="protein_coding")$Win.ID))/length(unique(intersect.CANDf0.5[[x]]$Win.ID))) #and around 75% of the candidte windows
+mclapply(c(2,3,6,7), function(x) length(unique(filter(intersect.CANDf0.5[[x]], V11=="protein_coding")$V4))/length(unique(intersect.CANDf0.5[[x]]$V4))) #and around 75% of the candidte windows: why this difference??
+
+
+
