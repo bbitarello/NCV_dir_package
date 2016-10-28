@@ -1,0 +1,23 @@
+#########################################################################
+#
+#	Bárbara Bitarello
+#
+#	Description: these are the bedfiles resulting from the NCD scan
+#	Last modified: 26.10.2016
+##########################################################################
+
+#Union..
+These are the files resulting from the union of the significant (simulation-based cutoff) or top829 (outliers, 0.005% lower tail Z score) windows for each tf. The union is of all the significant (or outlier)windows for td=0.3-0.5, per population.
+
+#top829:
+Set of windows defined per tf, per pop, based on an empirical cut-off (lower 0.005% values) of the Z-score empirical distribution.
+
+#cand
+Set of windows defined per tf, per pop, by fullfilling the criteria that none of 10,000 neutral simulations for the same number of IS has lower or equal NCD value than the one observed.
+
+In each file, the columns are: chromosome, beginning of the window, end of the window, ID of the window (Chr|Beg.Win|End.Win))
+
+
+
+
+
