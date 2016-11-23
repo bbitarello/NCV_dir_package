@@ -1,9 +1,8 @@
-############################
-#	Bárbara Bitarello
+##################################
+#	Bárbara D.Bitarello
 #
-#	Last modified: 28.10.2016
-###########################
-
+#	Last modified: 03.11.2016
+##################################
 
 library(parallel)
 library(SOAR)
@@ -18,8 +17,6 @@ library(qqman)
 
 pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
 
-
-
 my.function.improved<-function(B, E, df=LWK.chr, chr=6){
 as.numeric(gsub("chr", "", chr))-> chr
 rbind(filter(df[[chr]], Chr==chr,End.Win > B,End.Win < E), filter(df[[chr]], Chr==chr,Beg.Win > B,Beg.Win < E), filter(df[[chr]], Chr==chr,Beg.Win<B, End.Win>E), filter(df[[chr]], Chr==chr,Beg.Win>B ,End.Win<E))->res
@@ -30,76 +27,168 @@ unique(res)-> res2
 return(res2)
 }
 
+# find.gene - that's literally what it does. But not just protein coding genes.
+#E.g,  to find hla-b, 
+#find.gene(df, chr=6, name='HLA-B')
+find.gene<-function(df=LWK.win,name1="HLA-B"){  #df can be changes for diff pops so that we can check p-value in each population!
+as.numeric(as.character(dplyr::filter(hg19.coding.coords.bed, name %in% name1)$chr))->chr
+which(unlist(mclapply(names.all.coding[[chr]], function(x) strsplit(x, ':', fixed=TRUE)[[1]][[1]]))==name1)->QUERY.POS
+df[[chr]][[QUERY.POS]]-> QUERY.SUBSET
+nrow(QUERY.SUBSET)->n1
+return(list(query_subset=QUERY.SUBSET, query_pos=QUERY.POS, GENE=name1, number_windows=n1))
+}  #currently this gives me correct results for all.coding, but not for the ALL.POPS.AF datasets. I am trying to fix this.
+#
+#
+assign.tf<-function(df){
+nrow(df)-> n
+assigned.tf.per.window<-sapply(1:n, function(x) names(which.min(select(df[x,], Z.f0.5.P.val:Z.f0.3.P.val))))
+min.p.value.per.window<-sapply(1:n, function(x) min(select(df[x,], Z.f0.5.P.val:Z.f0.3.P.val)))
+cbind(assigned.ft=assigned.tf.per.window, min.p.value=min.p.value.per.window)-> res1
+as.numeric(res1[,2])->res1[,2]
+res1[which.min(res1[,2]),1]-> assigned.tf.gene
+as.numeric(res1[which.min(res1[,2]),2])-> assigned.p.val.gene
+return(list(assigned.per.window=res1,assigned.tf.per.gene= assigned.tf.gene, assigned.p.gene=assigned.p.val.gene))
+}
 ####
 ####
+Objects()
 
-names(bed2)<-c('chr', 'beg', 'end','name', 'subtype', 'gene.id', 'type')
-setDT(bed2)
+read.table('/mnt/sequencedb/PopGen/cesare/hg19/bedfiles/ensembl_genes_hg19.bed.gz')->hg19.coding.coords.bed
+names(hg19.coding.coords.bed)<-c('chr', 'beg', 'end','name', 'type')
 
-mclapply(1:22, function(x) subset(bed2, chr==paste0('chr',x)))-> coding.per.chr.list
+#lapply(1:22, function(x) subset(prd.bed, chr==x))-> prot.cod.bed.list
+mclapply(1:22, function(x) setDT(subset(hg19.coding.coords.bed, chr==x)))-> coding.per.chr.list 
 
-list.SCAN[[2]]-> LWK
-setDT(LWK)
+Store(coding.per.chr.list)
+
+mclapply(1:22, function(x) within(coding.per.chr.list[[x]], comp.names<-paste0(name, ":", type))$comp.names)->names.all.coding
+
+Store(names.all.coding)
+
+list.SCAN[[2]]-> LWK;list.SCAN[[3]]-> YRI
+
+list.SCAN[[6]]-> GBR;list.SCAN[[7]]-> TSI
+
+setDT(LWK); setDT(YRI); setDT(GBR); setDT(TSI)
 
 mclapply(1:22, function(x) setDT(filter(LWK, Chr==x)))-> LWK.chr
 
+mclapply(1:22, function(x) setDT(filter(YRI, Chr==x)))-> YRI.chr
+
+mclapply(1:22, function(x) setDT(filter(GBR, Chr==x)))-> GBR.chr
+
+mclapply(1:22, function(x) setDT(filter(TSI, Chr==x)))-> TSI.chr
+
 #test for chr 22:
 
-system.time(mclapply(1:nrow(coding.per.chr.list[[22]]), function(x) my.function.improved(B=coding.per.chr.list[[22]]$beg[x], E=coding.per.chr.list[[22]]$end[x], chr=paste0("chr", 22), df=LWK.chr))-> test)  #1577.720
+system.time(mclapply(1:nrow(coding.per.chr.list[[22]]), function(x) my.function.improved(B=coding.per.chr.list[[22]]$beg[x], E=coding.per.chr.list[[22]]$end[x], chr=paste0("chr", 22), df=LWK.chr))-> test)  #9 seconds!!
 #
-test-> test.22
 
-system.time(mclapply(1:nrow(coding.per.chr.list[[21]]), function(x) my.function.improved(B=coding.per.chr.list[[21]]$beg[x], E=coding.per.chr.list[[21]]$end[x], chr=paste0("chr", 21), df=LWK.chr))-> test.21)  #462.091
+LWK.win<-vector('list', 22)
+YRI.win<-vector('list', 22)
+GBR.win<-vector('list', 22)
+TSI.win<-vector('list', 22)
 
-Store(test.21, test.22)
 
-system.time(mclapply(1:nrow(coding.per.chr.list[[21]]), function(x) my.function.improved(B=coding.per.chr.list[[21]]$beg[x], E=coding.per.chr.list[[21]]$end[x], chr=paste0("chr", 21), df=LWK.chr))-> test.21)  #462.091
-
-testB<-vector('list', 20)
-
-for ( i in 1:20){
-
-system.time(mclapply(1:nrow(coding.per.chr.list[[i]]), function(x) my.function.improved(B=coding.per.chr.list[[i]]$beg[x], E=coding.per.chr.list[[i]]$end[x], chr=paste0("chr", i), df=LWK.chr))-> testB[[i]])
-
+system.time(for ( i in 1:22){
+mclapply(1:nrow(coding.per.chr.list[[i]]), function(x) my.function.improved(B=coding.per.chr.list[[i]]$beg[x], E=coding.per.chr.list[[i]]$end[x], chr=paste0("chr", i), df=LWK.chr))-> LWK.win[[i]]
+gc()
+mclapply(1:nrow(coding.per.chr.list[[i]]), function(x) my.function.improved(B=coding.per.chr.list[[i]]$beg[x], E=coding.per.chr.list[[i]]$end[x], chr=paste0("chr", i), df=YRI.chr))-> YRI.win[[i]]
+gc()
+mclapply(1:nrow(coding.per.chr.list[[i]]), function(x) my.function.improved(B=coding.per.chr.list[[i]]$beg[x], E=coding.per.chr.list[[i]]$end[x], chr=paste0("chr", i), df=GBR.chr))-> GBR.win[[i]]
+gc()
+mclapply(1:nrow(coding.per.chr.list[[i]]), function(x) my.function.improved(B=coding.per.chr.list[[i]]$beg[x], E=coding.per.chr.list[[i]]$end[x], chr=paste0("chr", i), df=TSI.chr))-> TSI.win[[i]]
 gc()
 cat ('chromosome ',i, ' done\n')
+})
 
-} #chrs 17 and 20 failed. need to redo
+gc() #2143.112  great!
 
-system.time(mclapply(1:nrow(coding.per.chr.list[[17]]), function(x) my.function.improved(B=coding.per.chr.list[[17]]$beg[x], E=coding.per.chr.list[[17]]$end[x], chr=paste0("chr",17), df=LWK.chr))-> testB[[17]])
+#stopped here
 
+Objects()
 
-system.time(mclapply(1:nrow(coding.per.chr.list[[20]]), function(x) my.function.improved(B=coding.per.chr.list[[20]]$beg[x], E=coding.per.chr.list[[20]]$end[x], chr=paste0("chr", 20), df=LWK.chr))-> testB[[20]])
+Store(YRI.win, LWK.win, GBR.win, TSI.win)
 
+Objects()
 
+for(i in 1:22){
 
-
-
-
-#manhattan plots g
-
-
-
-mclapply(list.SCAN, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))->tes.manhattan.f0.5
-
-mclapply(tes.manhattan.f0.5, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manhattan.2.f0.5
+names.all.coding[[i]]-> names(LWK.win[[i]])
+names.all.coding[[i]]-> names(YRI.win[[i]])
+names.all.coding[[i]]-> names(GBR.win[[i]])
+names.all.coding[[i]]-> names(TSI.win[[i]])}
 
 
-for (i in 1:7){
-colnames(tes.manhattan.2.f0.5[[i]])[c(1,4,5)]<-c('CHR', 'SNP', 'P')}
-
-
-mclapply(tes.manhattan.2.f0.5, function(x) setDT(arrange(x, SNP)))->tes.manhattan.f0.5
-
-
-top829f0.5<-mclapply(tes.manhattan.f0.5,function(x) head(x,829))
-
-mclapply(top829f0.5, function(x) arrange(x, CHR, Beg.Win))->sort.top829f0.5 
+Store(YRI.win, LWK.win, GBR.win, TSI.win)
 
 
 
-pdf('bedfiles/top829.my.man.test.pdf')
-manhattan(tes.manhattan.f0.5[[3]], 
-highlight=as.character(top829f0.5[[3]]$BP),suggestiveline=-log10(0.0001),genomewideline=-log10(0.0005001925))
+#playground
+
+
+system.time(mclapply(1:length(as.character(filter(hg19.coding.coords.bed, type=='protein_coding')$name)), function(x) try(find.gene(name1=as.character(filter(hg19.coding.coords.bed, type=='protein_coding')$name)[x])))-> test)
+
+mclapply(test, function(x) try(assign.tf(x$query_subset)))-> test.2
+
+#########################################################################################################################
+#manhattan plots
+source('../scripts/my.man.R')
+#mclapply(Union.top0.5_0.4_0.3, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))->tes.manhattan.union
+
+mclapply(top829f0.5, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))-> tes.manha.f0.5.top
+mclapply(CANDf0.5, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))->  tes.manha.f0.5.cand
+#mclapply(tes.manhattan.union, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manhattan.2.union
+
+
+mclapply(tes.manha.f0.5.top, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manha.f0.5.2.top
+mclapply(tes.manha.f0.5.cand, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manha.f0.5.2.cand
+
+
+#for(i in 1:7){
+#as.numeric(gsub("chr","", tes.manhattan.2.union[[i]]$Chr))->tes.manhattan.2.union[[i]]$Chr
+
+#colnames(tes.manhattan.2.union[[i]])[c(1,4,5)]<-c('CHR', 'SNP', 'P')}
+
+for(i in 1:7){
+colnames(tes.manha.f0.5.2.top[[i]])[c(1,4,5)]<-c('CHR', 'SNP', 'P')
+colnames(tes.manha.f0.5.2.cand[[i]])[c(1,4,5)]<-c('CHR', 'SNP', 'P')
+}
+
+mclapply(tes.manha.f0.5.2.top, function(x) setDT(arrange(x, P)))-> tes.manha.f0.5.top
+mclapply(tes.manha.f0.5.2.cand, function(x) setDT(arrange(x, P)))-> tes.manha.f0.5.cand
+
+#mclapply(tes.manhattan.2.union, function(x) setDT(arrange(x, P)))->tes.manhattan.union
+
+
+#union.man.top829<-mclapply(tes.manhattan.union,function(x) head(x,829))
+
+
+#mclapply(union.man.top829, function(x) arrange(x, CHR, Beg.Win))->sort.union.man.top829 
+
+mclapply(tes.manha.f0.5.top, function(x) arrange(x, CHR, Beg.Win))->sort.man.top829 
+mclapply(tes.manha.f0.5.cand, function(x) arrange(x, CHR, Beg.Win))->sort.man.cand
+#mclapply(tes.manhattan.union, function(x) arrange(x, CHR, Beg.Win))->sort.tes.manhattan.union
+
+
+
+#now background:
+
+select(list.SCAN[[2]],Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val)-> LWK.bg
+setDT(LWK.bg)
+
+with(LWK.bg, cbind(LWK.bg, BP=(Beg.Win+End.Win)/2))-> LWK.bg
+
+colnames(LWK.bg)[c(1,4,5)]<-c('CHR', 'SNP', 'P')
+
+arrange(LWK.bg, CHR, Beg.Win)-> LWK.bg2
+remove(LWK.bg)
+
+#pdf('bedfiles/Union.top829.my.manhattan.test.pdf') #or 
+png("figures/manhattan.png", width=2000, height=1000, pointsize=18)
+as.numeric(LWK.bg2$CHR)->LWK.bg2$CHR
+my.manhattan(LWK.bg2,highlight=as.character(sort.man.top829[[2]]$SNP),highlight2=as.character(sort.man.cand[[2]]$SNP), suggestiveline=F,genomewideline=F)
+#legend('topright', c("0.05% cutoff","sim-based cutoff"),col=c('violetred1', 'darkorange'), lty=1) #legend does not work
 dev.off()
+
 
