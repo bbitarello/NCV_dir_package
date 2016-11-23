@@ -156,20 +156,17 @@ dev.off()
 
 
 pdf('figures/october.2016.AFRICA.NrIS.NCV.neutral.p0.01.pdf')
-
 plot(c(seq(from=0.12, to=0.45, by=0.01), rep(0.3,196))~seq(1:230), type='n', ylab='NCD', xlab='Number of Informative Sites')
 points(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.5, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.5, prob=0.01))~c(bin.vec1,bin.vec2), col='cornflowerblue', pch=20)
 lines(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.5, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.5, prob=0.01))~c(bin.vec1,bin.vec2), col= 'lightgray', cex=0.2)
-
 points(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.4, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.4, prob=0.01))~c(bin.vec1,bin.vec2), col='sienna1', pch=20)
 lines(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.4, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.4, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
-
 points(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.3, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.3, prob=0.01))~c(bin.vec1,bin.vec2), col='violetred1', pch=20)
 lines(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.3, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.3, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
-
-points(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1,bin.vec2), col='darkolivegreen', pch=20)
-lines(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
-legend('bottomright', c('tf=feq=0.5', 'tf=feq=0.4','tf=feq=0.3', 'tf=feq=0.2'), col=c('cornflowerblue', 'sienna1', 'violetred1', 'darkolivegreen'), pch=20, bty='n')
+#points(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1,bin.vec2), col='darkolivegreen', pch=20)
+#lines(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
+#legend('bottomright', c('tf=feq=0.5', 'tf=feq=0.4','tf=feq=0.3', 'tf=feq=0.2'), col=c('cornflowerblue', 'sienna1', 'violetred1', 'darkolivegreen'), pch=20, bty='n')
+legend('bottomright', c('tf=feq=0.5', 'tf=feq=0.4','tf=feq=0.3'), col=c('cornflowerblue', 'sienna1', 'violetred1'), pch=20, bty='n')
 dev.off()
 
 
@@ -299,16 +296,14 @@ pdf('figures/october.2016.EUROPE.NrIS.NCV.neutral.p0.01.pdf')
 plot(c(seq(from=0.12, to=0.45, by=0.01), rep(0.3,196))~seq(1:230), type='n', ylab='NCV', xlab='Number of Informative Sites')
 points(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.5, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.5, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='cornflowerblue', pch=20)
 lines(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.5, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.5, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col= 'lightgray', cex=0.2)
-
 points(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.4, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.4, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='sienna1', pch=20)
 lines(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.4, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.4, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='lightgray', cex=0.2)
-
 points(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.3, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.3, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='violetred1', pch=20)
 lines(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.3, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.3, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='lightgray', cex=0.2)
-
-points(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='darkolivegreen', pch=20)
-lines(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='lightgray', cex=0.2)
-legend('bottomright', c('feq=0.5', 'feq=0.4','feq=0.3', 'feq=0.2'), col=c('cornflowerblue', 'sienna1', 'violetred1', 'darkolivegreen'), pch=20, bty='n')
+#points(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='darkolivegreen', pch=20)
+#lines(c(unlist(lapply(l.bin.vec1.eu, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2.eu[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1.eu,bin.vec2.eu), col='lightgray', cex=0.2)
+#legend('bottomright', c('feq=0.5', 'feq=0.4','feq=0.3', 'feq=0.2'), col=c('cornflowerblue', 'sienna1', 'violetred1', 'darkolivegreen'), pch=20, bty='n')
+legend('bottomright', c('feq=0.5', 'feq=0.4','feq=0.3'), col=c('cornflowerblue', 'sienna1', 'violetred1'), pch=20, bty='n')
 dev.off()
 
 objName<-'CEU.2'
@@ -423,3 +418,36 @@ Store(list.bin.vec2);Store(list.bin.vec2.eu)
 
 gc()
 ####################################################################################################
+
+#adiitional plot
+X<-AFRICA[[2]]
+
+#3 vectors for the bins
+bin.vec1<-seq(from=1, to=229) #1        #all windows with at least 10 IS
+bin.vec2<-230
+nsims<-10000
+system.time(mclapply(bin.vec1, function(x) subset(X, Nr.IS==x))->list.bin.vec1) #266
+system.time(mclapply(bin.vec2, function(x) subset(X, Nr.IS>=x))-> list.bin.vec2)
+#system.time(mclapply(list.bin.vec1, function(x) x[sample(seq(1:dim(x)[1]), nsims),])-> l.bin.vec1)
+#system.time(mclapply(list.bin.vec2, function(x) x[sample(seq(1:dim(x)[1]),nsims),])-> l.bin.vec2)
+
+
+
+
+pdf('figures/october.2016.AFRICA.NrIS.NCV.neutral.p0.01.ALLBINS.pdf')
+plot(c(seq(from=0.01, to=0.5, by=0.01), rep(0.3,180))~seq(1:230), type='n', ylab='NCD2', xlab='Number of Informative Sites', main='Simulations for Africa (1% quantile)')
+points(c(unlist(lapply(list.bin.vec1, function(x) quantile(x$ncvFD_f0.5, prob=0.01))),quantile(list.bin.vec2[[1]]$ncvFD_f0.5, prob=0.01))~c(bin.vec1,bin.vec2), col='cornflowerblue', pch=20)
+lines(c(unlist(lapply(list.bin.vec1, function(x) quantile(x$ncvFD_f0.5, prob=0.01))),quantile(list.bin.vec2[[1]]$ncvFD_f0.5, prob=0.01))~c(bin.vec1,bin.vec2), col= 'lightgray', cex=0.2)
+points(c(unlist(lapply(list.bin.vec1, function(x) quantile(x$ncvFD_f0.4, prob=0.01))),quantile(list.bin.vec2[[1]]$ncvFD_f0.4, prob=0.01))~c(bin.vec1,bin.vec2), col='sienna1', pch=20)
+lines(c(unlist(lapply(list.bin.vec1, function(x) quantile(x$ncvFD_f0.4, prob=0.01))),quantile(list.bin.vec2[[1]]$ncvFD_f0.4, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
+points(c(unlist(lapply(list.bin.vec1, function(x) quantile(x$ncvFD_f0.3, prob=0.01))),quantile(list.bin.vec2[[1]]$ncvFD_f0.3, prob=0.01))~c(bin.vec1,bin.vec2), col='violetred1', pch=20)
+lines(c(unlist(lapply(list.bin.vec1, function(x) quantile(x$ncvFD_f0.3, prob=0.01))),quantile(list.bin.vec2[[1]]$ncvFD_f0.3, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
+#points(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1,bin.vec2), col='darkolivegreen', pch=20)
+#lines(c(unlist(lapply(l.bin.vec1, function(x) quantile(x$ncvFD_f0.2, prob=0.01))),quantile(l.bin.vec2[[1]]$ncvFD_f0.2, prob=0.01))~c(bin.vec1,bin.vec2), col='lightgray', cex=0.2)
+abline(v=10, col='gray', lty=2)
+legend('bottomright', c('tf=feq=0.5', 'tf=feq=0.4','tf=feq=0.3'), col=c('cornflowerblue', 'sienna1', 'violetred1'), pch=20, bty='n')
+dev.off()
+
+
+
+
