@@ -74,59 +74,70 @@ source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/SFS_script.r')
 #tf=0.5
 
 unlist(mclapply(1:nrow(top829f0.5[[2]]), function(x) SFS.function(CHR=top829f0.5[[2]][x,]$Chr, BEG=top829f0.5[[2]][x,]$Beg.Win, END=top829f0.5[[2]][x,]$End.Win, POP=2)))-> LWK.top.f0.5
+LWK.top.f0.5/100-> LWK.top.f0.5
 
 unlist(mclapply(1:nrow(top829f0.5[[3]]), function(x) SFS.function(CHR=top829f0.5[[3]][x,]$Chr, BEG=top829f0.5[[3]][x,]$Beg.Win, END=top829f0.5[[3]][x,]$End.Win, POP=3)))-> YRI.top.f0.5
+YRI.top.f0.5/100-> YRI.top.f0.5
 
 unlist(mclapply(1:nrow(top829f0.5[[6]]), function(x) SFS.function(CHR=top829f0.5[[6]][x,]$Chr, BEG=top829f0.5[[6]][x,]$Beg.Win, END=top829f0.5[[6]][x,]$End.Win, POP=6)))-> GBR.top.f0.5
+GBRtop.f0.5/100-> GBR.top.f0.5
 
 unlist(mclapply(1:nrow(top829f0.5[[7]]), function(x) SFS.function(CHR=top829f0.5[[7]][x,]$Chr, BEG=top829f0.5[[7]][x,]$Beg.Win, END=top829f0.5[[7]][x,]$End.Win, POP=7)))-> TSI.top.f0.5
-
+TSI.top.f0.5/100-> TSI.top.f0.5
 #
 
 unlist(mclapply(1:nrow(CANDf0.5[[2]]), function(x) SFS.function(CHR=CANDf0.5[[2]][x,]$Chr, BEG=CANDf0.5[[2]][x,]$Beg.Win, END=CANDf0.5[[2]][x,]$End.Win, POP=2)))-> LWK.cand.f0.5
+LWK.cand.f0.5/100->LWK.cand.f0.5
 
 unlist(mclapply(1:nrow(CANDf0.5[[3]]), function(x) SFS.function(CHR=CANDf0.5[[3]][x,]$Chr, BEG=CANDf0.5[[3]][x,]$Beg.Win, END=CANDf0.5[[3]][x,]$End.Win, POP=3)))-> YRI.cand.f0.5
+YRi.cand.f0.5/100->YRI.cand.f0.5
 
 unlist(mclapply(1:nrow(CANDf0.5[[6]]), function(x) SFS.function(CHR=CANDf0.5[[6]][x,]$Chr, BEG=CANDf0.5[[6]][x,]$Beg.Win, END=CANDf0.5[[6]][x,]$End.Win, POP=6)))-> GBR.cand.f0.5
+GBR.cand.f0.5/100->GBR.cand.f0.5
 
 unlist(mclapply(1:nrow(CANDf0.5[[7]]), function(x) SFS.function(CHR=CANDf0.5[[7]][x,]$Chr, BEG=CANDf0.5[[7]][x,]$Beg.Win, END=CANDf0.5[[7]][x,]$End.Win, POP=7)))-> TSI.cand.f0.5
+TSI.cand.f0.5/100->TSI.cand.f0.5
 
 #tf=0.3
 
 
 unlist(mclapply(1:nrow(top829f0.3[[2]]), function(x) SFS.function(CHR=top829f0.3[[2]][x,]$Chr, BEG=top829f0.3[[2]][x,]$Beg.Win, END=top829f0.3[[2]][x,]$End.Win, POP=2)))-> LWK.top.f0.3
-
+LWK.top.f0.3/100->LWK.top.f0.3
 unlist(mclapply(1:nrow(top829f0.3[[3]]), function(x) SFS.function(CHR=top829f0.3[[3]][x,]$Chr, BEG=top829f0.3[[3]][x,]$Beg.Win, END=top829f0.3[[3]][x,]$End.Win, POP=3)))-> YRI.top.f0.3
-
+YRI.top.f0.3/100->YRI.top.f0.3
 unlist(mclapply(1:nrow(top829f0.3[[6]]), function(x) SFS.function(CHR=top829f0.3[[6]][x,]$Chr, BEG=top829f0.3[[6]][x,]$Beg.Win, END=top829f0.3[[6]][x,]$End.Win, POP=6)))-> GBR.top.f0.3
-
+GBR.top.f0.3/100->GBR.top.f0.3
 unlist(mclapply(1:nrow(top829f0.3[[7]]), function(x) SFS.function(CHR=top829f0.3[[7]][x,]$Chr, BEG=top829f0.3[[7]][x,]$Beg.Win, END=top829f0.3[[7]][x,]$End.Win, POP=7)))-> TSI.top.f0.3
+TSI.top.f0.3/100->TSI.top.f0.3
+
 #
 unlist(mclapply(1:nrow(CANDf0.3[[2]]), function(x) SFS.function(CHR=CANDf0.3[[2]][x,]$Chr, BEG=CANDf0.3[[2]][x,]$Beg.Win, END=CANDf0.3[[2]][x,]$End.Win, POP=2)))-> LWK.cand.f0.3
-
+LWK.cand.f0.3/100->LWK.cand.f0.3
 unlist(mclapply(1:nrow(CANDf0.3[[3]]), function(x) SFS.function(CHR=CANDf0.3[[3]][x,]$Chr, BEG=CANDf0.3[[3]][x,]$Beg.Win, END=CANDf0.3[[3]][x,]$End.Win, POP=3)))-> YRI.cand.f0.3
-
+YRI.cand.f0.3/100->YRI.cand.f0.3
 unlist(mclapply(1:nrow(CANDf0.3[[6]]), function(x) SFS.function(CHR=CANDf0.3[[6]][x,]$Chr, BEG=CANDf0.3[[6]][x,]$Beg.Win, END=CANDf0.3[[6]][x,]$End.Win, POP=6)))-> GBR.cand.f0.3
-
+GBR.cand.f0.3/100->GBR.cand.f0.3
 unlist(mclapply(1:nrow(CANDf0.3[[7]]), function(x) SFS.function(CHR=CANDf0.3[[7]][x,]$Chr, BEG=CANDf0.3[[7]][x,]$Beg.Win, END=CANDf0.3[[7]][x,]$End.Win, POP=7)))-> TSI.cand.f0.3
-
+TSI.cand.f0.3/100->TSI.cand.f0.3
 #tf=0.4
 
 unlist(mclapply(1:nrow(top829f0.4[[2]]), function(x) SFS.function(CHR=top829f0.4[[2]][x,]$Chr, BEG=top829f0.4[[2]][x,]$Beg.Win, END=top829f0.4[[2]][x,]$End.Win, POP=2)))-> LWK.top.f0.4
-
+LWK.top.f0.4/100->LWK.top.f0.4
 unlist(mclapply(1:nrow(top829f0.4[[3]]), function(x) SFS.function(CHR=top829f0.4[[3]][x,]$Chr, BEG=top829f0.4[[3]][x,]$Beg.Win, END=top829f0.4[[3]][x,]$End.Win, POP=3)))-> YRI.top.f0.4
-
+YRI.top.f0.4/100->YRI.top.f0.4
 unlist(mclapply(1:nrow(top829f0.4[[6]]), function(x) SFS.function(CHR=top829f0.4[[6]][x,]$Chr, BEG=top829f0.4[[6]][x,]$Beg.Win, END=top829f0.4[[6]][x,]$End.Win, POP=6)))-> GBR.top.f0.4
-
+GBR.top.f0.4/100->GBR.top.f0.4
 unlist(mclapply(1:nrow(top829f0.4[[7]]), function(x) SFS.function(CHR=top829f0.4[[7]][x,]$Chr, BEG=top829f0.4[[7]][x,]$Beg.Win, END=top829f0.4[[7]][x,]$End.Win, POP=7)))-> TSI.top.f0.4
+TSI.top.f0.4/100->TSI.top.f0.4
 #
 unlist(mclapply(1:nrow(CANDf0.4[[2]]), function(x) SFS.function(CHR=CANDf0.4[[2]][x,]$Chr, BEG=CANDf0.4[[2]][x,]$Beg.Win, END=CANDf0.4[[2]][x,]$End.Win, POP=2)))-> LWK.cand.f0.4
-
+LWK.cand.f0.4/100->LWK.cand.f0.4
 unlist(mclapply(1:nrow(CANDf0.4[[3]]), function(x) SFS.function(CHR=CANDf0.4[[3]][x,]$Chr, BEG=CANDf0.4[[3]][x,]$Beg.Win, END=CANDf0.4[[3]][x,]$End.Win, POP=3)))-> YRI.cand.f0.4
-
+YRI.cand.f0.4/100->YRI.cand.f0.4
 unlist(mclapply(1:nrow(CANDf0.4[[6]]), function(x) SFS.function(CHR=CANDf0.4[[6]][x,]$Chr, BEG=CANDf0.4[[6]][x,]$Beg.Win, END=CANDf0.4[[6]][x,]$End.Win, POP=6)))-> GBR.cand.f0.4
-
+GBR.cand.f0.4/100->GBR.cand.f0.4
 unlist(mclapply(1:nrow(CANDf0.4[[7]]), function(x) SFS.function(CHR=CANDf0.4[[7]][x,]$Chr, BEG=CANDf0.4[[7]][x,]$Beg.Win, END=CANDf0.4[[7]][x,]$End.Win, POP=7)))-> TSI.cand.f0.4
+TSI.cand.f0.4/100->TSI.cand.f0.4
 
 
 
@@ -139,6 +150,8 @@ system.time(unlist(mclapply(1:nrow(chrs20_21_22), function(x) try(SFS.function2(
 genomicSFS[-(which(genomicSFS=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
 
 as.numeric(test)-> genomic.SFS
+
+genomic.SFS/100-> genomic.SFS
 
 Store(genomic.SFS);Store(LWK.top.f0.5, LWK.top.f0.3, LWK.top.f0.4)
 Store(YRI.top.f0.5, YRI.top.f0.3, YRI.top.f0.4, GBR.top.f0.5, GBR.top.f0.4, GBR.top.f0.3, TSI.top.f0.5, TSI.top.f0.4, TSI.top.f0.3)
@@ -157,6 +170,8 @@ system.time(unlist(mclapply(1:nrow(chrs20_21_22.YRI), function(x) try(SFS.functi
 genomicSFS.YRI[-(which(genomicSFS.YRI=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
 
 as.numeric(test)-> genomic.SFS.YRI
+
+genomic.SFS.YRI/100-> genomic.SFS.YRI
 #
 filter(list.SCAN[[6]], Chr %in% c(20,21,22))-> chrs20_21_22.GBR
 
@@ -167,6 +182,8 @@ system.time(unlist(mclapply(1:nrow(chrs20_21_22.GBR), function(x) try(SFS.functi
 genomicSFS.GBR[-(which(genomicSFS.GBR=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
 
 as.numeric(test)-> genomic.SFS.GBR
+
+genomic.SFS.GBR/100-> genomic.SFS.GBR
 #
 filter(list.SCAN[[7]], Chr %in% c(20,21,22))-> chrs20_21_22.TSI
 
@@ -177,6 +194,7 @@ system.time(unlist(mclapply(1:nrow(chrs20_21_22.TSI), function(x) try(SFS.functi
 genomicSFS.TSI[-(which(genomicSFS.TSI=="Error in read.table(out, header = F) : no lines available in input\n"))]-> test
 
 as.numeric(test)-> genomic.SFS.TSI
+genomic.SFS.TSI/100-> genomic.SFS.TSI
 #
 #actual plotsbo
 library(lattice)
@@ -184,19 +202,19 @@ library(lattice)
 pdf('figures/SFS.LWK.pdf')
 par(mfrow=c(1,7))
 
-histogram(genomic.SFS[genomic.SFS != 0 & genomic.SFS !=100], col='lightgray', main='Neutral', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),breaks=seq(from=1,to=99,by=2), scales=list(x=list(cex=1.5),y=list(cex=1.5)), auto.key = list(lines=F),ylim=c(0, 50), border=F)
+histogram(genomic.SFS[genomic.SFS !=0 & genomic.SFS !=1], col='lightgray', main='Neutral', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),breaks=seq(from=0,to=1,by=0.05), scales=list(x=list(cex=1.2),y=list(cex=1.2)), auto.key = list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(LWK.cand.f0.5[LWK.cand.f0.5 != 0 & LWK.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2), scales=list(x=list(cex=1.5),y=list(cex=1.5)), auto.key=list(lines=F),ylim=c(0, 50), border=F)
+histogram(LWK.cand.f0.5[LWK.cand.f0.5 != 0 & LWK.cand.f0.5 !=1], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05), scales=list(x=list(cex=1.2),y=list(cex=1.2)), auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(LWK.top.f0.5[LWK.top.f0.5 != 0 & LWK.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5),y=list(cex=1.5)), auto.key=list(lines=F),ylim=c(0, 50, border=F))
+histogram(LWK.top.f0.5[LWK.top.f0.5 != 0 & LWK.top.f0.5 !=1], col='cornflowerblue', main='Outlier tf=0.5', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2),y=list(cex=1.2)), auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(LWK.cand.f0.4[LWK.cand.f0.4 != 0 & LWK.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 50), border=F)
+histogram(LWK.cand.f0.4[LWK.cand.f0.4 != 0 & LWK.cand.f0.4 !=1], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(LWK.top.f0.4[LWK.top.f0.4 != 0 & LWK.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2), scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 50), border=F)
+histogram(LWK.top.f0.4[LWK.top.f0.4 != 0 & LWK.top.f0.4 !=1], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05), scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(LWK.cand.f0.3[LWK.cand.f0.3 != 0 & LWK.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3',  xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 50), border=F)
+histogram(LWK.cand.f0.3[LWK.cand.f0.3 != 0 & LWK.cand.f0.3 !=1], col='violetred1', main='Signficant tf=0.3',  xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(LWK.top.f0.3[LWK.top.f0.3 != 0 & LWK.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3',  xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2), scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 50), border=F)
+histogram(LWK.top.f0.3[LWK.top.f0.3 != 0 & LWK.top.f0.3 !=1], col='violetred1', main='Outlier tf=0.3',  xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05), scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
 dev.off()
 
@@ -204,19 +222,19 @@ dev.off()
 pdf('figures/SFS.YRI.pdf')
 par(mfrow=c(1,7))
 
-histogram(genomic.SFS.YRI[genomic.SFS.YRI != 0 & genomic.SFS.YRI !=100], col='lightgray', main='Neutral', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2), scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(genomic.SFS.YRI[genomic.SFS.YRI != 0 & genomic.SFS.YRI !=1], col='lightgray', main='Neutral', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05), scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(YRI.cand.f0.5[YRI.cand.f0.5 != 0 & YRI.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(YRI.cand.f0.5[YRI.cand.f0.5 != 0 & YRI.cand.f0.5 !=1], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(YRI.top.f0.5[YRI.top.f0.5 != 0 & YRI.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5',xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(YRI.top.f0.5[YRI.top.f0.5 != 0 & YRI.top.f0.5 !=1], col='cornflowerblue', main='Outlier tf=0.5',xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(YRI.cand.f0.4[YRI.cand.f0.4 != 0 & YRI.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(YRI.cand.f0.4[YRI.cand.f0.4 != 0 & YRI.cand.f0.4 !=1], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(YRI.top.f0.4[YRI.top.f0.4 != 0 & YRI.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(YRI.top.f0.4[YRI.top.f0.4 != 0 & YRI.top.f0.4 !=1], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(YRI.cand.f0.3[YRI.cand.f0.3 != 0 & YRI.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(YRI.cand.f0.3[YRI.cand.f0.3 != 0 & YRI.cand.f0.3 !=1], col='violetred1', main='Signficant tf=0.3', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(YRI.top.f0.3[YRI.top.f0.3 != 0 & YRI.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(YRI.top.f0.3[YRI.top.f0.3 != 0 & YRI.top.f0.3 !=1], col='violetred1', main='Outlier tf=0.3', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
 dev.off()
 
@@ -224,32 +242,39 @@ dev.off()
 
 pdf('figures/SFS.GBR.pdf')
 par(mfrow=c(1,7))
-histogram(genomic.SFS.GBR[genomic.SFS.GBR != 0 & genomic.SFS.GBR !=100], col='lightgray', main='Neutral', xlab=list(label='DAF', cex=2),ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0,45), border=F) #GBR
-histogram(GBR.cand.f0.5[GBR.cand.f0.5 != 0 & GBR.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0, 45), border=F)
-histogram(GBR.top.f0.5[GBR.top.f0.5 != 0 & GBR.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab=list(label='DAF', cex=2),ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0, 45), border=F)
+histogram(genomic.SFS.GBR[genomic.SFS.GBR != 0 & genomic.SFS.GBR !=1], col='lightgray', main='Neutral', xlab=list(label='DAF', cex=1.2),ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0,60), border=F) #GBR
 
-histogram(GBR.cand.f0.4[GBR.cand.f0.4 != 0 & GBR.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0,45), border=F)
-histogram(GBR.top.f0.4[GBR.top.f0.4 != 0 & GBR.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0,45), border=F)
+histogram(GBR.cand.f0.5[GBR.cand.f0.5 != 0 & GBR.cand.f0.5 !=1], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0, 60), border=F)
 
-histogram(GBR.cand.f0.3[GBR.cand.f0.3 != 0 & GBR.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab=list(label='DAF', cex=2),  ylab=list(label='Relative Frequency (%)',cex=2),breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0,45), border=F)
+histogram(GBR.top.f0.5[GBR.top.f0.5 != 0 & GBR.top.f0.5 !=1], col='cornflowerblue', main='Outlier tf=0.5', xlab=list(label='DAF', cex=1.2),ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0, 60), border=F)
 
-histogram(GBR.top.f0.3[GBR.top.f0.3 != 0 & GBR.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F), ylim=c(0,45), border=F)
+histogram(GBR.cand.f0.4[GBR.cand.f0.4 != 0 & GBR.cand.f0.4 !=1], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0,60), border=F)
+
+histogram(GBR.top.f0.4[GBR.top.f0.4 != 0 & GBR.top.f0.4 !=1], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0,60), border=F)
+
+histogram(GBR.cand.f0.3[GBR.cand.f0.3 != 0 & GBR.cand.f0.3 !=1], col='violetred1', main='Signficant tf=0.3', xlab=list(label='DAF', cex=1.2),  ylab=list(label='Relative Frequency (%)',cex=1.2),breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0,60), border=F)
+
+histogram(GBR.top.f0.3[GBR.top.f0.3 != 0 & GBR.top.f0.3 !=1], col='violetred1', main='Outlier tf=0.3', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F), ylim=c(0,60), border=F)
 
 dev.off()
 
 
 
-pdf('figures/SFS.f0.5.TSI.pdf')
-par(mfrow=c(1,3))
-histogram(genomic.SFS.TSI[genomic.SFS.TSI != 0 & genomic.SFS.TSI !=100], col='lightgray', main='Neutral',xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F) #LWK
-histogram(TSI.cand.f0.5[TSI.cand.f0.5 != 0 & TSI.cand.f0.5 !=100], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
-histogram(TSI.top.f0.5[TSI.top.f0.5 != 0 & TSI.top.f0.5 !=100], col='cornflowerblue', main='Outlier tf=0.5', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+pdf('figures/SFS.TSI.pdf')
+par(mfrow=c(1,7))
+histogram(genomic.SFS.TSI[genomic.SFS.TSI != 0 & genomic.SFS.TSI !=1], col='lightgray', main='Neutral',xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F) #LWK
 
-histogram(TSI.cand.f0.4[TSI.cand.f0.4 != 0 & TSI.cand.f0.4 !=100], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
-histogram(TSI.top.f0.4[TSI.top.f0.4 != 0 & TSI.top.f0.4 !=100], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(TSI.cand.f0.5[TSI.cand.f0.5 != 0 & TSI.cand.f0.5 !=1], col='cornflowerblue', main='Signficant tf=0.5', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
-histogram(TSI.cand.f0.3[TSI.cand.f0.3 != 0 & TSI.cand.f0.3 !=100], col='violetred1', main='Signficant tf=0.3', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2),  breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
-histogram(TSI.top.f0.3[TSI.top.f0.3 != 0 & TSI.top.f0.3 !=100], col='violetred1', main='Outlier tf=0.3', xlab=list(label='DAF', cex=2), ylab=list(label='Relative Frequency (%)',cex=2), breaks=seq(from=1,to=99,by=2),scales=list(x=list(cex=1.5), y=list(cex=1.5)),auto.key=list(lines=F),ylim=c(0, 45), border=F)
+histogram(TSI.top.f0.5[TSI.top.f0.5 != 0 & TSI.top.f0.5 !=1], col='cornflowerblue', main='Outlier tf=0.5', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
+
+histogram(TSI.cand.f0.4[TSI.cand.f0.4 != 0 & TSI.cand.f0.4 !=1], col='sienna1', main='Signficant tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
+
+histogram(TSI.top.f0.4[TSI.top.f0.4 != 0 & TSI.top.f0.4 !=1], col='sienna1', main='Outlier tf=0.4', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
+
+histogram(TSI.cand.f0.3[TSI.cand.f0.3 != 0 & TSI.cand.f0.3 !=1], col='violetred1', main='Signficant tf=0.3', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2),  breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
+
+histogram(TSI.top.f0.3[TSI.top.f0.3 != 0 & TSI.top.f0.3 !=1], col='violetred1', main='Outlier tf=0.3', xlab=list(label='DAF', cex=1.2), ylab=list(label='Relative Frequency (%)',cex=1.2), breaks=seq(from=0,to=1,by=0.05),scales=list(x=list(cex=1.2), y=list(cex=1.2)),auto.key=list(lines=F),ylim=c(0, 60), border=F)
 
 dev.off()
 
@@ -383,6 +408,8 @@ length(unique(sort(merge.scanned.windows$V4)))  #14,195 merged windows in the sc
 system.time(bedTools.2in(bed1=merge.scanned.windows, bed2=bed2)-> intersect.scanned.windows) #1699.756 
 
 setDT(intersect.scanned.windows)
+
+Store(intersect.scanned.windows)
 
 #stopped here 27.10
 length(unique(sort(intersect.scanned.windows$V8))) #48,254 number of 'coding elements' scanned
