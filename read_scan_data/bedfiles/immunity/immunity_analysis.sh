@@ -35,4 +35,30 @@ cat YRI.outliers.all.bed TSI.outliers.all.bed GBR.outliers.all.bed LWK.outliers.
 GO_terms_all_outliers.txt
  
  
-grep -f <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt) <(sed 's/ /_/g' GO_terms_all_outliers.txt)|awk '{print $5}'
+grep -f <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt) <(sed 's/ /_/g' GO_terms_all_outliers.txt)|awk '{print $5}'  #wrong
+
+
+#try this
+
+
+grep -if <(grep -if <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt) <(sed  '/^$/d' <(awk '{print $6}' <(sed 's/ /_/g' GO_terms_all_outliers.txt)))) <(sed 's/ /_/g' GO_terms_all_outliers.txt)|awk '{print $1}'|sort|uniq|wc #126/378
+
+grep -if <(grep -if <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt) <(sed  '/^$/d' <(awk '{print $6}' <(sed 's/ /_/g' GO_term_all_signif_genes.txt)))) <(sed 's/ /_/g' GO_term_all_signif_genes.txt)|awk '{print $1}'|sort|uniq|wc #694
+
+
+grep -if <(grep -if <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt)  <(sed  '/^$/d' <(awk '{print $6}' <(sed 's/ /_/g' GO_term_all_scanned_genes.txt)))) <(sed 's/ /_/g' GO_term_all_scanned_genes.txt)|awk '{print $1}'|sort|uniq|wc #
+
+
+
+#genes with at least one GO
+
+
+awk '$5!=""{print $1}' GO_terms_all_outliers.txt |sort|uniq|wc #378 #126/378=33.3%
+awk '$5!=""{print $1}' GO_term_all_signif_genes.txt |sort|uniq|wc #2215 #694/2215=31.3%
+awk '$5!=""{print $1}' GO_term_all_scanned_genes.txt|sort|uniq|wc #17074
+
+#now another analyses: take the significant GO categories from João's spreadsheet and check how many of them are immune-related.
+
+grep -if <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt) <(sed 's/ /_/g' temp_GO_signif.txt|sort|uniq)
+
+grep -if <(sed 's/ /_/g' 386_KeywordsSearchNameDescGO.txt) <(sed 's/ /_/g' temp_GO_outliers.txt|sort|uniq)
