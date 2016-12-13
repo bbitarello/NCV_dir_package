@@ -123,4 +123,72 @@ venn.diagram(list(LWK=LWK.f0.4.top829.genes$V1, YRI=YRI.f0.4.top829.genes$V1, GB
 venn.diagram(list(LWK=LWK.f0.3.top829.genes$V1, YRI=YRI.f0.3.top829.genes$V1, GBR=GBR.f0.3.top829.genes$V1, TSI=TSI.f0.3.top829.genes$V1), fill=c("slateblue4", "slateblue", "darkolivegreen4", "darkolivegreen3"), alpha = c(0.5,0.5,0.5,0.5), cex=2, lty=1, fontfamily=3, filename="figures/VENN.top829.f0.3.genes.tiff",imagetype="png")
 
 
+#calculating overlaps without plotting venn diagrmas
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[3]]$Win.ID), intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[7]]$Win.ID)))) #7637/9521=80.21%
+
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[7]]$Win.ID,Union.CANDf0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.CANDf0.5_0.4_0.3[[7]]$Win.ID,Union.CANDf0.5_0.4_0.3[[3]]$Win.ID), intersect(Union.CANDf0.5_0.4_0.3[[7]]$Win.ID,Union.CANDf0.5_0.4_0.3[[6]]$Win.ID)))) #7612/9282=82.01%
+
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[3]]$Win.ID,Union.CANDf0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.CANDf0.5_0.4_0.3[[3]]$Win.ID,Union.CANDf0.5_0.4_0.3[[6]]$Win.ID), intersect(Union.CANDf0.5_0.4_0.3[[3]]$Win.ID,Union.CANDf0.5_0.4_0.3[[7]]$Win.ID)))) #8302/10997=75.49%
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[2]]$Win.ID,Union.CANDf0.5_0.4_0.3[[3]]$Win.ID),  intersect(Union.CANDf0.5_0.4_0.3[[2]]$Win.ID,Union.CANDf0.5_0.4_0.3[[6]]$Win.ID), intersect(Union.CANDf0.5_0.4_0.3[[2]]$Win.ID,Union.CANDf0.5_0.4_0.3[[7]]$Win.ID)))) #7984/10072=79.27%
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[3]]$Win.ID), intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[7]]$Win.ID)))) #7637/9521=80.21%
+
+
+#within continents
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[3]]$Win.ID,Union.CANDf0.5_0.4_0.3[[2]]$Win.ID))))# 6736/10997=61.25%
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[2]]$Win.ID,Union.CANDf0.5_0.4_0.3[[3]]$Win.ID)))) #6736/10072=66.88%
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[6]]$Win.ID,Union.CANDf0.5_0.4_0.3[[7]]$Win.ID)))) #6368/9521=66.88%
+
+unique(sort(c(intersect(Union.CANDf0.5_0.4_0.3[[7]]$Win.ID,Union.CANDf0.5_0.4_0.3[[6]]$Win.ID)))) #6368/9282=68.61%
+
+
+#OUTLIER WINDOWS
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[7]]$Win.ID,Union.top0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.top0.5_0.4_0.3[[7]]$Win.ID,Union.top0.5_0.4_0.3[[3]]$Win.ID), intersect(Union.top0.5_0.4_0.3[[7]]$Win.ID,Union.top0.5_0.4_0.3[[6]]$Win.ID)))) #1094/1270=86.14%
+
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[3]]$Win.ID,Union.top0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.top0.5_0.4_0.3[[3]]$Win.ID,Union.top0.5_0.4_0.3[[6]]$Win.ID), intersect(Union.top0.5_0.4_0.3[[3]]$Win.ID,Union.top0.5_0.4_0.3[[7]]$Win.ID)))) #1057/1230=85.93%
+
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[2]]$Win.ID,Union.top0.5_0.4_0.3[[3]]$Win.ID),  intersect(Union.top0.5_0.4_0.3[[2]]$Win.ID,Union.top0.5_0.4_0.3[[6]]$Win.ID), intersect(Union.top0.5_0.4_0.3[[2]]$Win.ID,Union.top0.5_0.4_0.3[[7]]$Win.ID)))) #1041/1248=83.41%
+
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[6]]$Win.ID,Union.top0.5_0.4_0.3[[2]]$Win.ID),  intersect(Union.top0.5_0.4_0.3[[6]]$Win.ID,Union.top0.5_0.4_0.3[[3]]$Win.ID), intersect(Union.top0.5_0.4_0.3[[6]]$Win.ID,Union.top0.5_0.4_0.3[[7]]$Win.ID))))   #1093/1251=87.37%
+
+
+#within continents
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[3]]$Win.ID,Union.top0.5_0.4_0.3[[2]]$Win.ID))))# 924/1230=75.12%
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[2]]$Win.ID,Union.top0.5_0.4_0.3[[3]]$Win.ID)))) #924/=1248=74.04%
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[6]]$Win.ID,Union.top0.5_0.4_0.3[[7]]$Win.ID)))) #1008/1251=80.57%
+
+unique(sort(c(intersect(Union.top0.5_0.4_0.3[[7]]$Win.ID,Union.top0.5_0.4_0.3[[6]]$Win.ID)))) #1008/1270=79.37%
+
+
+#####
+
+#for tf=0.5
+
+
+length(unique(sort(c(intersect(CANDf0.5[[6]]$Win.ID,CANDf0.5[[2]]$Win.ID),  intersect(CANDf0.5[[6]]$Win.ID,CANDf0.5[[3]]$Win.ID), intersect(CANDf0.5[[6]]$Win.ID,CANDf0.5[[7]]$Win.ID)))))/nrow(CANDf0.5[[6]]) #75.12%
+length(unique(sort(c(intersect(top829f0.5[[6]]$Win.ID,top829f0.5[[2]]$Win.ID),  intersect(top829f0.5[[6]]$Win.ID,top829f0.5[[3]]$Win.ID), intersect(top829f0.5[[6]]$Win.ID,top829f0.5[[7]]$Win.ID)))))/nrow(top829f0.5[[6]]) #85.64%
+
+
+length(unique(sort(c(intersect(CANDf0.4[[6]]$Win.ID,CANDf0.4[[2]]$Win.ID),  intersect(CANDf0.4[[6]]$Win.ID,CANDf0.4[[3]]$Win.ID), intersect(CANDf0.4[[6]]$Win.ID,CANDf0.4[[7]]$Win.ID)))))/nrow(CANDf0.4[[6]]) #75.81%
+length(unique(sort(c(intersect(top829f0.4[[6]]$Win.ID,top829f0.4[[2]]$Win.ID),  intersect(top829f0.4[[6]]$Win.ID,top829f0.4[[3]]$Win.ID), intersect(top829f0.4[[6]]$Win.ID,top829f0.4[[7]]$Win.ID)))))/nrow(top829f0.4[[6]]) #86.97
+
+
+length(unique(sort(c(intersect(CANDf0.3[[6]]$Win.ID,CANDf0.3[[2]]$Win.ID),  intersect(CANDf0.3[[6]]$Win.ID,CANDf0.3[[3]]$Win.ID), intersect(CANDf0.3[[6]]$Win.ID,CANDf0.3[[7]]$Win.ID)))))/nrow(CANDf0.3[[6]]) #75.47%
+length(unique(sort(c(intersect(top829f0.3[[6]]$Win.ID,top829f0.3[[2]]$Win.ID),  intersect(top829f0.3[[6]]$Win.ID,top829f0.3[[3]]$Win.ID), intersect(top829f0.3[[6]]$Win.ID,top829f0.3[[7]]$Win.ID)))))/nrow(top829f0.3[[6]]) #79.25
+
+
 

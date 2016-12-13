@@ -18,6 +18,21 @@ library(data.table)
 library(qqman)
 
 pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
+#
+
+#find.gene(df, chr=6, name='HLA-B')
+find.gene<-function(df=LWK.win,name1="HLA-B"){  #df can be changes for diff pops so that we can check p-value in each population!
+as.numeric(as.character(dplyr::filter(hg19.coding.coords.bed, name %in% name1)$chr))->chr
+which(unlist(mclapply(names.all.coding[[chr]], function(x) strsplit(x, ':', fixed=TRUE)[[1]][[1]]))==name1)->QUERY.POS
+df[[chr]][[QUERY.POS]]-> QUERY.SUBSET
+nrow(QUERY.SUBSET)->n1
+return(list(query_subset=QUERY.SUBSET, query_pos=QUERY.POS, GENE=name1, number_windows=n1))
+}  #currently this gives me correct results for all.coding, but not for the ALL.POPS.AF datasets. I am trying to fix this.
+#
+#
+read.table('/mnt/sequencedb/PopGen/cesare/hg19/bedfiles/ensembl_genes_hg19.bed.gz')->hg19.coding.coords.bed
+names(hg19.coding.coords.bed)<-c('chr', 'beg', 'end','name', 'type')
+
 
 
 #
@@ -195,10 +210,19 @@ sapply(1:7, function(x) table(select(filter(Union.top0.5_0.4_0.3[[x]], Win.ID %i
 sapply(1:7, function(x) table(select(filter(Union.CANDf0.5_0.4_0.3[[x]], Win.ID %in% intersect.all.tf[[x]][[1]]), AssignedTF)))
 
 
+
+
 #now, to the assigned tf vlaue for the outlier shared and significant shared genes.
+
+
+read.table('bedfiles/extreme.genes.bed', header=F)[,2]-> extreme.outliers
+read.table('bedfiles/cand.extreme.genes.bed', header=F)-> extreme.cand
+
 
 #first, get windoes that overlap them..
 
+system.time(mclapply(extreme.outliers, function(x) find.gene(name1=x))-> df.outliers)
+system.time(mclapply(extreme.cand, function(x) find.gene(name1=x))-> df.signif)
 #next, assign. tf per pop
 
 #summarise results

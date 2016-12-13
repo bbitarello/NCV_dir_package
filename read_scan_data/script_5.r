@@ -299,9 +299,7 @@ with(CANDf0.4[[i]], paste0("chr", Chr))-> CANDf0.4[[i]]$Chr}
 
 mclapply(1:7, function(x) bedTools.merge(bed1=select(CANDf0.4[[x]],Chr, Beg.Win, End.Win, Win.ID)))-> merge.CANDf0.4
 
-
-
-
+#
 for(i in 1:7){
 
 with(top829f0.3[[i]], paste0("chr", Chr))-> top829f0.3[[i]]$Chr}
@@ -325,12 +323,10 @@ mclapply(1:7, function(x) bedTools.2in(bed1=merge.top829f0.4[[x]], bed2=bed2))->
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.top829f0.3[[x]], bed2=bed2))-> intersect.top829f0.3
 
 
-
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.5[[x]], bed2=bed2))-> intersect.CANDf0.5
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.4[[x]], bed2=bed2))-> intersect.CANDf0.4
 mclapply(1:7, function(x) bedTools.2in(bed1=merge.CANDf0.3[[x]], bed2=bed2))-> intersect.CANDf0.3
 
-#i guess i dont need this anymore
 
 Store(merge.CANDf0.5, merge.CANDf0.4, merge.CANDf0.3)
 Store(intersect.CANDf0.5, intersect.CANDf0.4, intersect.CANDf0.3)
@@ -362,6 +358,8 @@ all.andres<-unique(sort(as.character(rbind(andres_AA, andres_EA, andres_AAandEA)
 all.DG<-unique(c(as.character(rbind(DG_T2_CEU, DG_T2_YRI)[,4]), as.character(rbind(DG_T1_CEU, DG_T1_YRI)[,1])))
 leffler<-c("FREM3", "HUS1", "MTRR","IGFBP7","PROKR2","ST3GAL1")
 other.bal.sel<-unique(c(leffler, all.DG, all.andres))
+
+Store(DG_T1_YRI, DG_T1_CEU, DG_T2_YRI, DG_T2_CEU, all.andres, leffler, all.DG, andres_AA, andres_EA, andres_AAandEA, other.bal.sel)
 
 #################################################################
 

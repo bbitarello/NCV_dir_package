@@ -192,3 +192,7 @@ my.manhattan(LWK.bg2,highlight=as.character(sort.man.top829[[2]]$SNP),highlight2
 dev.off()
 
 
+
+
+
+###
