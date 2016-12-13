@@ -2,7 +2,7 @@
 #	R function to plot SFS from VCF data
 #
 #	Barbara Bitarello
-#	Last modified: 
+#	Last modified: Nov. 2016
 ###############################################
 
 
@@ -25,11 +25,13 @@ command<-paste0('tabix ', PATH.FILE, ' ', chr, ':', BEG, '-', END, " >", out)
 
   res=read.table(out,header=F)
   colnames(res)<-header
-  #keep only Derived allele frequencies
- res[which(toupper(res$Anc) != toupper(res$ALT)),]-> res2
+	#if ANC==ALT, do 1-counts 
+	temp<-which(toupper(res$Anc)==toupper(res$ALT))
+	100-res[temp,n]-> res[temp,n]
+#res[which(toupper(res$Anc) != toupper(res$ALT)),]-> res2
 
  # unlink(a.file)
-return(res2[,n])
+return(res[,n])
 }
 #
 
@@ -53,9 +55,12 @@ command<-paste0('tabix ', PATH.FILE, ' ', CHR, ':', BEG, '-', END, " >", out)
   res=read.table(out,header=F)
   colnames(res)<-header
   #keep only Derived allele frequencies
- res[which(toupper(res$Anc) != toupper(res$ALT)),]-> res2
+# res[which(toupper(res$Anc) != toupper(res$ALT)),]-> res2
+     #if ANC==ALT, do 1-counts 
+        temp<-which(toupper(res$Anc)==toupper(res$ALT))
+        100-res[temp,n]-> res[temp,n]
 
  # unlink(a.file)
-return(res2[,n])
+return(res[,n])
 }
 #
