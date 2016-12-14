@@ -2,7 +2,7 @@
 #	R function to plot SFS from VCF data
 #
 #	Barbara Bitarello
-#	Last modified: Nov. 2016
+#	Last modified: 14.12. 2016
 ###############################################
 
 
@@ -15,10 +15,6 @@ out=tempfile(pattern = "", fileext = ".txt")
 options(scipen =99) # not to use scientific notation when writing out
 gsub("chr", "", CHR)-> chr
 command<-paste0('tabix ', PATH.FILE, ' ', chr, ':', BEG, '-', END, " >", out)
-  #write bed formatted dataframes to tempfile
-#  write.table(bed1,file=a.file,quote=F,sep="\t",col.names=F,row.names=F)
-# command=paste(functionstring, "-i", a.file, "-nms", opt.string,">",out,sep=" ")
-#	command=paste(functionstring, "-i", a.file, opt.string,">",out,sep=" ")
 
   cat(command,"\n")
   try(system(command))
@@ -26,12 +22,12 @@ command<-paste0('tabix ', PATH.FILE, ' ', chr, ':', BEG, '-', END, " >", out)
   res=read.table(out,header=F)
   colnames(res)<-header
 	#if ANC==ALT, do 1-counts 
-	temp<-which(toupper(res$Anc)==toupper(res$ALT))
-	100-res[temp,n]-> res[temp,n]
-#res[which(toupper(res$Anc) != toupper(res$ALT)),]-> res2
-
- # unlink(a.file)
-return(res[,n])
+	toupper(res$Anc)-> res$Anc
+	toupper(res$ALT)-> res$ALT
+	subset(res, Anc %in% c("A", "C", "G", "T"))->res2
+	temp<-which(res2$Anc==res2$ALT)
+	100-res2[temp,n]-> res2[temp,n]
+return(res2[,n])
 }
 #
 
@@ -44,23 +40,17 @@ out=tempfile(pattern = "", fileext = ".txt")
 options(scipen =99) # not to use scientific notation when writing out
 gsub("chr", "", CHR)-> chr
 command<-paste0('tabix ', PATH.FILE, ' ', CHR, ':', BEG, '-', END, " >", out)
-  #write bed formatted dataframes to tempfile
-#  write.table(bed1,file=a.file,quote=F,sep="\t",col.names=F,row.names=F)
-# command=paste(functionstring, "-i", a.file, "-nms", opt.string,">",out,sep=" ")
-#	command=paste(functionstring, "-i", a.file, opt.string,">",out,sep=" ")
 
   cat(command,"\n")
   try(system(command))
 
   res=read.table(out,header=F)
   colnames(res)<-header
-  #keep only Derived allele frequencies
-# res[which(toupper(res$Anc) != toupper(res$ALT)),]-> res2
-     #if ANC==ALT, do 1-counts 
-        temp<-which(toupper(res$Anc)==toupper(res$ALT))
-        100-res[temp,n]-> res[temp,n]
-
- # unlink(a.file)
-return(res[,n])
+       toupper(res$Anc)-> res$Anc
+        toupper(res$ALT)-> res$ALT
+        subset(res, Anc %in% c("A", "C", "G", "T"))->res2
+        temp<-which(res2$Anc==res2$ALT)
+        100-res2[temp,n]-> res2[temp,n]
+return(res2[,n])
 }
 #

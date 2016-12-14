@@ -7,23 +7,23 @@
 #BitarelloNote: attempting to fix two issues:run NCV for all pops at once and
 #save window coordinates in output.
 #Done
-#Last Modified: 26.09.2016 by Barbara Bitarello 
+#Last Modified: 6.10.2016 by Barbara Bitarello 
 ###############################################################################
 #NCV is calculated regardless of SNP density. Filtering per snp density should
 #happen downstream in case we decide to change the threshold.
 
 #in the future, modify this to have all pops run at once.
-NCV.scan4<-function(INPUT.N, pop='YRI',FDs=T, FD.N, WIN, SNP=T) {  
+NCV.scan4<-function(INPUT.N, pop='YRI',FDs=TRUE, FD.N, WIN, SNP=TRUE) {  
       ##INPUT.N : input data // ##FDs: fixed differences (human vs chimp reference)
         WIN[1,1]->beg; WIN[1,2]->end
 	cat('Beg win:', beg, 'End win:', end,'.And pop is', pop,"\n")
-        n<-100; if(pop=='PUR'){n<-88}  #it would be ideal to run for all pops at once and dothe rest of the commands on a per pop basis.
-        if(FDs==TRUE){ as.data.frame(FD.N)->z;
-        nifds<-dim(z)[1]} ; #list of FDs between human and chimp
+        if(pop=='PUR'){n<-88}else{n<-100}  #all pops except PUR have 50 unrelated individuals.
+        if(FDs==TRUE){ as.data.frame(FD.N)->z; #if we want to calculate NCD2 and there is an actual FD file for this 3 kb window; do
+        nifds<-dim(z)[1]}else{nifds<-0} ; #list of FDs between human and chimp
 	if(SNP==TRUE){
-        nisnps<-dim(INPUT.N)[1]} #number of SNPs in INPUT.N
-	if(FDs==FALSE){nifds<-0}
-	if(SNP==FALSE){nisnps<-0}
+        nisnps<-dim(INPUT.N)[1]
+	}else{ #number of SNPs in INPUT.N
+	nisnps<-0}
 	
 	cat('I have', nisnps, 'SNPs and', nifds, 'FDs in this input file\n')
 
@@ -70,8 +70,7 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FDs=T, FD.N, WIN, SNP=T) {
                                 tp<-as.numeric(c(real.snps3$counts,rep(0,fxdlen)));
 				tp<-sapply(tp, function(x) if (x>0.5){x<-1-x} else{x<-x})} #use MAF
 				if(polsites==0 & fxdlen>0){tp<-rep(0, fxdlen)}
-				if(polsites==0 & fxdlen==0){ tp<-NA}
-				cat(tp);}
+				if(polsites==0 & fxdlen==0){ tp<-NA};cat(tp);}
                 ###############################################NCV without
                 ###FD############################################
                     if(FDs==F){fxdlen<-0;nifds<-0;real.snps4 <- y2[which(y2[,1] > 0 & y2[,1]<1),];polsites<-dim(real.snps4)[1];
@@ -79,12 +78,13 @@ NCV.scan4<-function(INPUT.N, pop='YRI',FDs=T, FD.N, WIN, SNP=T) {
 			if(polsites==0){tp<-NA}
 					}#close the if(FD==F)
 			}#close the if(SNP==T)
-		if(SNP==F){
-			cat('i have no SNPs but I do have Fds in this window\n')
+		if(SNP==FALSE){cat('i have no SNPs but I do have Fds in this window\n');
 			nrow(z)-> fxdlen;tp<-rep(0,fxdlen);polsites<-0;}
-	ncdf1<-sqrt(sum((tp-0.1)^2)/(polsites+fxdlen)); ncdf2<-sqrt(sum((tp-0.2)^2)/(polsites+fxdlen));ncdf3<-sqrt(sum((tp-0.3)^2)/(polsites+fxdlen));
-	ncdf4<-sqrt(sum((tp-0.4)^2)/(polsites+fxdlen)); ncdf5<-sqrt(sum((tp-0.5)^2)/(polsites+fxdlen));
+			ncdf1<-sqrt(sum((tp-0.1)^2)/(polsites+fxdlen)); ncdf2<-sqrt(sum((tp-0.2)^2)/(polsites+fxdlen));ncdf3<-sqrt(sum((tp-0.3)^2)/(polsites+fxdlen));
+			ncdf4<-sqrt(sum((tp-0.4)^2)/(polsites+fxdlen)); ncdf5<-sqrt(sum((tp-0.5)^2)/(polsites+fxdlen));
                 ################################################################fxdlen 
 final<- data.frame(Beg.Win=beg, End.Win=end, Initial_seg_sites=nisnps, Initial_fds_sites=nifds, NCDf1=ncdf1,NCDf2=ncdf2, NCDf3=ncdf3,NCDf4=ncdf4, NCDf5=ncdf5,Nr.SNPs=polsites, Nr.FDs=fxdlen);
-                return(final);}
+                
+return(final);
+}
 

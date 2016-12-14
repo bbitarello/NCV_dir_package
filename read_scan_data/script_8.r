@@ -2,69 +2,36 @@
 #	Make tables for paper
 #
 #	Barbara Bitarello
+#	Last modified: 13.12.2016	
 ##################################
 
+library(SOAR)
+Sys.setenv(R_LOCAL_CACHE="estsession")
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/mclapply2.R')
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/assign_tf_gene.R')
+
 as.character(read.table('bedfiles/African.Genes.bed')$V1)-> Afr
-
-res.afr<-vector('list', length(Afr))
-
-for(i in Afr){
-
-filter(hg19.coding.coords.bed, name==i)$chr-> chr
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i)[[1]])$assigned.tf.per.gene[[1]])))-> tf.LWK
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i)[[1]])$assigned.p.gene)))-> p.LWK
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=YRI.win)[[1]])$assigned.tf.per.gene[[1]])))-> tf.YRI
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=YRI.win)[[1]])$assigned.p.gene)))-> p.YRI
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=GBR.win)[[1]])$assigned.tf.per.gene[[1]])))-> tf.GBR
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=GBR.win)[[1]])$assigned.p.gene)))-> p.GBR
-
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=TSI.win)[[1]])$assigned.tf.per.gene[[1]])))-> tf.TSI
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=TSI.win)[[1]])$assigned.p.gene)))-> p.TSI
-
-res.afr[[i]]<-data.frame(Chr=chr, Acronym=i, tf.LWK=as.numeric(tf.LWK), p.LWK=p.LWK, tf.YRI=tf.YRI, p.YRI=p.YRI, tf.GBR=tf.GBR, p.GBR=p.GBR, td.TSI=tf.TSI, p.TSI=p.TSI,stringsAsFactors = FALSE)
-cat(i, 'done\n')
-}
-do.call('rbind',res.afr)-> res.afr2
-write.table(res.afr2, file='bedfiles/Table_afr_manuscript.txt')
+mclapply2(Afr, function(y) funcA(y))-> res.afr
+setDT(do.call('rbind',res.afr))-> res.afr2
+write.table(res.afr2, file='bedfiles/Table_afr_manuscript.txt', row.names=F, quote=F)
+Store(res.afr2)
 #
-
-
 as.character(read.table('bedfiles/European.Genes.bed')$V1)-> Eur
-
-res.eur<-vector('list', length(Eur))
-
-for(i in Eur){
-
-filter(hg19.coding.coords.bed, name==i)$chr-> chr
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i)[[1]])$assigned.tf.per.gene[[1]])))-> tf.LWK
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i)[[1]])$assigned.p.gene)))-> p.LWK
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=YRI.win)[[1]])$assigned.tf.per.gene[[1]])))-> tf.YRI
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=YRI.win)[[1]])$assigned.p.gene)))-> p.YRI
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=GBR.win)[[1]])$assigned.tf.per.gene[[1]])))-> tf.GBR
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=GBR.win)[[1]])$assigned.p.gene)))-> p.GBR
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=TSI.win)[[1]])$assigned.tf.per.gene[[1]])))-> tf.TSI
-
-as.numeric(gsub(".P.val", "", gsub("Z.f","",assign.tf(find.gene(name1=i, df=TSI.win)[[1]])$assigned.p.gene)))-> p.TSI
-
-res.eur[[i]]<-data.frame(Chr=chr,Acronym=i, tf.LWK=as.numeric(tf.LWK), p.LWK=p.LWK, tf.YRI=tf.YRI, p.YRI=p.YRI, tf.GBR=tf.GBR, p.GBR=p.GBR, td.TSI=tf.TSI, p.TSI=p.TSI,stringsAsFactors = FALSE)
-cat(i, 'done\n')
-}
-
-do.call('rbind',res.afr)-> res.eur2
+mclapply2(Eur, function(y) funcA(y))-> res.eur
+setDT(do.call('rbind',res.eur))-> res.eur2
 write.table(res.eur2, file='bedfiles/Table_eur_manuscript.txt')
+Store(res.eur2)
 
+
+#significant shared genes
+as.character(read.table('bedfiles/cand.African.Genes.bed')$V1)-> Afr.cand
+mclapply2(Afr.cand, function(y) funcA(y))-> res.afr.cand
+setDT(do.call('rbind',res.afr.cand))-> res.afr.cand2
+write.table(res.afr.cand2, file='bedfiles/Table_afr_cand_manuscript.txt')
+Store(res.afr.cand2)
+#
+as.character(read.table('bedfiles/cand.European.Genes.bed')$V1)-> Eur.cand
+mclapply2(Eur.cand, function(y) funcA(y))-> res.eur.cand
+setDT(do.call('rbind',res.eur.cand))-> res.eur.cand2
+write.table(res.eur.cand2, file='bedfiles/Table_eur_cand_manuscript.txt')
+Store(res.eur.cand2)
