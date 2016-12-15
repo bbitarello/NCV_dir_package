@@ -1,7 +1,7 @@
 ##################################
 #	Bárbara D.Bitarello
 #
-#	Last modified: 03.11.2016
+#	Last modified: 15.12.2016
 ##################################
 
 library(parallel)
@@ -16,6 +16,9 @@ library(data.table)
 library(qqman)
 
 pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "CLM","PUR")
+read.table('/mnt/sequencedb/PopGen/cesare/hg19/bedfiles/ensembl_genes_hg19.bed.gz')->hg19.coding.coords.bed
+names(hg19.coding.coords.bed)<-c('chr', 'beg', 'end','name', 'type')
+
 
 my.function.improved<-function(B, E, df=LWK.chr, chr=6){
 as.numeric(gsub("chr", "", chr))-> chr
@@ -28,33 +31,14 @@ return(res2)
 }
 
 # find.gene - that's literally what it does. But not just protein coding genes.
-#E.g,  to find hla-b, 
-#find.gene(df, chr=6, name='HLA-B')
-find.gene<-function(df=LWK.win,name1="HLA-B"){  #df can be changes for diff pops so that we can check p-value in each population!
-as.numeric(as.character(dplyr::filter(hg19.coding.coords.bed, name %in% name1)$chr))->chr
-which(unlist(mclapply(names.all.coding[[chr]], function(x) strsplit(x, ':', fixed=TRUE)[[1]][[1]]))==name1)->QUERY.POS
-df[[chr]][[QUERY.POS]]-> QUERY.SUBSET
-nrow(QUERY.SUBSET)->n1
-return(list(query_subset=QUERY.SUBSET, query_pos=QUERY.POS, GENE=name1, number_windows=n1))
-}  #currently this gives me correct results for all.coding, but not for the ALL.POPS.AF datasets. I am trying to fix this.
 #
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/find_gene.R')
 #
-assign.tf<-function(df){
-nrow(df)-> n
-assigned.tf.per.window<-sapply(1:n, function(x) names(which.min(select(df[x,], Z.f0.5.P.val:Z.f0.3.P.val))))
-min.p.value.per.window<-sapply(1:n, function(x) min(select(df[x,], Z.f0.5.P.val:Z.f0.3.P.val)))
-cbind(assigned.ft=assigned.tf.per.window, min.p.value=min.p.value.per.window)-> res1
-as.numeric(res1[,2])->res1[,2]
-res1[which.min(res1[,2]),1]-> assigned.tf.gene
-as.numeric(res1[which.min(res1[,2]),2])-> assigned.p.val.gene
-return(list(assigned.per.window=res1,assigned.tf.per.gene= assigned.tf.gene, assigned.p.gene=assigned.p.val.gene))
-}
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/assign_tf_window_original.R')
 ####
 ####
 Objects()
 
-read.table('/mnt/sequencedb/PopGen/cesare/hg19/bedfiles/ensembl_genes_hg19.bed.gz')->hg19.coding.coords.bed
-names(hg19.coding.coords.bed)<-c('chr', 'beg', 'end','name', 'type')
 
 #lapply(1:22, function(x) subset(prd.bed, chr==x))-> prot.cod.bed.list
 mclapply(1:22, function(x) setDT(subset(hg19.coding.coords.bed, chr==x)))-> coding.per.chr.list 
