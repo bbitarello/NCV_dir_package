@@ -79,17 +79,18 @@ bedtools intersect -a <(sed -e 's/^/chr/' top829f0.3.TSI.bed) -b /mnt/sequencedb
 
 
 sort <(cat prot.cod.top829f0.5.LWK.bed prot.cod.top829f0.4.LWK.bed prot.cod.top829f0.3.LWK.bed |sort|uniq) <(cat prot.cod.top829f0.5.YRI.bed prot.cod.top829f0.4.YRI.bed prot.cod.top829f0.3.YRI.bed |sort|uniq) |uniq -d > African.Genes.bed
-
+#OR
+grep -if prot.cod.Union.top829.0.5_0.4_0.3_LWK.bed prot.cod.Union.top829.0.5_0.4_0.3_YRI.bed > African.Genes.bed #either version yields the same 181 genes
 
 sort <(cat prot.cod.top829f0.5.GBR.bed prot.cod.top829f0.4.GBR.bed prot.cod.top829f0.3.GBR.bed |sort|uniq) <(cat prot.cod.top829f0.5.TSI.bed prot.cod.top829f0.4.TSI.bed prot.cod.top829f0.3.TSI.bed |sort|uniq) |uniq -d > European.Genes.bed
+#OR
+grep -F -x -f prot.cod.Union.top829.0.5_0.4_0.3_GBR.bed prot.cod.Union.top829.0.5_0.4_0.3_TSI.bed > European.Genes.bed
 
+grep -F -x -f African.Genes.bed European.Genes.bed  > afrANDeur.genes.bed #102
 
-sort African.Genes.bed European.Genes.bed |uniq -d > afrANDeur.genes.bed
+grep -F -x -v -f European.Genes.bed African.Genes.bed > just.Afr.genes.bed #79
 
-
-grep -F -x -v -f European.Genes.bed African.Genes.bed > just.Afr.genes.bed
-
-grep -F -x -v -f African.Genes.bed European.Genes.bed  > just.Eur.genes.bed
+grep -F -x -v -f African.Genes.bed European.Genes.bed  > just.Eur.genes.bed #84
  
 
 #most exteme genes

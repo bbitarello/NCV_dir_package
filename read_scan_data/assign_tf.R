@@ -21,32 +21,11 @@ pops<-c("AWS","LWK","YRI","CEU", "FIN","GBR","TSI", "CHB","CHS" ,"JPT","MXL", "C
 #
 
 #find.gene(df, chr=6, name='HLA-B')
-find.gene<-function(df=LWK.win,name1="HLA-B"){  #df can be changes for diff pops so that we can check p-value in each population!
-as.numeric(as.character(dplyr::filter(hg19.coding.coords.bed, name %in% name1)$chr))->chr
-which(unlist(mclapply(names.all.coding[[chr]], function(x) strsplit(x, ':', fixed=TRUE)[[1]][[1]]))==name1)->QUERY.POS
-df[[chr]][[QUERY.POS]]-> QUERY.SUBSET
-nrow(QUERY.SUBSET)->n1
-return(list(query_subset=QUERY.SUBSET, query_pos=QUERY.POS, GENE=name1, number_windows=n1))
-}  #currently this gives me correct results for all.coding, but not for the ALL.POPS.AF datasets. I am trying to fix this.
-#
-#
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/find_gene.R')
+source('/mnt/sequencedb/PopGen/barbara/NCV_dir_package/scripts/assign_tf_window_original.R')
+
 read.table('/mnt/sequencedb/PopGen/cesare/hg19/bedfiles/ensembl_genes_hg19.bed.gz')->hg19.coding.coords.bed
 names(hg19.coding.coords.bed)<-c('chr', 'beg', 'end','name', 'type')
-
-
-
-#
-assign.tf<-function(df){
-nrow(df)-> n
-assigned.tf.per.window<-sapply(1:n, function(x) names(which.min(select(df[x,], Z.f0.5.P.val:Z.f0.3.P.val))))
-min.p.value.per.window<-sapply(1:n, function(x) min(select(df[x,], Z.f0.5.P.val:Z.f0.3.P.val)))
-cbind(assigned.ft=assigned.tf.per.window, min.p.value=min.p.value.per.window)-> res1
-as.numeric(res1[,2])->res1[,2]
-res1[which.min(res1[,2]),1]-> assigned.tf.gene
-as.numeric(res1[which.min(res1[,2]),2])-> assigned.p.val.gene
-return(list(assigned.per.window=res1,assigned.tf.per.gene= assigned.tf.gene, assigned.p.gene=assigned.p.val.gene))
-}
-####
 ####
 Objects()
 
@@ -216,13 +195,24 @@ sapply(1:7, function(x) table(select(filter(Union.CANDf0.5_0.4_0.3[[x]], Win.ID 
 
 
 read.table('bedfiles/extreme.genes.bed', header=F)[,2]-> extreme.outliers
-read.table('bedfiles/cand.extreme.genes.bed', header=F)-> extreme.cand
+read.table('bedfiles/cand.extreme.genes.bed', header=F)[,2]-> extreme.cand
 
 
 #first, get windoes that overlap them..
 
-system.time(mclapply(extreme.outliers, function(x) find.gene(name1=x))-> df.outliers)
-system.time(mclapply(extreme.cand, function(x) find.gene(name1=x))-> df.signif)
+system.time(mclapply(extreme.outliers, function(x) find.gene(name1=x))-> df.outliers.LWK)
+system.time(mclapply(extreme.cand, function(x) find.gene(name1=x))-> df.signif.LWK)
+
+
+
+system.time(mclapply(extreme.outliers, function(x) find.gene(name1=x, df=GBR.win))-> df.outliers.GBR)
+system.time(mclapply(extreme.cand, function(x) find.gene(name1=x, df=GBR.win))-> df.signif.GBR)
+
+
+system.time(mclapply(extreme.outliers, function(x) find.gene(name1=x, df=YRI.win))-> df.outliers.YRI)
+system.time(mclapply(extreme.cand, function(x) find.gene(name1=x, df=YRI.win))-> df.signif.YRI)
+
+
 #next, assign. tf per pop
 
 #summarise results

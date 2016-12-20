@@ -1,0 +1,15 @@
+#RUN these commands:
+head -1 All_Scanned_Genes_Paralogs.txt|sed 's/ /_/g'>  header
+
+#cat header|awk 'OFS="\t"{print $1,$2,$4,$5,$6,$3}' > header2
+
+cat "header" <(sed '1d' LWK_signif_Union_paralogs.txt)  > LWK_paralogs.txt
+
+
+cat "header" <(sed '1d' All_Scanned_Genes_Paralogs.txt) > Background.txt
+
+
+cat "header" <(sed '1d' OR_LWK_paralogs.txt) > OR_LWK_paralogs2.txt #the significant genes for LWK (union) which are Olfactory Receptors.
+
+
+#Now, oren R and run the Rscript.
