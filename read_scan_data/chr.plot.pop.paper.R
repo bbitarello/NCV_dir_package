@@ -36,7 +36,14 @@ to_plot <- data.frame(x=x,Genomic=y1,Significant=y2, Outliers=y3)
 melted<-melt(to_plot, id="x")
 as.factor(melted$x)-> melted$x
 
+
+
 pdf('figures/chromosome.distrib.windows.LWK.pdf')
-print(ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", alpha=.3) + scale_fill_manual(values=c('darkgray', 'darkolivegreen', 'steelblue')) + ylab("Proportion of windows") + xlab("Chromosome")+ theme(panel.grid.minor = element_blank(),panel.border = element_blank(),panel.background = element_blank()))
+print(ggplot(melted,aes(x=x,y=value), width=2) + geom_bar(aes(fill=variable),stat="identity", alpha=.3, position='dodge') + scale_fill_manual(values=c('darkgray', 'darkolivegreen', 'steelblue')) + ylab("Proportion of windows") + xlab("Chromosome")+ theme(panel.grid.minor = element_blank(),panel.border = element_blank(),panel.background = element_blank(), axis.text.x=
+element_text(size=10, angle=45)))
 dev.off()
+
+#pdf('figures/chromosome.distrib.windows.LWK.pdf')
+#print(ggplot(melted,aes(x=x,y=value,fill=variable)) + geom_bar(stat="identity", alpha=.3) + scale_fill_manual(values=c('darkgray', 'darkolivegreen', 'steelblue')) + ylab("Proportion of windows") + xlab("Chromosome")+ theme(panel.grid.minor = element_blank(),panel.border = element_blank(),panel.background = element_blank()))
+#dev.off()
 
