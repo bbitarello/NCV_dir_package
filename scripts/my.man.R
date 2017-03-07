@@ -1,6 +1,6 @@
 my.manhattan <- function(x, chr="CHR", bp="BP", p="P", snp="SNP", 
                       col=c("gray10", "gray60"), chrlabs=NULL,
-                      suggestiveline=NULL, genomewideline=-log10(5e-8), 
+                      suggestiveline=NULL, genomewideline=-log(5e-8), 
                       highlight=NULL, highlight2=NULL,logp=TRUE, annotatePval = NULL, annotateTop = TRUE, ...) {
 
     # Not sure why, but package check will warn without this.
@@ -29,9 +29,9 @@ my.manhattan <- function(x, chr="CHR", bp="BP", p="P", snp="SNP",
     #d <- subset(d[order(d$CHR, d$BP), ], (P>0 & P<=1 & is.numeric(P)))
     d <- subset(d, (is.numeric(CHR) & is.numeric(BP) & is.numeric(P)))
     d <- d[order(d$CHR, d$BP), ]
-    #d$logp <- ifelse(logp, yes=-log10(d$P), no=d$P)
+    #d$logp <- ifelse(logp, yes=-log(d$P), no=d$P)
     if (logp) {
-        d$logp <- -log10(d$P)
+        d$logp <- -log(d$P)
     } else {
         d$logp <- d$P
     }
@@ -90,15 +90,15 @@ my.manhattan <- function(x, chr="CHR", bp="BP", p="P", snp="SNP",
     
     # The old way to initialize the plot
     # plot(NULL, xaxt='n', bty='n', xaxs='i', yaxs='i', xlim=c(xmin,xmax), ylim=c(ymin,ymax),
-    #      xlab=xlabel, ylab=expression(-log[10](italic(p))), las=1, pch=20, ...)
+    #      xlab=xlabel, ylab=expression(-log(italic(p))), las=1, pch=20, ...)
 
     
     # The new way to initialize the plot.
     ## See http://stackoverflow.com/q/23922130/654296
     ## First, define your default arguments
-    def_args <- list(xaxt='n', bty='n', xaxs='i', yaxs='i', las=1, pch=20, cex=0.7,
+    def_args <- list(xaxt='n', bty='n', xaxs='i', yaxs='i', las=1, pch=20, cex=0.7, cex.lab=2,
                      xlim=c(xmin,xmax), ylim=c(0,ceiling(max(d$logp))),
-                     xlab=xlabel, ylab=expression(-log[10](italic(p))))
+                     xlab=xlabel, ylab=expression(-log(italic(p))))
     ## Next, get a list of ... arguments
     #dotargs <- as.list(match.call())[-1L]
     dotargs <- list(...)
@@ -169,7 +169,7 @@ my.manhattan <- function(x, chr="CHR", bp="BP", p="P", snp="SNP",
         # annotate these SNPs
         if (annotateTop == FALSE) {
             with(subset(d, P <= annotatePval), 
-                 textxy(pos, -log10(P), offset = 0.625, labs = topHits$SNP, cex = 0.45), ...)
+                 textxy(pos, -log(P), offset = 0.625, labs = topHits$SNP, cex = 0.45), ...)
         }
         else {
             # could try alternative, annotate top SNP of each sig chr
@@ -182,7 +182,7 @@ my.manhattan <- function(x, chr="CHR", bp="BP", p="P", snp="SNP",
                 topSNPs <- rbind(topSNPs, chrSNPs[1,])
                 
             }
-            textxy(topSNPs$pos, -log10(topSNPs$P), offset = 0.625, labs = topSNPs$SNP, cex = 0.7, ...)
+            textxy(topSNPs$pos, -log(topSNPs$P), offset = 0.625, labs = topSNPs$SNP, cex = 0.7, ...)
         }
     }  
     par(xpd = FALSE)

@@ -23,21 +23,23 @@ factor(dt$POP, levels=c("LWK","YRI","GBR","TSI"))-> dt$POP
 factor(dt$Set)-> dt$Set
 factor(dt$Comparison, levels=c("G/(G+I)","Ex/G", "Ex/all","NSyn/Ex", "Reg/all", "Reg/(Reg+G)","Reg/(Reg+I)","Ex/(Ex+Reg)","NSyn/(NSyn+Reg)"))-> dt$Comparison
 
-pdf('figures/test_enrich_plot_v1.pdf')
-pdf('figures/test_enrich_plot_v2.pdf')
+#pdf('figures/test_enrich_plot_v1.pdf')
+#png('figures/test_enrich_plot_v2.png')
+
+tiff(file="figures/enrich.tiff", height = 80.5, width = 160, units = 'mm', compression = "lzw", res = 500)
 #this one works for sure
 #ggplot(dt, aes(x=Comparison, y=logP, colour=POP, shape=Set)) + geom_point() + theme(axis.text.x=element_text(angle=45, hjust=1))
-
 #works!!!
 #ggplot(dt, aes(x=Comparison, y=logP, colour=POP, shape=Set)) + geom_point(size=3, alpha = 7/10) + scale_color_manual(values = wes_palette(n=4, name="Royal2")) + scale_shape_manual(values=c(17,19)) + theme(axis.text.x=element_text(angle=45, hjust=1))
 c(abs(log(0.025)),abs(log(0.975)))->h
-
+a<-expression(paste0('-log(', italic('p'), ')'))
 #v1
-#ggplot(dt, aes(x=Comparison, y=logP, colour=POP, shape=Set)) + geom_point(size=2.5, alpha = 5/10, position = position_jitter(w = 0.5)) + scale_color_manual(values = c('RoyalBlue',"slateblue","darkolivegreen4", "darkolivegreen3")) + scale_shape_manual(values=c(17,19)) + theme(axis.text.x=element_text(angle=45, hjust=1)) + geom_hline(yintercept=c(abs(log(0.025)),abs(log(0.975))), color="darkgray", linetype="dashed") 
+#ggplot(dt, aes(x=Comparison, y=logP, colour=POP, shape=Set)) + geom_point(size=2.5, alpha = 5/10, position = position_jitter(w = 0.5)) + scale_color_manual(values = c('RoyalBlue',"slateblue","darkolivegreen4", "darkolivegreen3")) + scale_shape_manual(values=c(17,19)) + theme(axis.text.x=element_text(angle=45, hjust=1), axis.title.x=element_blank()) + geom_hline(yintercept=c(abs(log(0.025)),abs(log(0.975))), color="darkgray", linetype="dashed") + ylab(expression(-log(italic(p))))
+
 
 #v2
 ggplot(dt, aes(x=Comparison, y=logP, colour=POP, shape=Set)) + geom_point(size=2.5, alpha = 5/10, position = position_jitter(w = 0.5)) + scale_color_manual(values = c('RoyalBlue',"slateblue","darkolivegreen4", "darkolivegreen3")) + scale_shape_manual(values=c(17,19)) + theme(axis.text.x=element_text(angle=45, hjust=1)) + geom_hline(yintercept=c(abs(log(0.025)),abs(log(0.975))), color="darkgray", linetype="dashed") +  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-panel.background = element_blank(), axis.line = element_line(colour = "black"))
+panel.background = element_blank(), axis.line = element_line(colour = "black"), axis.title.x=element_blank()) + ylab(expression(-log(italic(p))))
 
 
 dev.off()

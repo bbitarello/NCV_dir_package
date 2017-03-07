@@ -169,14 +169,11 @@ arrange(LWK.bg, CHR, Beg.Win)-> LWK.bg2
 remove(LWK.bg)
 
 #pdf('bedfiles/Union.top829.my.manhattan.test.pdf') #or 
-png("figures/manhattan.png", width=2000, height=1000, pointsize=18)
+png("figures/manhattan.png", width=3000, height=1000, pointsize=18)
 as.numeric(LWK.bg2$CHR)->LWK.bg2$CHR
-my.manhattan(LWK.bg2,highlight=as.character(sort.man.top829[[2]]$SNP),highlight2=as.character(sort.man.cand[[2]]$SNP), suggestiveline=F,genomewideline=F)
+my.manhattan(LWK.bg2,highlight=as.character(sort.man.top829[[2]]$SNP),highlight2=as.character(sort.man.cand[[2]]$SNP), suggestiveline=F,genomewideline=F, cex.axis=1.2, cex.lab=1.2)
 #legend('topright', c("0.05% cutoff","sim-based cutoff"),col=c('violetred1', 'darkorange'), lty=1) #legend does not work
 dev.off()
-
-
-
 
 
 ###
