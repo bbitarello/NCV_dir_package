@@ -96,7 +96,7 @@ my.manhattan <- function(x, chr="CHR", bp="BP", p="P", snp="SNP",
     # The new way to initialize the plot.
     ## See http://stackoverflow.com/q/23922130/654296
     ## First, define your default arguments
-    def_args <- list(xaxt='n', bty='n', xaxs='i', yaxs='i', las=1, pch=20, cex=0.7, cex.lab=2,
+    def_args <- list(xaxt='n', bty='n', xaxs='i', yaxs='i', las=1, pch=20, cex=0.7, cex.lab=1.2,
                      xlim=c(xmin,xmax), ylim=c(0,ceiling(max(d$logp))),
                      xlab=xlabel, ylab=expression(-log(italic(p))))
     ## Next, get a list of ... arguments
