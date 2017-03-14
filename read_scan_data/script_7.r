@@ -119,12 +119,9 @@ mclapply(test, function(x) try(assign.tf(x$query_subset)))-> test.2
 #manhattan plots
 source('../scripts/my.man.R')
 #mclapply(Union.top0.5_0.4_0.3, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))->tes.manhattan.union
-
 mclapply(top829f0.5, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))-> tes.manha.f0.5.top
 mclapply(CANDf0.5, function(x) select(x, Chr:End.Win, Dist.NCD.f0.5, Z.f0.5.P.val))->  tes.manha.f0.5.cand
 #mclapply(tes.manhattan.union, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manhattan.2.union
-
-
 mclapply(tes.manha.f0.5.top, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manha.f0.5.2.top
 mclapply(tes.manha.f0.5.cand, function(x) cbind(x, BP=(x$Beg.Win+x$End.Win)/2))->tes.manha.f0.5.2.cand
 
@@ -144,9 +141,7 @@ mclapply(tes.manha.f0.5.2.cand, function(x) setDT(arrange(x, P)))-> tes.manha.f0
 
 #mclapply(tes.manhattan.2.union, function(x) setDT(arrange(x, P)))->tes.manhattan.union
 
-
 #union.man.top829<-mclapply(tes.manhattan.union,function(x) head(x,829))
-
 
 #mclapply(union.man.top829, function(x) arrange(x, CHR, Beg.Win))->sort.union.man.top829 
 
@@ -173,6 +168,14 @@ png("figures/manhattan.png", width=3000, height=1000, pointsize=18)
 as.numeric(LWK.bg2$CHR)->LWK.bg2$CHR
 my.manhattan(LWK.bg2,highlight=as.character(sort.man.top829[[2]]$SNP),highlight2=as.character(sort.man.cand[[2]]$SNP), suggestiveline=F,genomewideline=F, cex.axis=1.2, cex.lab=1.2)
 #legend('topright', c("0.05% cutoff","sim-based cutoff"),col=c('violetred1', 'darkorange'), lty=1) #legend does not work
+dev.off()
+
+
+png("figures/aida_manhattan.png", width=3000, height=1000, pointsize=18)
+
+
+as.numeric(LWK.bg2$CHR)->LWK.bg2$CHR
+my.manhattan(LWK.bg2,highlight2=as.character(sort.man.cand[[2]]$SNP), suggestiveline=F,genomewideline=F, cex.axis=1.2, cex.lab=1.2)
 dev.off()
 
 
