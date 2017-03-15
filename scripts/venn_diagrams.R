@@ -192,3 +192,42 @@ length(unique(sort(c(intersect(top829f0.3[[6]]$Win.ID,top829f0.3[[2]]$Win.ID),  
 
 
 
+#Genes
+
+#OUTLIER genes
+
+unique(sort(c(intersect(TSI.top.genes[,1],LWK.top.genes[,1]),  intersect(TSI.top.genes[,1], YRI.top.genes[,1]), intersect(TSI.top.genes[,1],GBR.top.genes[,1])))) #203/231=88%
+
+unique(sort(c(intersect(GBR.top.genes[,1],LWK.top.genes[,1]),  intersect(GBR.top.genes[,1], YRI.top.genes[,1]), intersect(GBR.top.genes[,1],TSI.top.genes[,1])))) #202/222=91%
+unique(sort(c(intersect(LWK.top.genes[,1],YRI.top.genes[,1]),  intersect(LWK.top.genes[,1], GBR.top.genes[,1]), intersect(LWK.top.genes[,1],TSI.top.genes[,1])))) #208/249=83.5%
+unique(sort(c(intersect(YRI.top.genes[,1],LWK.top.genes[,1]),  intersect(YRI.top.genes[,1], GBR.top.genes[,1]), intersect(YRI.top.genes[,1],TSI.top.genes[,1])))) #199/232=85.8%
+
+
+#tf=0.5
+
+unique(c(intersect(LWK.f0.5.genes[,1], YRI.f0.5.genes[,1]), intersect(LWK.f0.5.genes[,1], GBR.f0.5.genes[,1]), intersect(LWK.f0.5.genes[,1], TSI.f0.5.genes[,1]))) #917/1026
+unique(c(intersect(LWK.f0.4.genes[,1], YRI.f0.4.genes[,1]), intersect(LWK.f0.4.genes[,1], GBR.f0.4.genes[,1]), intersect(LWK.f0.4.genes[,1], TSI.f0.4.genes[,1]))) #951/1099
+unique(c(intersect(LWK.f0.3.genes[,1], YRI.f0.3.genes[,1]), intersect(LWK.f0.3.genes[,1], GBR.f0.3.genes[,1]), intersect(LWK.f0.3.genes[,1], TSI.f0.3.genes[,1]))) #1023/1182
+#outlier
+
+unique(c(intersect(LWK.f0.5.top829.genes[,1], YRI.f0.5.top829.genes[,1]), intersect(LWK.f0.5.top829.genes[,1], GBR.f0.5.top829.genes[,1]), intersect(LWK.f0.5.top829.genes[,1], TSI.f0.5.top829.genes[,1]))) #128/167
+
+
+##
+mean(c(length(intersect(LWK.top.genes[,1],YRI.top.genes[,1]))/nrow(LWK.top.genes),length(intersect(GBR.top.genes[,1],TSI.top.genes[,1]))/nrow(GBR.top.genes),length(intersect(YRI.top.genes[,1],LWK.top.genes[,1]))/nrow(YRI.top.genes),length(intersect(TSI.top.genes[,1],GBR.top.genes[,1]))/nrow(TSI.top.genes))) #78.8%
+
+mean(c(length(intersect(LWK.cand.genes[,1],YRI.cand.genes[,1]))/nrow(LWK.cand.genes),length(intersect(GBR.cand.genes[,1],TSI.cand.genes[,1]))/nrow(GBR.cand.genes),length(intersect(YRI.cand.genes[,1],LWK.cand.genes[,1]))/nrow(YRI.cand.genes),length(intersect(TSI.cand.genes[,1],GBR.cand.genes[,1]))/nrow(TSI.cand.genes))) #79%
+
+
+
+intersect(intersect(LWK.top.genes[,1], YRI.top.genes[,1]), intersect(GBR.top.genes[,1],TSI.top.genes[,1])) #102/249
+
+mean(c(102/249, 102/232,102/222,102/231))
+#[1] 0.4375779
+
+#Cand
+
+intersect(intersect(intersect(LWK.cand.genes[,1], YRI.cand.genes[,1]), GBR.cand.genes[,1]), TSI.cand.genes[,1]) #736
+
+mean(rep(736,4)/c(nrow(LWK.cand.genes), nrow(YRI.cand.genes), nrow(GBR.cand.genes), nrow(TSI.cand.genes))) # 50%
+
