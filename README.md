@@ -14,52 +14,68 @@ What is NCD?
 
 ![Fig1](Figures_main/Fig1_red.tiff)
 
-NCD statistics measure the average difference between allele frequencies in a given region from a deviation point, which we call the 'target frequency (tf)'. So, assuming tf = 0.5, the more the allele frequencies are close to 0.5, the lower the NCD values. We propose two implementations of this statistic: NCD1 (only SNPs are required and used as informative sites) and NCD2 (SNPs and fixed differences are used as informative sites). In the manuscript, NCD2 as used to scan the human genome.
+NCD statistics measure the average difference between allele frequencies in a given region from a deviation point, which we call the 'target frequency (*tf*)'. So, assuming *tf* = 0.5, the more the allele frequencies are close to 0.5, the lower the NCD values. We propose two implementations of this statistic: *NCD1* (only SNPs are required and used as informative sites) and *NCD2* (SNPs and fixed differences are used as informative sites). In the manuscript, *NCD2* as used to scan the human genome.
 
 *******************************************************
 
 
 
-This is a directory which, if cloned, allows:
+Here, we show how to:
 
-1)Runs NCD
+1)Run NCD (ongoing)
+2)Analyse NCD results
+3) Re-create some analyses from the manuscript
 
--this requires:
-	-SNP input data (file in modified VCF format)
-	-FD input data (human-FD bed file)
-	-SGE script for parallelizing
-	-OR, parallelizing option without sge script.(see below)
+*************************************************************************
 
-Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below). If you don't have this, you will use option B.In any case, you need first to download the input data.
+
+Running NCD:
+
+this requires:
+	*item 1 SNP input data (file in modified VCF format, see below an example)
+	*item 2 Fix differences (FD) input data (e.g. human-chimp FD bed file, as used in the manuscript)
+	Note: *NCD1* only requires the first input file, whereas NCD2 requires both.
+	* item 3 SGE script for parallelizing (option A)  **OR** parallelizing option without sge script.(option B)
+	*item Coming up: an optimized R script that does not require parallelizing jobs (this will be called option C)
+
+Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below). If you don't have this, you will use option B.In any case, you need first to download the input data. In the near future, we want to provide a better R function to calculate NCD that does not require parallelizing.
 
 
 ************************************************************************
- CHANGE PATHS  CHANGE PATHS  CHANGE PATHS CHANGE PATHS 
+ Getting Started: Options A and B
 ************************************************************************
 
 First:
 
+clone this repo: go to your directory and clone:
 
 ```
-cd to 'NCV_dir_package', wherever it is you downloaded it to.
+https://github.com/bbitarello/NCV_dir_package.git
 ```
 
-Please note the paths for the files, logs, and tmp directories and addapt them as needed. 
-Only 4 files need their paths to be edited:
-#1. 
+go to root NCD directory
 ```
-./run_NCV_sge.sh #logs, tmpdir, input files
-```
-#2. 
-```
-run_ncv_allpops_Rscript.sge #Rscript file path
+cd to 'NCV_dir_package'
 ```
 
-#3. run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
-#4. run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
+Important Note**: Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only 4 files need their paths to be edited:
+
+#1.Edit the paths in:
+ 
+```
+vim run_NCV_sge.sh #logs, tmpdir, input files (lines 18,21,22,23,26)
+```
+#2. Edit the paths in:
+```
+NCV_dir_package/scripts/run_ncv_allpops_Rscript.sge #Rscript file path
+
+```
+
+#3. NCV_dir_package/scripts/run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
+#4. NCV_dir_package/scripts/run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
 #what you should do: replace all isntances of /mnt/sequencedb/PopGen/barbara/NCV_dir_package/' by the path into which you downloaded this repo.
 
-#IMPORTANT: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings. Also, replace my email by yours.
+**IMPORTANT NOTE**: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings. Also, replace my email by yours.
 
 
 ************************************************************************
