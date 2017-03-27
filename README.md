@@ -75,9 +75,11 @@ tar -zxvf input_data.tar --exclude "README"
 
 Example input data (SNP data)
 
-|CHROM|POSID|REF|ALT|Anc|AWS|LWK|YRI|CEU|FIN|GBR|TSI|CHB|CHS|JPT|MXL|CLM|PUR|
-|-----|---|-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-|1|834088|rs192235345|T|C|.|0|0|0|0|0|0|0|0|1|0|0|0 |0|
+|CHROM|POS|ID|REF|ALT|Anc|AWS|LWK|YRI|CEU|FIN|GBR|TSI|CHB|CHS|JPT|MXL|CLM|PUR|
+
+|-----|---|--|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+|1|834088|rs192235345|T|C|.|0|0|0|0|0|0|0|0|1|0|0|0|0|
 ############################################################
 #
 ##### Option A ##### Option A ##### Option A ##### Option A
