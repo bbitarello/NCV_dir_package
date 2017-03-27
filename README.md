@@ -26,14 +26,22 @@ Note: although NCD can be run withour parallelizing, that takes quite some time.
 
 First:
 
-'''
-cd to 'NCV_dir_package', wherever it is you downloaded it to.
-'''
 
-#Please note the paths for the files, logs, and tmp directories and addapt them as needed. 
-#Only 4 files need their paths to be edited:
-#1. run_NCV_sge.sh #logs, tmpdir, input files
-#2. run_ncv_allpops_Rscript.sge #Rscript file path
+```
+cd to 'NCV_dir_package', wherever it is you downloaded it to.
+```
+
+Please note the paths for the files, logs, and tmp directories and addapt them as needed. 
+Only 4 files need their paths to be edited:
+#1. 
+```
+./run_NCV_sge.sh #logs, tmpdir, input files
+```
+#2. 
+```
+run_ncv_allpops_Rscript.sge #Rscript file path
+```
+
 #3. run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
 #4. run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
 #what you should do: replace all isntances of /mnt/sequencedb/PopGen/barbara/NCV_dir_package/' by the path into which you downloaded this repo.
