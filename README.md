@@ -50,15 +50,17 @@ First:
 clone this repo: go to your directory and clone:
 
 ```
-https://github.com/bbitarello/NCV_dir_package.git
+git clone https://github.com/bbitarello/NCV_dir_package.git
 ```
 
 go to root NCD directory
 ```
-cd to 'NCV_dir_package'
+cd NCV_dir_package
 ```
 
-Important Note**: Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only 4 files need their paths to be edited:
+**Important Note**: Please note the paths for the files, logs, and tmp directories and addapt them as needed. Only 4 files need their paths to be edited:
+
+What you should do? Replace all intances of /mnt/sequencedb/PopGen/barbara/NCV_dir_package/ by the path of the directory where you cloned this repo.
 
 #1.Edit the paths in:
  
@@ -66,14 +68,23 @@ Important Note**: Please note the paths for the files, logs, and tmp directories
 vim run_NCV_sge.sh #logs, tmpdir, input files (lines 18,21,22,23,26)
 ```
 #2. Edit the paths in:
+
 ```
-NCV_dir_package/scripts/run_ncv_allpops_Rscript.sge #Rscript file path
+vim scripts/NCV_dir_package/scripts/run_ncv_allpops_Rscript.sge #Rscript file path
 
 ```
 
-#3. NCV_dir_package/scripts/run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
-#4. NCV_dir_package/scripts/run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
-#what you should do: replace all isntances of /mnt/sequencedb/PopGen/barbara/NCV_dir_package/' by the path into which you downloaded this repo.
+#3.Edit the paths in:
+
+```
+vim scripts/run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
+```
+
+#4. Edit the paths in:
+
+```
+vim scripts/run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
+```
 
 **IMPORTANT NOTE**: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings. Also, replace my email by yours.
 
