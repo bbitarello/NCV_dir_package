@@ -7,6 +7,19 @@
 
 **************************************************
 
+Welcome to the NCD repo! This repository provided scripts related to the manuscript: http://biorxiv.org/content/early/2017/03/22/119529
+
+
+What is NCD?
+
+![alt tag](https://github.com/bbitarello/NCV_dir_package/Figures_main/Fig1.tiff)
+
+NCD statistics measure the average difference between allele frequencies in a given region from a deviation point, which we call the 'target frequency (tf)'. So, assuming tf = 0.5, the more the allele frequencies are close to 0.5, the lower the NCD values. We propose two implementations of this statistic: NCD1 (only SNPs are required and used as informative sites) and NCD2 (SNPs and fixed differences are used as informative sites). In the manuscript, NCD2 as used to scan the human genome.
+
+*******************************************************
+
+
+
 This is a directory which, if cloned, allows:
 
 1)Runs NCD
