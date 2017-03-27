@@ -75,11 +75,11 @@ tar -zxvf input_data.tar --exclude "README"
 
 Example input data (SNP data)
 
-|CHROM|POS|ID|REF|ALT|Anc|AWS|LWK|YRI|CEU|FIN|GBR|TSI|CHB|CHS|JPT|MXL|CLM|PUR|
+| CHROM | POS | ID | REF | ALT | Anc | AWS | LWK | YRI | CEU | FIN | GBR | TSI | CHB | CHS | JPT | MXL | CLM | PUR |
 
-|-----|---|--|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| ----- | --- | -- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
-|1|834088|rs192235345|T|C|.|0|0|0|0|0|0|0|0|1|0|0|0|0|
+| 1 | 834088 | rs192235345 | T | C | . | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 ############################################################
 #
 ##### Option A ##### Option A ##### Option A ##### Option A
@@ -140,9 +140,3 @@ query NCV results with this function
 #this is optional, not sure if I will do it.
 
 
-#test
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
