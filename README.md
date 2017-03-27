@@ -1,0 +1,122 @@
+################################################
+#    Author: Bárbara D Bitarello
+#
+#    Created: 13.10.2015
+#
+#    Last modified: 21.09.2016
+#
+################################################
+
+#This is a directory which, if cloned, allows:
+
+1)Runs NCD
+-this requires:
+-SNP input data (file in modified VCF format)
+-FD input data (human-FD bed file)
+-SGE script for parallelizing
+-OR, parallelizing option without sge script.(see below)
+
+#Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below). If you don't have this, you will use option B.
+#In any case, you need first to download the input data.
+
+
+
+************************************************************************
+** CHANGE PATHS *** CHANGE PATHS **** CHANGE PATHS **** CHANGE PATHS ***
+************************************************************************
+
+#First:
+#cd to 'NCV_dir_package', wherever it is you downloaded it to.
+
+#Please note the paths for the files, logs, and tmp directories and addapt them as needed. 
+#Only 4 files need their paths to be edited:
+#1. run_NCV_sge.sh #logs, tmpdir, input files
+#2. run_ncv_allpops_Rscript.sge #Rscript file path
+#3. run_ncv_allpops_Rscript_v1.r #loading the NCV funciont in line 63
+#4. run_ncv_allpops_Rscript_nSGE.r #loading the NCV funciont in line 63
+#what you should do: replace all isntances of /mnt/sequencedb/PopGen/barbara/NCV_dir_package/' by the path into which you downloaded this repo.
+
+#IMPORTANT: if you use this option, make sure you go to the file which ends with .sge in the scripts folder and edit it according to your usual SGE settings. Also, replace my email by yours.
+
+
+************************************************************************
+## DOWNLOAD INPUT DATA #### DOWNLOAD INPUT DATA *** DOWNLOAD INPUT DATA
+************************************************************************
+
+#Download all the input data.
+
+#These files are too big to be uploaded to github.
+#They will be provided by the author upon request in the form of a bgzip file that can be decompressed inside this directory.
+#then the following directories will be generated: 
+#outgroup_files: FD files between human and chimp for each chromosome
+#chr1-chr22: separate directories for each chromosome containing processed VCF filees from 1000G Phase I as described in the Methods section of the paper.
+
+
+#download the input files from this link
+
+wget https://www.dropbox.com/s/irbhaesubjc48np/input_data.tar.gz?dl=0
+
+#and unzip
+
+mv input_data.tar.gz\?dl=0  input_data.tar.gz
+gunzip input_data.tar.gz
+tar -zxvf input_data.tar --exclude "README"
+
+############################################################
+#
+##### Option A ##### Option A ##### Option A ##### Option A
+#
+############################################################
+#This option applies if and only if you use a SGE for job submission.
+#In this case, do:
+
+#next, cd to NCV_dir_package and run:
+./run_NCV_sge.sh
+
+#This script calls the .sge file in the /scripts folder, and that file allow submitting severaljobs each with 3Mb of sequence data to the cluster.
+
+#These scripts are optimized to run NCV in ~900 parallel jobs at the MPI-MPG in Leipzig.
+#############################################################
+#
+###### Option B ##### Option B ##### Option A ##### Option B
+#
+#############################################################
+#Obtion B) No SGE, just a plain old cluster without job submission management:
+#
+#If you don't use SGE or anything of the sort, but are using a linux machine (of course):
+
+
+#First:
+#cd to 'NCV_dir_package':
+
+#open an R session and type
+
+install.packages('getopt')
+install.packages('littler')
+
+#close the session. Now, run:
+
+./run_NCV.sh
+
+#this will parallelize the jobs using 'GNU parallel'. It is not a very clever solution, but it works nevertheless.
+
+########################## ############################# ####################### ######################### #############
+########### Reading in Scan data #######################
+2a) Reads in NCV results, includes window coverage data
+
+
+#under construction.
+
+
+2b) Corrects NCV values with 10,000 sims for bins of Inf. Sites
+
+
+#under constrcution.
+
+######################## ######################## ###########################
+3) Makes the function find.genes and provides possibilities for the user to
+query NCV results with this function
+
+
+
+#this is optional, not sure if I will do it.
