@@ -1,5 +1,5 @@
 **************************************************
-    Author: Bárbara D Bitarell
+    Author: Bárbara D Bitarelol
 
     Created: 13.10.2015
 
@@ -50,10 +50,10 @@ run_ncv_allpops_Rscript.sge #Rscript file path
 
 
 ************************************************************************
-## DOWNLOAD INPUT DATA #### DOWNLOAD INPUT DATA *** DOWNLOAD INPUT DATA
+ DOWNLOAD INPUT DATA DOWNLOAD INPUT DATA DOWNLOAD INPUT DATA
 ************************************************************************
 
-#Download all the input data.
+Download all the input data.
 
 #These files are too big to be uploaded to github.
 #They will be provided by the author upon request in the form of a bgzip file that can be decompressed inside this directory.
