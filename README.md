@@ -1,32 +1,34 @@
-################################################
-#    Author: Bárbara D Bitarello
-#
-#    Created: 13.10.2015
-#
-#    Last modified: 21.09.2016
-#
-################################################
+**************************************************
+    Author: Bárbara D Bitarell
 
-#This is a directory which, if cloned, allows:
+    Created: 13.10.2015
+
+    Last modified: 21.09.2016
+
+**************************************************
+
+This is a directory which, if cloned, allows:
 
 1)Runs NCD
+
 -this requires:
--SNP input data (file in modified VCF format)
--FD input data (human-FD bed file)
--SGE script for parallelizing
--OR, parallelizing option without sge script.(see below)
+	-SNP input data (file in modified VCF format)
+	-FD input data (human-FD bed file)
+	-SGE script for parallelizing
+	-OR, parallelizing option without sge script.(see below)
 
-#Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below). If you don't have this, you will use option B.
-#In any case, you need first to download the input data.
-
+Note: although NCD can be run withour parallelizing, that takes quite some time. If you have a cluster or a supercomputer, it is best to use it (option A, below). If you don't have this, you will use option B.In any case, you need first to download the input data.
 
 
 ************************************************************************
-** CHANGE PATHS *** CHANGE PATHS **** CHANGE PATHS **** CHANGE PATHS ***
+ CHANGE PATHS  CHANGE PATHS  CHANGE PATHS CHANGE PATHS 
 ************************************************************************
 
-#First:
-#cd to 'NCV_dir_package', wherever it is you downloaded it to.
+First:
+
+'''
+cd to 'NCV_dir_package', wherever it is you downloaded it to.
+'''
 
 #Please note the paths for the files, logs, and tmp directories and addapt them as needed. 
 #Only 4 files need their paths to be edited:
