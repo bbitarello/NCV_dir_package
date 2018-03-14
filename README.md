@@ -10,7 +10,8 @@
 This repository provided scripts related to the manuscript: http://biorxiv.org/content/early/2017/03/22/119529
 
 For the code for running NCD, please go to: https://github.com/bbitarello/NCD-Statistics
-What is NCD?
+
+
 
 
 
