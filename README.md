@@ -1,13 +1,13 @@
 **************************************************
-    Author: Bárbara D Bitarelol
+    Author: Bárbara D Bitarello
 
     Created: 13.10.2015
 
-    Last modified: 14.03.2018
+    Last modified: 19.04.2018
 
 **************************************************
 
-This repository provided scripts related to the manuscript: http://biorxiv.org/content/early/2017/03/22/119529
+This repository provided scripts related to the manuscript: https://academic.oup.com/gbe/advance-article/doi/10.1093/gbe/evy054/4938688
 
 For the code for running NCD, please go to: https://github.com/bbitarello/NCD-Statistics
 
@@ -17,4 +17,4 @@ For the code for running NCD, please go to: https://github.com/bbitarello/NCD-St
 
 ########################## ############################# ####################### ######################### #############
 
-#All the scripts used in the paper are included in this repo.
+#Scripts used in the paper are included in this repo.
