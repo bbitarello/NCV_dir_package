@@ -1,0 +1,52 @@
+#!/bin/bash
+# Cesare de Filippo, MPI-EVA
+# modified on 12-August-2013 
+#$ -S /bin/bash
+#$ -cwd
+#$ -q all.q
+# load personal profile
+#$ -V
+#$ -R y
+#$ -M barbara_domingues@eva.mpg.de
+#$ -m e
+#$ -l h_vmem=1G,s_vmem=1G
+
+
+
+for i in {1..1000};
+
+do
+
+#0.3
+#tmp
+#/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/SpectFile_neu /mnt/sequencedb/PopGen/barbara/BALLET/NCV_dir_package/tmp/bs_f0.3_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/bs_f0.3_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/OutFile_T2_f0.3_bs_$i
+#tmp Tbs3
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/bs_f0.3_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/bs_f0.3_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/OutFile_T2_f0.3_bs_$i
+
+#tmp Eur
+#/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/bs_f0.3_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/bs_f0.3_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/OutFile_T2_f0.3_bs_$i
+#tmp eur tbs3
+
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/bs_f0.3_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/bs_f0.3_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/OutFile_T2_f0.3_bs_$i
+
+#0.4
+#/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/bs_f0.4_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/bs_f0.4_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/OutFile_T2_f0.4_bs_$i
+
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/bs_f0.4_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/bs_f0.4_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/OutFile_T2_f0.4_bs_$i
+
+#/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/SpectFile_neu /mnt/sequencedb/PopGen/barbara/BALLET/NCV_dir_package/tmp_Eur/bs_f0.4_SNPFile$i /mnt/sequencedb/PopGen/barbara/BALLET/NCV_dir_package/tmp_Eur/bs_f0.4_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/OutFile_T2_f0.4_bs_$i
+
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/bs_f0.4_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/bs_f0.4_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/OutFile_T2_f0.4_bs_$i
+
+#0.5
+#/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/bs_f0.5_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/bs_f0.5_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/OutFile_T2_f0.5_bs_$i
+
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/bs_f0.5_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/bs_f0.5_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp/Tbs3/OutFile_T2_f0.5_bs_$i
+
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/bs_f0.5_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/bs_f0.5_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/OutFile_T2_f0.5_bs_$i
+
+/mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/BALLET -T2 100 /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/DivFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/PolySubFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/Tbs3/tmp_Eur/SpectFile_neu /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/bs_f0.5_SNPFile$i /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/bs_f0.5_RecFile$i /home/barbara_domingues/Downloads/simulated_spectra/ /mnt/sequencedb/PopGen/barbara/NCV_dir_package/BALLET/tmp_Eur/Tbs3/OutFile_T2_f0.5_bs_$i
+
+
+
+done
